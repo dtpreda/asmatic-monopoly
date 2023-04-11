@@ -11,6 +11,7 @@ public class Property extends Land {
     private List<Integer> rents;
 
     private String color;
+    private String name;
 
     public Property(PurchasableStrategy buyStrategy) {
         super(buyStrategy);
@@ -27,6 +28,13 @@ public class Property extends Land {
             return false;
         }
         return true;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getColor() {
+        return color;
     }
 }

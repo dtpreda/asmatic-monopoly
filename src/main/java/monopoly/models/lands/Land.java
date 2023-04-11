@@ -40,4 +40,8 @@ public abstract class Land{
     public RentStrategy getRentStrategy() {
         return rentStrategy;
     }
+
+    public List<Player> getPlayers(){
+        return players;
+    }
 }

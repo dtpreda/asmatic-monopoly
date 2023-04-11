@@ -8,4 +8,8 @@ public class RailRoad extends Land {
     public RailRoad() {
         super(new Purchasable());
     }
+
+    public String getName() {
+        return name;
+    }
 }

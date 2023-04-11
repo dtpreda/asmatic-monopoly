@@ -9,4 +9,8 @@ public class Tax extends Land {
     public Tax() {
         super(new NonPurchasable());
     }
+
+    public String getName() {
+        return name;
+    }
 }

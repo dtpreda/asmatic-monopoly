@@ -9,4 +9,8 @@ public class Company extends Land {
     public Company() {
         super(new NonPurchasable());
     }
+
+    public String getName() {
+        return name;
+    }
 }
