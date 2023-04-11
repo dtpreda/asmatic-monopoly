@@ -9,7 +9,6 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
-import monopoly.actions.EndTurn;
 import monopoly.actions.RollDice;
 import monopoly.actions.StartTurn;
 import monopoly.controllers.MonopolyController;
@@ -84,7 +83,7 @@ public class DealerAgent extends Agent {
 
             state.finishTurn(currentPlayer);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
