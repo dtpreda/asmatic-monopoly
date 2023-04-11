@@ -43,6 +43,15 @@ public class BoardParser{
                 .registerTypeAdapterFactory(landAdapter)
                 .registerTypeAdapterFactory(purchasableAdapter)
                 .create();
-        return gson.fromJson(jsonStr, MonopolyBoard.class);
+        MonopolyBoard board = gson.fromJson(jsonStr, MonopolyBoard.class);
+
+        for(Land land : board.getLands()){
+            if((land instanceof Tax)){
+                Tax tax = (Tax) land;
+                tax.setRentStrategy(new PayBankStrategy(tax.getTaxCost()));
+            }
+        }
+        System.out.println(gson.toJson(board));
+        return board;
     }
 }

@@ -8,4 +8,18 @@ public class PayTax implements Predicate {
     public PayTax(int amount){
         this.amount = amount;
     }
+
+    public PayTax(){
+
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+
 }

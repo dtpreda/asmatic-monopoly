@@ -42,7 +42,6 @@ public class Main {
         initDealerAgent(container, monopolyController);
 
         initViewer(monopolyController);
-        state.startGame();
     }
 
 

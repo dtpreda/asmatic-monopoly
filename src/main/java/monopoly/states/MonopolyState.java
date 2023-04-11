@@ -48,4 +48,8 @@ public abstract class MonopolyState {
         monopolyController.setState(state);
     }
 
+    public void nextPlayer(){
+        monopolyController.getBoard().nextPlayer();
+    }
+
 }

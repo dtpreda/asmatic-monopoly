@@ -8,9 +8,8 @@ import java.util.List;
 public class MonopolyBoard {
     private List<Land> lands;
     private List<Player> players;
-
     private int currentPlayerIndex;
-    private Dice dice;
+    private Dice lastDice;
 
     public MonopolyBoard(){
         lands = new ArrayList<Land>();
@@ -57,11 +56,11 @@ public class MonopolyBoard {
         return players;
     }
 
-    public Dice getDice() {
-        return dice;
+    public Dice getLastDice() {
+        return lastDice;
     }
 
-    public void setDice(Dice dice) {
-        this.dice = dice;
+    public void setLastDice(Dice lastDice) {
+        this.lastDice = lastDice;
     }
 }

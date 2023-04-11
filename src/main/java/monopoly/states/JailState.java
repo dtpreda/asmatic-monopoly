@@ -1,6 +1,5 @@
 package monopoly.states;
 
-import monopoly.controllers.BoardController;
 import monopoly.controllers.MonopolyController;
 import monopoly.models.Dice;
 import monopoly.models.MonopolyBoard;
@@ -14,7 +13,7 @@ public class JailState extends MonopolyState{
 
     public boolean rollDice(Player player){
         Dice dice = new Dice();
-        board.setDice(dice);
+        board.setLastDice(dice);
         if(dice.isDouble()){
 
             boardController.movePlayer(player, dice.getValue());

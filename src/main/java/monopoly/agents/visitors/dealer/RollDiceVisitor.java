@@ -9,17 +9,16 @@ import monopoly.actions.BuyLand;
 import monopoly.actions.PayTax;
 import monopoly.actions.RollDice;
 import monopoly.actions.StartTurn;
-import monopoly.agents.visitors.MessageVisitor;
+import monopoly.agents.visitors.DealerMessageVisitor;
 import monopoly.controllers.MonopolyController;
 import monopoly.exceptions.InvalidMessage;
 import monopoly.models.Dice;
 import monopoly.models.PlayResult;
 import monopoly.models.Player;
 import monopoly.models.lands.Land;
-import monopoly.models.lands.Start;
 import monopoly.states.RollState;
 
-public class RollDiceVisitor extends MessageVisitor {
+public class RollDiceVisitor extends DealerMessageVisitor {
 
 
     public RollDiceVisitor(MonopolyController controller, ContentManager contentManager) {
@@ -55,7 +54,11 @@ public class RollDiceVisitor extends MessageVisitor {
                     contentManager.fillContent(reply, new StartTurn());
                     return reply;
                 case PAY_RENT:
-                    contentManager.fillContent(reply, new PayTax(land.getRentStrategy().getRent(dice.getValue())));
+                    PayTax tax = new PayTax(land.getRentStrategy().getRent(dice.getValue()));
+                    System.out.println("Tax value = " + land.getRentStrategy().getRent(dice.getValue()));
+                    contentManager.fillContent(reply, tax);
+                    System.out.println("REPLY!!!!!!!!!!!!! ");
+                    System.out.println(reply);
                     return reply;
                 case END_TURN:
                     state.finishTurn(player);

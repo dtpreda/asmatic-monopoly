@@ -32,5 +32,6 @@ public class MonopolyOntology extends BeanOntology {
         add(RollDice.class);
         add(EndTurn.class);
         add(PayTax.class);
+        add(PerformPayTax.class);
     }
 }

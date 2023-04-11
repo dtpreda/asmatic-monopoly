@@ -1,6 +1,5 @@
 package monopoly.states;
 
-import monopoly.controllers.BoardController;
 import monopoly.controllers.MonopolyController;
 import monopoly.models.*;
 import monopoly.models.lands.*;
@@ -22,7 +21,7 @@ public class RollState extends MonopolyState{
 
         final Dice dice = new Dice();
         System.out.println("Dice value = " + dice.getValue() + (dice.isDouble() ? " (double)" : ""));
-        board.setDice(dice);
+        board.setLastDice(dice);
         Land land = boardController.movePlayer(player, dice.getValue());
         final PlayResult result = moveResult(player, land, dice);
         return result;
@@ -30,10 +29,10 @@ public class RollState extends MonopolyState{
 
     private PlayResult moveResult(Player player, Land land, Dice dice){
         PlayResult playResult = new PlayResult(dice, land);
-        doNothingVisit(playResult);
-        /*
-        if(land instanceof Jail){
+        //doNothingVisit(playResult);
 
+        if(land instanceof Jail){
+            jailVisit(player, (Jail) land, playResult);
         }
         else if(land instanceof GoToJail){
             goToJailVisit(player, playResult);
@@ -52,7 +51,7 @@ public class RollState extends MonopolyState{
         } else {
             doNothingVisit(playResult);
         }
-        */
+
         return playResult;
     }
 
@@ -67,40 +66,50 @@ public class RollState extends MonopolyState{
         return true;
     }
 
+    public void jailVisit(Player player, Jail jail, PlayResult playResult){
+        playResult.setPlayResultToken(PlayResultToken.END_TURN);
+        boardController.nextPlayer();
+    }
     public void propertyVisit(Player player, Property property, PlayResult playResult){
+        Dice dice = playResult.getDice();
         if(property.canPurchase()){
             changeState(new BuyLandState(player, board, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.BUY_LAND);
         } else if(property.getRentStrategy().hasToPayRent(player)){
-            changeState(new PayRentState(player, property, board, monopolyController));
+            changeState(new PayRentState(player, property, dice, board, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.PAY_RENT);
         } else {
+            //It's owned by the player, do nothing
             changePlayerTurn(playResult);
         }
     }
 
     public void taxVisit(Player player, Tax tax, PlayResult playResult){
+        Dice dice = playResult.getDice();
         if(tax.getRentStrategy().hasToPayRent(player)){
-            player.addMoney(-tax.getRentStrategy().getRent(playResult.getDice().getValue()));
+            changeState(new PayRentState(player, tax, dice, board, monopolyController));
+            playResult.setPlayResultToken(PlayResultToken.PAY_RENT);
+            //player.addMoney(-tax.getRentStrategy().getRent(playResult.getDice().getValue()));
         }
-        changePlayerTurn(playResult);
+        //changePlayerTurn(playResult);
     }
 
     public void goToJailVisit(Player player, PlayResult playResult){
         boardController.sendToJail(player);
-        playResult.setPlayResultToken(PlayResultToken.JAIL);
+        playResult.setPlayResultToken(PlayResultToken.END_TURN);
         boardController.nextPlayer();
     }
 
     public void companyVisit(Player player, Company company, PlayResult playResult){
+        Dice dice = playResult.getDice();
         if(company.canPurchase()){
             changeState(new BuyLandState(player, board, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.BUY_LAND);
         } else if(company.getRentStrategy().hasToPayRent(player)){
-            changeState(new PayRentState(player, company, board, monopolyController));
+            changeState(new PayRentState(player, company, dice, board, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.PAY_RENT);
         } else {
-            changePlayerTurn(playResult.getDice());
+            changePlayerTurn(playResult);
         }
     }
 

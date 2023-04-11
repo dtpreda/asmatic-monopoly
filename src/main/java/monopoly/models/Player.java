@@ -31,6 +31,10 @@ public class Player{
         money += value;
     }
 
+    public void removeMoney(int value){
+        money -= value;
+    }
+
     public int getPosition(){
         return position;
     }

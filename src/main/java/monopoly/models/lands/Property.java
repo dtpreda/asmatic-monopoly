@@ -1,9 +1,11 @@
 package monopoly.models.lands;
 
+import com.google.gson.annotations.SerializedName;
 import monopoly.models.Player;
 import monopoly.models.lands.Land;
 import monopoly.models.lands.buyStrategy.Purchasable;
 import monopoly.models.lands.buyStrategy.PurchasableStrategy;
+import monopoly.models.lands.rentStrategy.NoRentStrategy;
 
 import java.util.List;
 
@@ -12,13 +14,17 @@ public class Property extends Land {
     private List<Integer> rents;
 
     private String color;
+
+    @SerializedName("name")
     private String name;
 
     public Property(PurchasableStrategy buyStrategy) {
         super(buyStrategy);
+        setRentStrategy(new NoRentStrategy());
     }
     public Property(){
         super(new Purchasable());
+        setRentStrategy(new NoRentStrategy());
     }
 
     public int getCurrentRent(){

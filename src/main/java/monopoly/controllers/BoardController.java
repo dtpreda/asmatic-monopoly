@@ -25,10 +25,13 @@ public class BoardController {
     }
 
     public void sendToJail(Player player){
+        int currentPosition = player.getPosition();
+        board.getLand(currentPosition).removePlayer(player);
         for(int i=0; i<board.getLands().size(); i++){
             final Land land = board.getLand(i);
             if(land instanceof Jail){
                 player.setPosition(i);
+                land.addPlayer(player);
                 return;
             }
         }

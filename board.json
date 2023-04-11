@@ -58,7 +58,7 @@
       "type": "tax",
       "building": 0,
       "name": "Income Tax",
-      "taxCost": 200,
+      "taxCost": 100,
       "buyStrategy": {
         "type": "nonpurchasable"
       }
@@ -565,7 +565,7 @@
       "type": "tax",
       "building": 0,
       "name": "Luxury Tax",
-      "taxCost": 100,
+      "taxCost": 200,
       "buyStrategy": {
         "type": "nonpurchasable"
       }

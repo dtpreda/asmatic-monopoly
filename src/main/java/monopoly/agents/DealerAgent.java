@@ -9,15 +9,18 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
+import monopoly.actions.EndTurn;
+import monopoly.actions.PerformPayTax;
 import monopoly.actions.RollDice;
 import monopoly.actions.StartTurn;
-import monopoly.agents.visitors.MessageVisitor;
+import monopoly.agents.visitors.DealerMessageVisitor;
+import monopoly.agents.visitors.dealer.EndTurnVisitor;
+import monopoly.agents.visitors.dealer.PerformPayTaxVisitor;
 import monopoly.agents.visitors.dealer.RollDiceVisitor;
+import monopoly.agents.visitors.player.StartTurnVisitor;
 import monopoly.controllers.MonopolyController;
 import monopoly.exceptions.InvalidMessage;
-import monopoly.models.PlayResult;
 import monopoly.models.Player;
-import monopoly.states.RollState;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +28,7 @@ import java.util.Map;
 
 public class DealerAgent extends Agent {
     private MonopolyController monopolyController;
-    private Map<Class, MessageVisitor> visitors;
+    private Map<Class, DealerMessageVisitor> visitors;
 
     private boolean startNewTurn = true;
     public DealerAgent(MonopolyController monopolyController) {
@@ -33,6 +36,8 @@ public class DealerAgent extends Agent {
         this.monopolyController = monopolyController;
         visitors = new HashMap<>();
         visitors.put(RollDice.class ,new RollDiceVisitor(monopolyController, getContentManager()));
+        visitors.put(EndTurn.class ,new EndTurnVisitor(monopolyController, getContentManager()));
+        visitors.put(PerformPayTax.class, new PerformPayTaxVisitor(monopolyController, getContentManager()));
 
     }
     @Override
@@ -71,11 +76,12 @@ public class DealerAgent extends Agent {
                     //(System.out.println(msg);
                     try {
                         ContentElement content = myAgent.getContentManager().extractContent(msg);
-                        MessageVisitor visitor = visitors.get(content.getClass());
+                        DealerMessageVisitor visitor = visitors.get(content.getClass());
                         if (visitor != null) {
                             ACLMessage reply = visitor.visit(content, msg);
                             if (reply != null) {
                                 System.out.println("Replied");
+                                System.out.println("Replied with state " + monopolyController.getState());
                                 send(reply);
                                 startNewTurn = false;
                             } else {
@@ -98,7 +104,7 @@ public class DealerAgent extends Agent {
 
             //state.finishTurn(currentPlayer);
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

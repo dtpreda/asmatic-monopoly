@@ -140,6 +140,9 @@ public class LandViewer {
         } else {
             image = ViewerUtils.getImage("income-tax.png");
         }
+        StackPane root = new StackPane();
+        Label label = ViewerUtils.createLabel(tax.getTaxCost() + "$");
+        root.getChildren().addAll(image, label);
         return image;
     }
 
