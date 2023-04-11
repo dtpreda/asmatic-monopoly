@@ -18,7 +18,9 @@ public class RollState extends MonopolyState{
         if(!player.equals(board.getCurrentPlayer())){
             return new PlayResult(false);
         }
+
         final Dice dice = new Dice();
+        System.out.println("Dice value = " + dice.getValue());
         board.setDice(dice);
         Land land = boardController.movePlayer(player, dice.getValue());
         final PlayResult result = moveResult(player, land, dice);

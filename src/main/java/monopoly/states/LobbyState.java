@@ -2,6 +2,7 @@ package monopoly.states;
 
 import monopoly.controllers.BoardController;
 import monopoly.controllers.MonopolyController;
+import monopoly.models.Dice;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
 
@@ -26,5 +27,9 @@ public class LobbyState extends MonopolyState{
         Player player = new Player(players.size(), name, 1500, players.size(), color);
         board.addPlayer(player);
         return player;
+    }
+
+    public void startGame(){
+        changeState(new RollState(board, monopolyController));
     }
 }

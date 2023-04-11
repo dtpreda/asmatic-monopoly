@@ -2,6 +2,7 @@ package monopoly.models.lands;
 
 import monopoly.models.Player;
 import monopoly.models.lands.Land;
+import monopoly.models.lands.buyStrategy.Purchasable;
 import monopoly.models.lands.buyStrategy.PurchasableStrategy;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public class Property extends Land {
 
     public Property(PurchasableStrategy buyStrategy) {
         super(buyStrategy);
+    }
+    public Property(){
+        super(new Purchasable());
     }
 
     public int getCurrentRent(){

@@ -1,6 +1,8 @@
 package monopoly.view;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -43,18 +45,43 @@ public class MonopolyViewer extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        int BOARD_WIDTH = 75 * 11;
-        int BOARD_HEIGHT = 75 * 11;
+        int BOARD_WIDTH = ViewerUtils.WIDTH * 11;
+        int BOARD_HEIGHT = ViewerUtils.WIDTH * 11;
 
         GridPane board = getBoard(monopolyBoard);
         GridPane playersSpace = getPlayersInfo(monopolyBoard);
 
-        StackPane root = new StackPane();
+        final StackPane root = new StackPane();
 
         root.getChildren().addAll(board, playersSpace);
-        Scene scene = new Scene(root, 900,900);
+        Scene scene = new Scene(root, 850, 800);
         stage.setScene(scene);
         stage.show();
+
+        Thread thread = new Thread(() -> {
+
+            while(true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException exc) {
+                    throw new Error("Unexpected interruption", exc);
+                }
+                Platform.runLater(() -> {
+                    GridPane board2 = getBoard(monopolyBoard);
+                    GridPane playersSpace2 = getPlayersInfo(monopolyBoard);
+                    root.getChildren().remove(0);
+                    root.getChildren().remove(0);
+                    root.getChildren().addAll(board2, playersSpace2);
+
+                });
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    public void setMonopolyBoard(MonopolyBoard board){
+        this.monopolyBoard = board;
     }
 
     private GridPane getBoard(MonopolyBoard monopolyBoard){
