@@ -6,6 +6,7 @@ import jade.content.lang.Codec;
 import jade.content.onto.OntologyException;
 import jade.lang.acl.ACLMessage;
 import monopoly.controllers.MonopolyController;
+import monopoly.exceptions.InvalidMessage;
 import monopoly.models.Player;
 
 public abstract class MessageVisitor {
@@ -18,7 +19,7 @@ public abstract class MessageVisitor {
     }
 
 
-    public abstract ACLMessage visit(ContentElement content, ACLMessage message) throws OntologyException, Codec.CodecException;
+    public abstract ACLMessage visit(ContentElement content, ACLMessage message) throws OntologyException, Codec.CodecException, InvalidMessage;
 
 
 

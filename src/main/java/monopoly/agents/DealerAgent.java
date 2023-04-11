@@ -14,6 +14,7 @@ import monopoly.actions.StartTurn;
 import monopoly.agents.visitors.MessageVisitor;
 import monopoly.agents.visitors.dealer.RollDiceVisitor;
 import monopoly.controllers.MonopolyController;
+import monopoly.exceptions.InvalidMessage;
 import monopoly.models.PlayResult;
 import monopoly.models.Player;
 import monopoly.states.RollState;
@@ -25,6 +26,8 @@ import java.util.Map;
 public class DealerAgent extends Agent {
     private MonopolyController monopolyController;
     private Map<Class, MessageVisitor> visitors;
+
+    private boolean startNewTurn = true;
     public DealerAgent(MonopolyController monopolyController) {
         super();
         this.monopolyController = monopolyController;
@@ -44,41 +47,54 @@ public class DealerAgent extends Agent {
         public void action() {
             List<Player> players = monopolyController.getBoard().getPlayers();
             Player currentPlayer = monopolyController.getBoard().getCurrentPlayer();
-            //Send message to player
 
-            AID aid = new AID(currentPlayer.getName(), AID.ISLOCALNAME);
+            if(startNewTurn) {
+                //Send message to player
+                AID aid = new AID(currentPlayer.getName(), AID.ISLOCALNAME);
 
-            ACLMessage startMessage = new ACLMessage(ACLMessage.PROPOSE);
-            startMessage.setOntology(MonopolyOntology.ONTOLOGY_NAME);
-            startMessage.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
-            startMessage.addReceiver(aid);
-            StartTurn startTurn = new StartTurn();
-            try {
-                getContentManager().fillContent(startMessage, startTurn);
-            } catch (Codec.CodecException | OntologyException e) {
-                e.printStackTrace();
-            }
-            send(startMessage);
-
-            //Receive message
-
-            //Advance turn
-            RollState state = (RollState) monopolyController.getState();
-            ACLMessage msg = receive();
-            if (msg != null) {
-                System.out.println(msg);
+                ACLMessage startMessage = new ACLMessage(ACLMessage.PROPOSE);
+                startMessage.setOntology(MonopolyOntology.ONTOLOGY_NAME);
+                startMessage.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
+                startMessage.addReceiver(aid);
+                StartTurn startTurn = new StartTurn();
                 try {
-                    ContentElement content = myAgent.getContentManager().extractContent(msg);
-                    if (content instanceof RollDice) {
-                        //Check if it's current player
-
-                    }
+                    getContentManager().fillContent(startMessage, startTurn);
                 } catch (Codec.CodecException | OntologyException e) {
                     e.printStackTrace();
                 }
-            } else {
-                block();
+                send(startMessage);
             }
+            ACLMessage msg;
+            do{
+                msg = receive();
+                if (msg != null) {
+                    //(System.out.println(msg);
+                    try {
+                        ContentElement content = myAgent.getContentManager().extractContent(msg);
+                        MessageVisitor visitor = visitors.get(content.getClass());
+                        if (visitor != null) {
+                            ACLMessage reply = visitor.visit(content, msg);
+                            if (reply != null) {
+                                System.out.println("Replied");
+                                send(reply);
+                                startNewTurn = false;
+                            } else {
+                                // no reply, player was changed
+                                startNewTurn = true;
+                            }
+                        } else {
+                            System.err.println("No visitor found for " + content.getClass());
+                        }
+                    } catch (Codec.CodecException | OntologyException e) {
+                        e.printStackTrace();
+                    } catch (InvalidMessage e) {
+                        // Message was invalid, ignore it
+                        System.out.println("Received invalid message: " + e.getMessage());
+                    }
+                } else {
+                    block();
+                }
+            }while(msg == null);
 
             //state.finishTurn(currentPlayer);
             try {
@@ -87,7 +103,6 @@ public class DealerAgent extends Agent {
                 throw new RuntimeException(e);
             }
         }
-
 
 
         private void handleMessage(ACLMessage message){

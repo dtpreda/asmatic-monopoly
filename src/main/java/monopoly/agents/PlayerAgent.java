@@ -26,12 +26,13 @@ public class PlayerAgent extends Agent {
         public void action() {
             ACLMessage msg = receive();
             if (msg != null) {
-                System.out.println(msg);
+                //System.out.println(msg);
                 try {
                     ContentElement content = getContentManager().extractContent(msg);
 
                     if (content instanceof StartTurn) {
                         ACLMessage reply = msg.createReply();
+                        System.out.println("####Received start turn message");
                         RollDice rollDice = new RollDice();
                         getContentManager().fillContent(reply, rollDice);
                         send(reply);

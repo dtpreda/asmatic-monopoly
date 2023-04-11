@@ -16,11 +16,12 @@ public class RollState extends MonopolyState{
      */
     public PlayResult play(Player player){
         if(!player.equals(board.getCurrentPlayer())){
+            System.out.println("NOT YOUR TURN " + player.getName());
             return new PlayResult(false);
         }
 
         final Dice dice = new Dice();
-        System.out.println("Dice value = " + dice.getValue());
+        System.out.println("Dice value = " + dice.getValue() + (dice.isDouble() ? " (double)" : ""));
         board.setDice(dice);
         Land land = boardController.movePlayer(player, dice.getValue());
         final PlayResult result = moveResult(player, land, dice);
@@ -52,11 +53,6 @@ public class RollState extends MonopolyState{
             doNothingVisit(playResult);
         }
         */
-
-
-        if(dice.isDouble()){
-            return new PlayResult(true);
-        }
         return playResult;
     }
 
@@ -68,7 +64,6 @@ public class RollState extends MonopolyState{
             return false;
         }
 
-        board.nextPlayer();
         return true;
     }
 
@@ -110,11 +105,13 @@ public class RollState extends MonopolyState{
     }
 
     private void doNothingVisit(PlayResult playResult){
+        playResult.setPlayResultToken(PlayResultToken.END_TURN);
         changePlayerTurn(playResult);
     }
 
     //Change player turn based on the dice. If is double, maintain player's turn
     private void changePlayerTurn(PlayResult playResult){
+        //TODO:: Check for 3 straight times
         boolean changed = changePlayerTurn(playResult.getDice());
         if(!changed){
             playResult.setPlayResultToken(PlayResultToken.PLAY_AGAIN);
@@ -125,8 +122,8 @@ public class RollState extends MonopolyState{
     private boolean changePlayerTurn(Dice dice){
         if(!dice.isDouble()){
             boardController.nextPlayer();
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }
