@@ -4,13 +4,13 @@ import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
+import monopoly.agents.PlayerAgent;
 import monopoly.controllers.MonopolyController;
 import jade.core.Runtime;
 import jade.core.Profile;
 import monopoly.agents.DealerAgent;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import monopoly.controllers.MonopolyController;
 import monopoly.models.Player;
 import monopoly.view.MonopolyViewer;
 
@@ -32,13 +32,16 @@ public class Main {
 
         Runtime rt = Runtime.instance();
         Profile p1 = new ProfileImpl();
-        p1.setParameter(Profile.MAIN_HOST, "192.168.1.154");
+        p1.setParameter(Profile.MAIN_HOST, "localhost");
         p1.setParameter(Profile.MAIN_PORT, "1099");
         p1.setParameter(Profile.CONTAINER_NAME, "Main-Container");
         ContainerController container = rt.createMainContainer(p1);
 
         AgentController ac1 = container.acceptNewAgent("John", new DealerAgent());
         ac1.start();
+
+        AgentController ac2 = container.acceptNewAgent("Mike", new PlayerAgent());
+        ac2.start();
 
         Platform.startup(() -> {
             Stage stage = new Stage();
