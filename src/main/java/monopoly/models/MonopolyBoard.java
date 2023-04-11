@@ -22,6 +22,16 @@ public class MonopolyBoard {
         lands.get(0).addPlayer(player);
     }
 
+    public Player getPlayer(String name){
+        for(Player player : players){
+            if(player.getName().equals(name)){
+                return player;
+            }
+        }
+        return null;
+    }
+
+
     public Player getCurrentPlayer(){
         return players.get(currentPlayerIndex);
     }

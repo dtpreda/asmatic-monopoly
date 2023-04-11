@@ -29,6 +29,8 @@ public class RollState extends MonopolyState{
 
     private PlayResult moveResult(Player player, Land land, Dice dice){
         PlayResult playResult = new PlayResult(dice, land);
+        doNothingVisit(playResult);
+        /*
         if(land instanceof Jail){
 
         }
@@ -49,6 +51,8 @@ public class RollState extends MonopolyState{
         } else {
             doNothingVisit(playResult);
         }
+        */
+
 
         if(dice.isDouble()){
             return new PlayResult(true);

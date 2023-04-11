@@ -16,25 +16,21 @@ import monopoly.states.LobbyState;
 import monopoly.states.RollState;
 import monopoly.view.MonopolyViewer;
 
+import java.awt.*;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) throws StaleProxyException {
         System.out.println("Hello world!");
 
         MonopolyController monopolyController = new MonopolyController();
         monopolyController.startGame();
-        Player player = monopolyController.addPlayer("Player 1");
-        Player player2 = monopolyController.addPlayer("Player 2");
-        Player player3 = monopolyController.addPlayer("Player 3");
+        Player player = monopolyController.addPlayer("John");
+        Player player2 = monopolyController.addPlayer("Mike");
+        Player player3 = monopolyController.addPlayer("Torcato");
+        Player player4 = monopolyController.addPlayer("Bdcanss");
         LobbyState state =  (LobbyState) monopolyController.getState();
-
-
-        final MonopolyViewer mainStage = new MonopolyViewer(monopolyController);
-        try {
-            mainStage.init();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        state.startGame();
         Runtime rt = Runtime.instance();
         Profile p1 = new ProfileImpl();
         p1.setParameter(Profile.MAIN_HOST, "localhost");
@@ -42,11 +38,33 @@ public class Main {
         p1.setParameter(Profile.CONTAINER_NAME, "Main-Container");
         ContainerController container = rt.createMainContainer(p1);
 
-        AgentController ac1 = container.acceptNewAgent("John", new DealerAgent());
-        ac1.start();
+        initPlayerAgents(container, monopolyController.getBoard().getPlayers());
+        initDealerAgent(container, monopolyController);
 
-        AgentController ac2 = container.acceptNewAgent("Mike", new PlayerAgent());
-        ac2.start();
+        initViewer(monopolyController);
+        state.startGame();
+    }
+
+
+    private static void initPlayerAgents(ContainerController container, List<Player> players) throws StaleProxyException {
+        for (Player player: players) {
+            AgentController playerController = container.acceptNewAgent(player.getName(), new PlayerAgent());
+            playerController.start();
+        }
+    }
+
+    private static void initDealerAgent(ContainerController container, MonopolyController monopolyController) throws StaleProxyException {
+        AgentController dealerController = container.acceptNewAgent("Dealer", new DealerAgent(monopolyController));
+        dealerController.start();
+    }
+
+    private static void initViewer(MonopolyController monopolyController){
+        final MonopolyViewer mainStage = new MonopolyViewer(monopolyController);
+        try {
+            mainStage.init();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         Platform.startup(() -> {
             Stage stage = new Stage();
@@ -57,15 +75,5 @@ public class Main {
             }
         });
 
-        state.startGame();
-
-        try {
-            Thread.sleep(3000);
-            RollState rollState = (RollState) monopolyController.getState();
-            rollState.play(player);
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
