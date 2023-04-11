@@ -15,7 +15,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class ViewerUtils {
-    public static int WIDTH = 75;
+    public static int WIDTH = 70;
+    public static int PLAYER_SIZE = 5;
 
     public static Node addBorder(Node node){
         Rectangle rectangle = new Rectangle(WIDTH,WIDTH);

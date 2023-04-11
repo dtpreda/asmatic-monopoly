@@ -19,7 +19,6 @@ public class MonopolyController{
         startGame();
     }
     private MonopolyBoard board;
-
     private MonopolyState state;
 
     public void startGame(){

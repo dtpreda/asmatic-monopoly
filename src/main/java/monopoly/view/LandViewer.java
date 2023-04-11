@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import monopoly.models.Player;
 import monopoly.models.lands.*;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static monopoly.view.ViewerUtils.PLAYER_SIZE;
 import static monopoly.view.ViewerUtils.WIDTH;
 
 
@@ -27,6 +29,7 @@ public class LandViewer {
     }
 
     public Node getLandView(Land land){
+        StackPane stack = new StackPane();
         Node node;
         switch (land.getClass().getSimpleName()){
             case "Chance":
@@ -62,12 +65,19 @@ public class LandViewer {
             default:
                 node = getChanceView(land);
         }
-        //List<Node> nodes = new ArrayList<>();
-        //land.getPlayers().forEach(player -> {
-        //    node = playerViewer.getPlayerView(player, node);
-        //});
 
-        return node;
+        //Add player pieces
+        stack.getChildren().add(node);
+        int i=0;
+            for (Player player : land.getPlayers()) {
+                int x = i * (ViewerUtils.PLAYER_SIZE) * 2;
+                int y = 0;
+                Node playerPiece = playerViewer.getPlayerPiece(player, x, y);
+                stack.getChildren().add(playerPiece);
+                i++;
+
+            }
+        return stack;
     }
 
     private Node getChanceView(Land land){

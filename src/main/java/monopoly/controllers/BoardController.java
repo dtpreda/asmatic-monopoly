@@ -12,12 +12,15 @@ public class BoardController {
     }
 
     public Land movePlayer(Player player, int diceValue){
+        int oldPosition = player.getPosition();
         int newPosition = player.getPosition() + diceValue;
         if(newPosition >= 40){
             newPosition -= 40;
             player.addMoney(200);
         }
         player.setPosition(newPosition);
+        board.getLand(oldPosition).removePlayer(player);
+        board.getLand(newPosition).addPlayer(player);
         return board.getLand(newPosition);
     }
 

@@ -19,6 +19,7 @@ public class MonopolyBoard {
 
     public void addPlayer(Player player){
         players.add(player);
+        lands.get(0).addPlayer(player);
     }
 
     public Player getCurrentPlayer(){

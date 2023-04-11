@@ -9,6 +9,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import monopoly.models.Player;
 
+import static monopoly.view.ViewerUtils.PLAYER_SIZE;
+
 public class PlayerViewer {
     public PlayerViewer() {
     }
@@ -36,11 +38,13 @@ public class PlayerViewer {
     }
 
     public Circle getPlayerPiece(Player player, int x, int y) {
-        Circle circle = new Circle(10);
+        Circle circle = new Circle(PLAYER_SIZE);
         Color color = ViewerUtils.getColor(player.getColor());
         circle.setFill(color);
-        circle.setTranslateX(x - 15);
-        circle.setTranslateY(y + 15);
+        circle.setTranslateX(x - PLAYER_SIZE - 5);
+        circle.setTranslateY(y + PLAYER_SIZE + 5);
+        circle.setStrokeWidth(2.0);
+        circle.setStroke(Color.BLACK);
         return circle;
     }
 }
