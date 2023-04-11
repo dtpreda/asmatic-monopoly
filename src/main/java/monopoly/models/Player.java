@@ -46,7 +46,7 @@ public class Player{
         if (object == null || getClass() != object.getClass()) return false;
         if (!super.equals(object)) return false;
         Player player = (Player) object;
-        return id == player.id;
+        return name.equals(player.name);
     }
 
     public int hashCode() {

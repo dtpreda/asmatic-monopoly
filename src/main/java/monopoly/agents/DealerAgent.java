@@ -11,19 +11,26 @@ import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import monopoly.actions.RollDice;
 import monopoly.actions.StartTurn;
+import monopoly.agents.visitors.MessageVisitor;
+import monopoly.agents.visitors.dealer.RollDiceVisitor;
 import monopoly.controllers.MonopolyController;
 import monopoly.models.PlayResult;
 import monopoly.models.Player;
 import monopoly.states.RollState;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DealerAgent extends Agent {
     private MonopolyController monopolyController;
-
+    private Map<Class, MessageVisitor> visitors;
     public DealerAgent(MonopolyController monopolyController) {
         super();
         this.monopolyController = monopolyController;
+        visitors = new HashMap<>();
+        visitors.put(RollDice.class ,new RollDiceVisitor(monopolyController, getContentManager()));
+
     }
     @Override
     protected void setup() {
@@ -57,31 +64,23 @@ public class DealerAgent extends Agent {
 
             //Advance turn
             RollState state = (RollState) monopolyController.getState();
-            while (true) {
-                ACLMessage msg = receive();
-                if (msg != null) {
-                    System.out.println(msg);
-                    try {
-                        ContentElement content = myAgent.getContentManager().extractContent(msg);
+            ACLMessage msg = receive();
+            if (msg != null) {
+                System.out.println(msg);
+                try {
+                    ContentElement content = myAgent.getContentManager().extractContent(msg);
+                    if (content instanceof RollDice) {
+                        //Check if it's current player
 
-                        if (content instanceof RollDice) {
-                            //Check if it's current player
-                            String playerName = msg.getSender().getLocalName();
-                            if(isCurrentPlayer(playerName)) {
-                                PlayResult result = state.play(getPlayer(playerName));
-                                break;
-                            } else {
-                            }
-                        }
-                    } catch (Codec.CodecException | OntologyException e) {
-                        e.printStackTrace();
                     }
-                } else {
-                    block();
+                } catch (Codec.CodecException | OntologyException e) {
+                    e.printStackTrace();
                 }
+            } else {
+                block();
             }
 
-            state.finishTurn(currentPlayer);
+            //state.finishTurn(currentPlayer);
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -89,12 +88,10 @@ public class DealerAgent extends Agent {
             }
         }
 
-        private boolean isCurrentPlayer(String name) {
-            return monopolyController.getBoard().getCurrentPlayer().getName().equals(name);
-        }
 
-        private Player getPlayer(String player){
-            return monopolyController.getBoard().getPlayer(player);
+
+        private void handleMessage(ACLMessage message){
+
         }
     }
 }
