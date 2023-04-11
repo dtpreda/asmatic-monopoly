@@ -4,11 +4,13 @@ import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import monopoly.controllers.MonopolyController;
 import monopoly.models.MonopolyBoard;
+import monopoly.models.Player;
 import monopoly.models.lands.Land;
 
 import javafx.scene.shape.Rectangle;
@@ -19,11 +21,14 @@ public class MonopolyViewer extends Application {
     private MonopolyController controller;
 
     private LandViewer landViewer;
+    private PlayerViewer playerViewer;
 
     public MonopolyViewer(MonopolyController controller){
         this.controller = controller;
         this.monopolyBoard = controller.getBoard();
-        this.landViewer = new LandViewer();
+        this.playerViewer = new PlayerViewer();
+        this.landViewer = new LandViewer(playerViewer);
+
     }
 
     public MonopolyViewer(){
@@ -38,27 +43,28 @@ public class MonopolyViewer extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        System.out.println("Ola");
+        int BOARD_WIDTH = 75 * 11;
+        int BOARD_HEIGHT = 75 * 11;
+
+        GridPane board = getBoard(monopolyBoard);
+        GridPane playersSpace = getPlayersInfo(monopolyBoard);
+
+        StackPane root = new StackPane();
+
+        root.getChildren().addAll(board, playersSpace);
+        Scene scene = new Scene(root, 900,900);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private GridPane getBoard(MonopolyBoard monopolyBoard){
         GridPane board = new GridPane();
-        board.setHgap(10);
-        board.setVgap(10);
+        board.setHgap(0);
+        board.setVgap(0);
 
         //Fill spaces for lands
         int index=0;
         int sideLength = 11;
-        //11x11 board
-        //   0 1 2 3 4 5 6 7 8 9 10
-        // 1
-        // 2
-        // 3
-        // 4
-        // 5
-        // 6
-        // 7
-        // 8
-        // 9
-        // 10
-
         for (Land property : monopolyBoard.getLands()) {
             int row = 0, column = 0;
 
@@ -84,10 +90,25 @@ public class MonopolyViewer extends Application {
             board.add(propertySpace, column, row);
             index++;
         }
+        return board;
+    }
 
-        Scene scene = new Scene(board, 1000,1000);
-        stage.setScene(scene);
-        stage.show();
+    private GridPane getPlayersInfo(MonopolyBoard monopolyBoard){
+        GridPane playersSpace = new GridPane();
+        int PLAYER_SPACE_SIZE = 150;
+        playersSpace.setHgap(10);
+        playersSpace.setVgap(10);
+        int PLAYER_PER_ROW = 3;
+        for (int i = 0; i < monopolyBoard.getPlayers().size(); i++) {
+            Player player = monopolyBoard.getPlayers().get(i);
+            int row = i / PLAYER_PER_ROW;
+            int column = i % PLAYER_PER_ROW;
+            Node playerSpace = playerViewer.getPlayerInfo(player, PLAYER_SPACE_SIZE);
+            playersSpace.add(playerSpace, column, row);
+        }
+        playersSpace.setTranslateY(150);
+        playersSpace.setTranslateX(150);
+        return playersSpace;
     }
 
 

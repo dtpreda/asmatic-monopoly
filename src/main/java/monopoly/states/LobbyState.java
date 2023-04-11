@@ -9,6 +9,8 @@ import java.util.List;
 
 public class LobbyState extends MonopolyState{
 
+    private String colors[] = {"red", "blue", "green", "yellow", "orange", "purple", "pink", "brown"};
+
     public LobbyState(MonopolyBoard board, MonopolyController monopolyController){
         super(board, monopolyController);
     }
@@ -20,7 +22,8 @@ public class LobbyState extends MonopolyState{
                 return null;
             }
         }
-        Player player = new Player(players.size(), name, 1500, players.size());
+        String color = colors[players.size()];
+        Player player = new Player(players.size(), name, 1500, players.size(), color);
         board.addPlayer(player);
         return player;
     }

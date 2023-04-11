@@ -14,60 +14,80 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import static monopoly.view.ViewerUtils.WIDTH;
 
 
 public class LandViewer {
-    private int WIDTH = 75;
-    public LandViewer(){
-
+    private PlayerViewer playerViewer;
+    public LandViewer(PlayerViewer playerViewer){
+        this.playerViewer = playerViewer;
     }
 
     public Node getLandView(Land land){
+        Node node;
         switch (land.getClass().getSimpleName()){
             case "Chance":
-                return getChanceView(land);
+                node = getChanceView(land);
+                break;
             case "CommunityChest":
-                return getCommunityChest(land);
+                node = getCommunityChest(land);
+                break;
             case "Company":
-                return getUtilityView(land);
+                node = getUtilityView(land);
+                break;
             case "GoToJail":
-                return getGoToJailView(land);
+                node = getGoToJailView(land);
+                break;
             case "Jail":
-                return getJailView(land);
+                node = getJailView(land);
+                break;
             case "Parking":
-                return getParkingView(land);
+                node = getParkingView(land);
+                break;
             case "Property":
-                return getPropertyView(land);
+                node = getPropertyView(land);
+                break;
             case "RailRoad":
-                return getRailroadView(land);
+                node = getRailroadView(land);
+                break;
             case "Start":
-                return getStartView(land);
+                node = getStartView(land);
+                break;
             case "Tax":
-                return getTaxView(land);
+                node = getTaxView(land);
+                break;
+            default:
+                node = getChanceView(land);
         }
-        Rectangle rectangle = new Rectangle(WIDTH,WIDTH);
-        rectangle.setFill(Color.RED);
-        return rectangle;
+        //List<Node> nodes = new ArrayList<>();
+        //land.getPlayers().forEach(player -> {
+        //    node = playerViewer.getPlayerView(player, node);
+        //});
+
+        return node;
     }
 
     private Node getChanceView(Land land){
-        return getImage("chance.jpg");
+        return ViewerUtils.getImage("chance.jpg");
     }
 
     private Node getCommunityChest(Land land){
-        return getImage("community-chest.jpg");
+        return ViewerUtils.getImage("community-chest.jpg");
     }
 
     private Node getRailroadView(Land land){
         RailRoad railRoad = (RailRoad) land;
-        Label label = createLabel(railRoad.getName());
+        Label label = ViewerUtils.createLabel(railRoad.getName());
 
-        final Node image = getImage("railroad.png", WIDTH, WIDTH/ 2);
+        final Node image = ViewerUtils.getImage("railroad.png", WIDTH, WIDTH/ 2);
         StackPane root = new StackPane();
         root.getChildren().addAll(label, image);
         root.setAlignment(label, Pos.TOP_CENTER);
         root.setAlignment(image, Pos.BOTTOM_CENTER);
-        root = (StackPane) addBorder(root);
+        root = (StackPane) ViewerUtils.addBorder(root);
         return root;
     }
 
@@ -75,30 +95,30 @@ public class LandViewer {
         Company company = (Company) land;
         Node image;
         if(company.getName().equals("Electric company")){
-            image = getImage("electric-company.png");
+            image = ViewerUtils.getImage("electric-company.png");
         } else {
-            image = getImage("water-works.png");
+            image = ViewerUtils.getImage("water-works.png");
         }
         return image;
     }
 
     private Node getGoToJailView(Land land){
-        Node image = getImage("gotojail.jpg");
+        Node image = ViewerUtils.getImage("gotojail.jpg");
         return image;
     }
 
     private Node getJailView(Land land){
-        Node image = getImage("monopoly-jail.jpg");
+        Node image = ViewerUtils.getImage("monopoly-jail.jpg");
         return image;
     }
 
     private Node getParkingView(Land land){
-        Node image = getImage("parking.jpg");
+        Node image = ViewerUtils.getImage("parking.jpg");
         return image;
     }
 
     private Node getStartView(Land land){
-        Node image = getImage("start.png");
+        Node image = ViewerUtils.getImage("start.png");
         return image;
     }
 
@@ -106,9 +126,9 @@ public class LandViewer {
         Tax tax = (Tax) land;
         Node image;
         if(tax.getName().equals("Luxury Tax")){
-            image = getImage("luxury-tax.png");
+            image = ViewerUtils.getImage("luxury-tax.png");
         } else {
-            image = getImage("income-tax.png");
+            image = ViewerUtils.getImage("income-tax.png");
         }
         return image;
     }
@@ -119,11 +139,11 @@ public class LandViewer {
         root.setAlignment(Pos.TOP_CENTER);
 
         // Create a rectangle to represent the property tile
-        Color color = getColor(property.getColor());
+        Color color = ViewerUtils.getColor(property.getColor());
         Rectangle tile = new Rectangle(WIDTH, WIDTH, color);
 
         // Create a label to display the property name
-        Label label = createLabel(property.getName());
+        Label label = ViewerUtils.createLabel(property.getName());
 
         if(color.equals(Color.BLUE) || color.equals(Color.SADDLEBROWN) || color.equals(Color.GREEN) || color.equals(Color.BLACK) || color.equals(Color.DARKBLUE)){
             //Change label color
@@ -132,74 +152,8 @@ public class LandViewer {
 
         // Add the rectangle and label to the stack pane
         root.getChildren().addAll(tile, label);
-        root = (StackPane) addBorder(root);
+        root = (StackPane) ViewerUtils.addBorder(root);
         return root;
-    }
-
-    private Node addBorder(Node node){
-        Rectangle rectangle = new Rectangle(WIDTH,WIDTH);
-        rectangle.setFill(Color.TRANSPARENT);
-        rectangle.setStroke(Color.BLACK);
-        rectangle.setStrokeWidth(2);
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(node, rectangle);
-        return stackPane;
-    }
-
-    private Node getImage(String name){
-        return getImage(name, WIDTH, WIDTH);
-    }
-    private Node getImage(String name, int width, int height){
-        try {
-            InputStream inputStream = new FileInputStream(new File("src/main/resources/images/" + name));
-            Image image = new Image(inputStream);
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(width);
-            if(height != -1) {
-                imageView.setFitHeight(height);
-                imageView.setPreserveRatio(false);
-            }
-            return imageView;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private Color getColor(String str){
-        switch (str){
-            case "brown":
-                return Color.SADDLEBROWN;
-            case "lightblue":
-                return Color.LIGHTBLUE;
-            case "pink":
-                return Color.PINK;
-            case "orange":
-                return Color.ORANGE;
-            case "red":
-                return Color.ORANGERED;
-            case "yellow":
-                return Color.YELLOW;
-            case "green":
-                return Color.GREEN;
-            case "blue":
-                return Color.BLUE;
-            case "white":
-                return Color.WHITE;
-            case "black":
-                return Color.BLACK;
-            case "darkblue":
-                return Color.DARKBLUE;
-        }
-        return Color.BLACK;
-    }
-
-    private Label createLabel(String str){
-        Label label = new Label(str);
-        label.setWrapText(true);
-        label.setMaxWidth(WIDTH - 5);
-        label.setAlignment(Pos.CENTER);
-        label.setFont(label.getFont().font(9));
-        return label;
     }
 
 }

@@ -45,5 +45,12 @@ public class MonopolyController{
         return boardController;
     }
 
+    public Player addPlayer(String name){
+        if(state instanceof LobbyState){
+            return ((LobbyState) state).addPlayer(name);
+        }
+        return null;
+    }
+
 
 }

@@ -8,12 +8,15 @@ public class Player{
     private int money;
     private int position;
 
+    private String color;
 
-    public Player(int id, String name, int money, int position){
+
+    public Player(int id, String name, int money, int position, String color){
         this.id = id;
         this.name = name;
         this.money = money;
         this.position = position;
+        this.color = color;
     }
 
     public int getId(){
@@ -48,5 +51,9 @@ public class Player{
 
     public int hashCode() {
         return Objects.hash(super.hashCode(), id);
+    }
+
+    public String getColor(){
+        return color;
     }
 }
