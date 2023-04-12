@@ -53,7 +53,7 @@ public class MonopolyBoard implements Concept {
             if(land instanceof Property){
                 Property prop = (Property) land;
                 Purchasable purchasable = (Purchasable) prop.getBuyStrategy();
-                if(purchasable.getOwner().equals(player.getName())){
+                if(player.getName().equals(purchasable.getOwner())){
                     props.add(prop);
                 }
             }

@@ -11,6 +11,7 @@
       "type": "property",
       "building": 0,
       "price": 60,
+      "housePrice": 50,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -38,6 +39,7 @@
       "type": "property",
       "building": 0,
       "price": 60,
+      "housePrice": 50,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -78,6 +80,7 @@
       "type": "property",
       "building": 0,
       "price": 100,
+      "housePrice": 50,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -105,6 +108,7 @@
       "type": "property",
       "building": 0,
       "price": 100,
+      "housePrice": 50,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -125,6 +129,7 @@
       "type": "property",
       "building": 0,
       "price": 120,
+      "housePrice": 50,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -152,6 +157,7 @@
       "type": "property",
       "building": 0,
       "price": 140,
+      "housePrice": 100,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -185,6 +191,7 @@
       "type": "property",
       "building": 0,
       "price": 140,
+      "housePrice": 100,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -205,6 +212,7 @@
       "type": "property",
       "building": 0,
       "price": 160,
+      "housePrice": 100,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -236,6 +244,7 @@
       "type": "property",
       "building": 0,
       "price": 180,
+      "housePrice": 100,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -263,6 +272,7 @@
       "type": "property",
       "building": 0,
       "price": 180,
+      "housePrice": 100,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -283,6 +293,7 @@
       "type": "property",
       "building": 0,
       "price": 200,
+      "housePrice": 100,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -310,6 +321,7 @@
       "type": "property",
       "building": 0,
       "price": 220,
+      "housePrice": 150,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -337,6 +349,7 @@
       "type": "property",
       "building": 0,
       "price": 220,
+      "housePrice": 150,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -357,6 +370,7 @@
       "type": "property",
       "building": 0,
       "price": 240,
+      "housePrice": 150,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -388,6 +402,7 @@
       "type": "property",
       "building": 0,
       "price": 260,
+      "housePrice": 150,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -408,6 +423,7 @@
       "type": "property",
       "building": 0,
       "price": 260,
+      "housePrice": 150,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -441,6 +457,7 @@
       "type": "property",
       "building": 0,
       "price": 280,
+      "housePrice": 150,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -468,6 +485,7 @@
       "type": "property",
       "building": 0,
       "price": 300,
+      "housePrice": 200,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -488,6 +506,7 @@
       "type": "property",
       "building": 0,
       "price": 300,
+      "housePrice": 200,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -515,6 +534,7 @@
       "type": "property",
       "building": 0,
       "price": 320,
+      "housePrice": 200,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -559,6 +579,7 @@
       "type": "property",
       "building": 0,
       "price": 350,
+      "housePrice": 200,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,
@@ -588,6 +609,7 @@
       "type": "property",
       "building": 0,
       "price": 400,
+      "housePrice": 200,
       "buyStrategy": {
         "type": "purchasable",
         "landOwner": null,

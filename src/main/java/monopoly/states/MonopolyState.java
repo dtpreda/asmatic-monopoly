@@ -6,6 +6,7 @@ import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
 import monopoly.models.Trade;
 import monopoly.models.lands.Land;
+import monopoly.models.lands.Property;
 
 public abstract class MonopolyState {
 
@@ -19,9 +20,15 @@ public abstract class MonopolyState {
         this.boardController = monopolyController.getBoardController();
     }
 
-    public boolean buyHouse(Land land, Player player) {
-        //TODO
-        return false;
+    public boolean buyHouse(Property property, Player player) {
+        int cost = property.getHousePrice();
+        if (player.getMoney() < cost) {
+            return false;
+        }
+        player.removeMoney(cost);
+        property.increaseBuilding();
+        property.updateRent();
+        return true;
     }
 
     public boolean trade(Trade trade){

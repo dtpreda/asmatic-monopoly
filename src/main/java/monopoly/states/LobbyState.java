@@ -6,6 +6,7 @@ import monopoly.models.Dice;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
 import monopoly.models.Trade;
+import monopoly.models.lands.Property;
 
 import java.util.List;
 
@@ -31,6 +32,29 @@ public class LobbyState extends MonopolyState{
     }
 
     public void startGame(){
-        changeState(new RollState(board, monopolyController));
+        changeState(new TradeState(board, monopolyController));
+
+        final Player player = board.getCurrentPlayer();
+        monopolyController.setState(new BuyLandState(player, board, board.getLands().get(1), monopolyController));
+        BuyLandState state = (BuyLandState) monopolyController.getState();
+        state.buyLand(player);
+
+        monopolyController.setState(new BuyLandState(player, board, board.getLands().get(3), monopolyController));
+        state = (BuyLandState) monopolyController.getState();
+        state.buyLand(player);
+
+        monopolyController.setState(new TradeState(board, monopolyController));
+
+        final TradeState tradeState = (TradeState) monopolyController.getState();
+        tradeState.buyHouse((Property) board.getLands().get(1), player);
+        tradeState.buyHouse((Property) board.getLands().get(3), player);
+        tradeState.buyHouse((Property) board.getLands().get(1), player);
+        monopolyController.setState(new RollState(board, monopolyController));
+
+
+
+
+
+
     }
 }

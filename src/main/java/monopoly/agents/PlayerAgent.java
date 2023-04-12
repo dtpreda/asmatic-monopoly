@@ -14,6 +14,7 @@ import monopoly.agents.visitors.DealerMessageVisitor;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 import monopoly.agents.visitors.dealer.RollDiceVisitor;
 import monopoly.agents.visitors.player.*;
+import monopoly.states.TradeState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class PlayerAgent extends Agent {
 
     private Map<Class, PlayerMessageVisitor> visitors;
+
     @Override
     protected void setup() {
         getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL);
@@ -36,16 +38,22 @@ public class PlayerAgent extends Agent {
     }
 
     class PlayerListeningBehaviour extends CyclicBehaviour {
+        private boolean isTradeState = false;
+        private ACLMessage lastTradeMsg = null;
         public void action() {
+
             ACLMessage msg = receive();
             if (msg != null) {
-
                 try {
                     ContentElement content = getContentManager().extractContent(msg);
                     System.out.println("Player received message: " + content.getClass());
+                    if(content instanceof TradeStateAction){
+                        lastTradeMsg = msg;
+                        isTradeState = true;
+                    }
                     ACLMessage reply = visitors.get(content.getClass()).visit(content, msg);
                     if(reply != null){
-                        send(reply);
+                        sendMsgToDealer(reply);
                     }
 
                 } catch (Codec.CodecException | OntologyException e) {
@@ -53,6 +61,38 @@ public class PlayerAgent extends Agent {
                 }
             } else {
                 block();
+            }
+        }
+
+        private void sendMsgToDealer(ACLMessage msg){
+            ContentElement content = null;
+            try {
+                content = getContentManager().extractContent(msg);
+                if(content instanceof ReadyAction){
+                    isTradeState = false;
+                    lastTradeMsg = null;
+                }
+            } catch (Codec.CodecException e) {
+                throw new RuntimeException(e);
+            } catch (OntologyException e) {
+                throw new RuntimeException(e);
+            }
+
+            send(msg);
+        }
+        private void tradeBehaviour(){
+            //TODO:: Do whatever the player wants, and then send a ReadyAction to Dealer when finished
+            try {
+                //This function could be somehow
+                ContentElement content = getContentManager().extractContent(lastTradeMsg);
+                ACLMessage reply = visitors.get(content.getClass()).visit(content, lastTradeMsg);
+                if(reply != null){
+                    sendMsgToDealer(reply);
+                }
+            } catch (OntologyException e) {
+                throw new RuntimeException(e);
+            } catch (Codec.CodecException e) {
+                throw new RuntimeException(e);
             }
         }
     }

@@ -39,6 +39,7 @@ public class DealerAgent extends Agent {
         visitors.put(AttemptJailBreak.class, new DealerJailBreakVisitor(monopolyController, getContentManager()));
         visitors.put(PerformBuyLand.class, new PerformBuyLandVisitor(monopolyController, getContentManager()));
         visitors.put(ReadyAction.class, new DealerReadyVisitor(monopolyController, getContentManager()));
+        visitors.put(BuyHouse.class, new DealerBuyHouseVisitor(monopolyController, getContentManager()));
 
     }
     @Override
@@ -133,7 +134,7 @@ public class DealerAgent extends Agent {
                 startMessage.setOntology(MonopolyOntology.ONTOLOGY_NAME);
                 startMessage.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
                 startMessage.addReceiver(aid);
-                Predicate predicate = new TradeStateAction(monopolyController.getBoard());
+                Predicate predicate = new TradeStateAction(monopolyController.getBoard(), player);
                 try {
                     getContentManager().fillContent(startMessage, predicate);
                 } catch (Codec.CodecException | OntologyException e) {
@@ -141,7 +142,7 @@ public class DealerAgent extends Agent {
                 }
                 send(startMessage);
             }
-            List<Class> acceptedClasses = List.of(ReadyAction.class);
+            List<Class> acceptedClasses = List.of(ReadyAction.class, BuyHouse.class);
             //Receive messages
             while (true) {
                 ACLMessage message = receive();

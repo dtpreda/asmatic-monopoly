@@ -87,7 +87,9 @@ public class Player implements Concept {
         this.money = money;
     }
 
-
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void decreaseJailTries(){
         isJailed--;

@@ -13,8 +13,9 @@ import java.util.List;
 public class Property extends Land {
     private int price;
     private List<Integer> rents;
-
     private String color;
+
+    private int housePrice;
 
     @SerializedName("name")
     private String name;
@@ -44,6 +45,10 @@ public class Property extends Land {
 
     public void updateRent(){
         PayOwnerStrategy strat = (PayOwnerStrategy) getRentStrategy();
+        System.out.println(rents);
+        System.out.println("building: " + building);
+        System.out.println("Class = " + rents.get(building));
+        List<Integer> rents = getRents();
         strat.setRent(rents.get(building));
     }
 
@@ -77,5 +82,13 @@ public class Property extends Land {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getHousePrice() {
+        return housePrice;
+    }
+
+    public void setHousePrice(int housePrice) {
+        this.housePrice = housePrice;
     }
 }

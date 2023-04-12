@@ -59,4 +59,8 @@ public abstract class Land implements Concept {
     public void setBuyStrategy(PurchasableStrategy buyStrategy) {
         this.buyStrategy = buyStrategy;
     }
+
+    public void setBuilding(int building) {
+        this.building = building;
+    }
 }
