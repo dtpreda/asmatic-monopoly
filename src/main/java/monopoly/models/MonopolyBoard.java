@@ -94,4 +94,14 @@ public class MonopolyBoard implements Concept {
     public void setLastDice(Dice lastDice) {
         this.lastDice = lastDice;
     }
+
+    public Player getPlayerByName(String name) {
+        for (Player player: this.players) {
+            if (player.getName().equals(name)) {
+                return player;
+            }
+        }
+
+        return null;
+    }
 }

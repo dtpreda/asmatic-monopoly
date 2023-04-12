@@ -4,24 +4,48 @@ import jade.content.ContentElement;
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
 import jade.content.onto.OntologyException;
+import jade.content.onto.UngroundedException;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
-import jade.proto.AchieveREInitiator;
+import jade.lang.acl.MessageTemplate;
+import jade.proto.ContractNetInitiator;
+import jade.proto.ContractNetResponder;
 import monopoly.actions.*;
-import monopoly.agents.visitors.DealerMessageVisitor;
+import monopoly.agents.tradeStrategy.Strategy;
 import monopoly.agents.visitors.PlayerMessageVisitor;
-import monopoly.agents.visitors.dealer.RollDiceVisitor;
 import monopoly.agents.visitors.player.*;
-import monopoly.states.TradeState;
+import monopoly.models.MonopolyBoard;
+import monopoly.models.Player;
+import monopoly.models.Trade;
+import monopoly.models.lands.Property;
+import monopoly.models.lands.buyStrategy.Purchasable;
+import jade.core.AID;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 public class PlayerAgent extends Agent {
 
     private Map<Class, PlayerMessageVisitor> visitors;
+
+    private ContractNetInitiator initiator;
+    private ContractNetResponder responder;
+
+    private MonopolyBoard board;
+
+    private Strategy agentType;
+
+
+    public PlayerAgent() {}
+
+    public PlayerAgent(Strategy agentType) {
+        this.agentType = agentType;
+    }
 
     @Override
     protected void setup() {
@@ -35,6 +59,12 @@ public class PlayerAgent extends Agent {
         visitors.put(PrisonAction.class, new PlayerPrisonVisitor(getContentManager()));
         visitors.put(TradeStateAction.class, new PlayerTradeStateVisitor(getContentManager()));
         addBehaviour(new PlayerListeningBehaviour());
+
+        initiator = this.generateInitiator();
+        responder = this.generateResponder();
+
+        addBehaviour(initiator);
+        addBehaviour(responder);
     }
 
     class PlayerListeningBehaviour extends CyclicBehaviour {
@@ -51,6 +81,8 @@ public class PlayerAgent extends Agent {
                     if(content instanceof TradeStateAction){
                         lastTradeMsg = msg;
                         isTradeState = true;
+                        PlayerAgent thisAgent = (PlayerAgent) myAgent;
+                        thisAgent.board = ((TradeStateAction) content).getBoard();
                     }
                     ACLMessage reply = visitors.get(content.getClass()).visit(content, msg);
                     if(reply != null){
@@ -99,6 +131,89 @@ public class PlayerAgent extends Agent {
             } catch (Codec.CodecException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    private ContractNetInitiator generateInitiator() {
+        ACLMessage dummyMsg = new ACLMessage(ACLMessage.CFP);
+        dummyMsg.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
+        return new ContractNetInitiator(this, dummyMsg) {
+            @Override
+            protected void handlePropose(ACLMessage propose, Vector acceptances) {
+                try {
+                    ContentElement content = getContentManager().extractContent(propose);
+                    ProposeTrade trade = (ProposeTrade) content;
+
+                    if (trade.getTrade().getPrice() < trade.getTrade().getBuyer().getMoney()) {
+
+                    }
+                } catch (Codec.CodecException | OntologyException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected void handleRefuse(ACLMessage refuse) {
+                super.handleRefuse(refuse);
+            }
+
+            @Override
+            protected void handleFailure(ACLMessage failure) {
+                super.handleFailure(failure);
+            }
+
+            @Override
+            protected void handleAllResponses(Vector responses, Vector acceptances) {
+                super.handleAllResponses(responses, acceptances);
+            }
+        };
+    }
+
+    private ContractNetResponder generateResponder() {
+        MessageTemplate template = MessageTemplate.and(
+                MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET),
+                MessageTemplate.MatchPerformative(ACLMessage.CFP));
+
+        return new ContractNetResponder(this, template) {
+            protected ACLMessage handleCfp(ACLMessage cfp) {
+                if (cfp.getPerformative() == ACLMessage.CFP) {
+                    PlayerAgent thisAgent = (PlayerAgent) myAgent;
+                    return thisAgent.agentType.processTrade(getContentManager(), cfp);
+                } else {
+                    // If the received message is not valid, return a not understood message
+                    ACLMessage notUnderstood = cfp.createReply();
+                    notUnderstood.setPerformative(ACLMessage.NOT_UNDERSTOOD);
+                    return notUnderstood;
+                }
+            }
+
+            protected ACLMessage handleAcceptProposal(ACLMessage cfp, ACLMessage propose, ACLMessage accept) {
+                // Handle accepted proposal
+                return null;
+            }
+
+            protected void handleRejectProposal(ACLMessage cfp, ACLMessage propose, ACLMessage reject) {
+                // Handle rejected proposal
+            }
+        };
+    }
+
+    private void initiateTrade(Property property, int price) {
+        Purchasable strategy = (Purchasable) property.getBuyStrategy();
+        String receiver = strategy.getOwner();
+
+        ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+        msg.addReceiver(new AID(receiver, AID.ISLOCALNAME));
+        msg.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
+        msg.setReplyByDate(new Date(System.currentTimeMillis() + 10000));
+
+        Trade trade = new Trade(property, price, this.board.getPlayerByName(this.getLocalName()), this.board.getPlayerByName(receiver));
+        ProposeTrade content = new ProposeTrade(trade);
+
+        try {
+            this.getContentManager().fillContent(msg, content);
+        } catch (Codec.CodecException | OntologyException e) {
+            e.printStackTrace();
         }
     }
 }
