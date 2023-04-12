@@ -68,10 +68,11 @@ public class RollState extends MonopolyState{
     }
     public void propertyVisit(Player player, Property property, PlayResult playResult){
         Dice dice = playResult.getDice();
-        if(property.canPurchase()){
+        if(property.canPurchase(player)){
             changeState(new BuyLandState(player, board, property, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.BUY_LAND);
         } else if(property.getRentStrategy().hasToPayRent(player)){
+            System.out.println("YESSS");
             changeState(new PayRentState(player, property, dice, board, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.PAY_RENT);
         } else {

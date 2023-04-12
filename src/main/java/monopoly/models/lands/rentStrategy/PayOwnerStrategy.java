@@ -12,6 +12,10 @@ public class PayOwnerStrategy extends RentStrategy{
         this.rent = rent;
     }
 
+    public PayOwnerStrategy(Player owner){
+        this.owner = owner;
+    }
+
     public PayOwnerStrategy() {
         super();
     }
@@ -29,6 +33,8 @@ public class PayOwnerStrategy extends RentStrategy{
 
     @Override
     public boolean hasToPayRent(Player player) {
+        System.out.println("HAS TO PAY RENT: " + owner);
+        System.out.println("From player: " + player);
         return !player.equals(owner);
     }
 
@@ -42,4 +48,19 @@ public class PayOwnerStrategy extends RentStrategy{
         return false;
     }
 
+    public int getRent() {
+        return rent;
+    }
+
+    public void setRent(int rent) {
+        this.rent = rent;
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
 }

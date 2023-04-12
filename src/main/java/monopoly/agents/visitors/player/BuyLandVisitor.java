@@ -21,16 +21,11 @@ public class BuyLandVisitor extends PlayerMessageVisitor {
         BuyLand buyLand = (BuyLand) content;
         ACLMessage reply = message.createReply();
         boolean canBuy = false;
-        System.out.println("LAND === " + buyLand.getLand());
-        System.out.println("PLAYER === " + buyLand.getPlayer());
-        System.out.println("BOARD === " + buyLand.getMonopolyBoard());
         //To buy or not to buy
         Player player = buyLand.getPlayer();
         if(buyLand.getLand().getBuyStrategy() instanceof Purchasable){
             Purchasable purchasable = (Purchasable) buyLand.getLand().getBuyStrategy();
             if(purchasable.canPurchase() && player.getMoney() >= purchasable.getPrice()){
-                System.out.println("Player money " + player.getMoney());
-                System.out.println("Price " + purchasable.getPrice());
                 canBuy = true;
             }
         }

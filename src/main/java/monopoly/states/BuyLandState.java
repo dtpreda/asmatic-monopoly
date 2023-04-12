@@ -4,7 +4,11 @@ import monopoly.controllers.BoardController;
 import monopoly.controllers.MonopolyController;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
+import monopoly.models.lands.Company;
 import monopoly.models.lands.Land;
+import monopoly.models.lands.Property;
+import monopoly.models.lands.RailRoad;
+import monopoly.models.lands.rentStrategy.PayOwnerStrategy;
 
 public class BuyLandState extends MonopolyState{
 
@@ -17,7 +21,23 @@ public class BuyLandState extends MonopolyState{
     }
 
     public boolean buyLand(Player player){
-        return land.getBuyStrategy().purchase(player);
+        boolean success = land.getBuyStrategy().purchase(player);
+        if(success){
+            //Set rent
+            land.setRentStrategy(new PayOwnerStrategy(player));
+            if(land instanceof Property){
+                Property property = (Property) land;
+                property.updateRent();
+            } else if(land instanceof Company){
+                Company company = (Company) land;
+                company.updateRent();
+
+            } else if(land instanceof RailRoad){
+                RailRoad railRoad = (RailRoad) land;
+                railRoad.updateRent();
+            }
+        }
+        return success;
     }
 
     public void endState(Player player){

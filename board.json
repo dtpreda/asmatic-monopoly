@@ -173,6 +173,10 @@
       "building": 9,
       "name": "Electric company",
       "price": 150,
+      "rents": [
+        50,
+        100
+      ],
       "buyStrategy": {
         "type": "nonpurchasable"
       }
@@ -427,7 +431,11 @@
       },
       "building": 0,
       "name": "Water Works",
-      "price": 150
+      "price": 150,
+      "rents": [
+        50,
+        100
+      ]
     },
     {
       "type": "property",
@@ -532,7 +540,13 @@
         "type": "purchasable",
         "landOwner": null,
         "price": 200
-      }
+      },
+      "rents": [
+        50,
+        100,
+        150,
+        200
+      ]
     },
     {
       "type": "chance",

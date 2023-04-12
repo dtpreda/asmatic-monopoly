@@ -1,1 +1,1 @@
-http://LAPTOP-U822UM3E:7778/acc
+http://LAPTOP-U822UM3E.lan:7778/acc

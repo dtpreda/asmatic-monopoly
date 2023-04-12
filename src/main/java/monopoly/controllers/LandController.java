@@ -25,6 +25,5 @@ public class LandController {
         if(land.canPurchase()) {
             land.getBuyStrategy().purchase(player);
         }
-
     }
 }

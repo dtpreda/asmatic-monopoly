@@ -108,7 +108,7 @@ public class DealerAgent extends Agent {
 
             //state.finishTurn(currentPlayer);
             try {
-                Thread.sleep(1500);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

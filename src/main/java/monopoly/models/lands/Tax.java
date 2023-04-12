@@ -18,7 +18,6 @@ public class Tax extends Land {
     public void setTaxCost(int taxCost) {
         this.taxCost = taxCost;
         setRentStrategy(new PayBankStrategy(taxCost));
-        System.out.println("Set tax " + taxCost);
     }
 
     public int getTaxCost() {

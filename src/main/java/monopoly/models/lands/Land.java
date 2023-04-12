@@ -5,8 +5,10 @@ import java.util.List;
 
 import jade.content.Concept;
 import monopoly.models.Player;
+import monopoly.models.lands.buyStrategy.NonPurchasable;
 import monopoly.models.lands.buyStrategy.Purchasable;
 import monopoly.models.lands.buyStrategy.PurchasableStrategy;
+import monopoly.models.lands.rentStrategy.PayOwnerStrategy;
 import monopoly.models.lands.rentStrategy.RentStrategy;
 
 public abstract class Land implements Concept {
@@ -22,6 +24,10 @@ public abstract class Land implements Concept {
 
     public boolean canPurchase(){
         return buyStrategy instanceof Purchasable;
+    }
+
+    public boolean canPurchase(Player player){
+        return buyStrategy.canPurchase(player);
     }
     public void addPlayer(Player player){
         players.add(player);

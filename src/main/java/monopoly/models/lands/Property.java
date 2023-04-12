@@ -6,6 +6,7 @@ import monopoly.models.lands.Land;
 import monopoly.models.lands.buyStrategy.Purchasable;
 import monopoly.models.lands.buyStrategy.PurchasableStrategy;
 import monopoly.models.lands.rentStrategy.NoRentStrategy;
+import monopoly.models.lands.rentStrategy.PayOwnerStrategy;
 
 import java.util.List;
 
@@ -35,9 +36,15 @@ public class Property extends Land {
         building++;
         if(building >= rents.size()){
             building = rents.size() - 1;
+            updateRent();
             return false;
         }
         return true;
+    }
+
+    public void updateRent(){
+        PayOwnerStrategy strat = (PayOwnerStrategy) getRentStrategy();
+        strat.setRent(rents.get(building));
     }
 
     public String getName() {

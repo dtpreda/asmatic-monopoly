@@ -8,4 +8,5 @@ public abstract class PurchasableStrategy implements Concept {
     public PurchasableStrategy() {
     }
     abstract public boolean purchase(Player player);
+    abstract public boolean canPurchase(Player player);
 }

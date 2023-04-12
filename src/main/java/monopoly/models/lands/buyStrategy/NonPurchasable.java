@@ -11,4 +11,9 @@ public class NonPurchasable extends PurchasableStrategy implements Concept {
     public boolean purchase(Player player) {
         return false;
     }
+
+    @Override
+    public boolean canPurchase(Player player) {
+        return false;
+    }
 }
