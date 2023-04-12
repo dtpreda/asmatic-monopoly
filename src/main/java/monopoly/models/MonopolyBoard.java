@@ -2,6 +2,8 @@ package monopoly.models;
 
 import jade.content.Concept;
 import monopoly.models.lands.Land;
+import monopoly.models.lands.Property;
+import monopoly.models.lands.buyStrategy.Purchasable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,34 @@ public class MonopolyBoard implements Concept {
             }
         }
         return null;
+    }
+
+
+    public List<Property> getProperties(String color){
+        List<Property> props = new ArrayList<>();
+        for(Land land : lands){
+            if(land instanceof Property){
+                Property prop = (Property) land;
+                if(prop.getColor().equals(color)){
+                    props.add(prop);
+                }
+            }
+        }
+        return props;
+    }
+
+    public List<Property> getProperties(Player player){
+        List<Property> props = new ArrayList<>();
+        for(Land land : lands){
+            if(land instanceof Property){
+                Property prop = (Property) land;
+                Purchasable purchasable = (Purchasable) prop.getBuyStrategy();
+                if(purchasable.getOwner().equals(player.getName())){
+                    props.add(prop);
+                }
+            }
+        }
+        return props;
     }
 
 

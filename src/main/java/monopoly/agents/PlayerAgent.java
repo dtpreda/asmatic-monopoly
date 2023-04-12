@@ -13,10 +13,7 @@ import monopoly.actions.*;
 import monopoly.agents.visitors.DealerMessageVisitor;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 import monopoly.agents.visitors.dealer.RollDiceVisitor;
-import monopoly.agents.visitors.player.BuyLandVisitor;
-import monopoly.agents.visitors.player.PayTaxVisitor;
-import monopoly.agents.visitors.player.PlayerPrisonVisitor;
-import monopoly.agents.visitors.player.StartTurnVisitor;
+import monopoly.agents.visitors.player.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +31,8 @@ public class PlayerAgent extends Agent {
         visitors.put(BuyLand.class, new BuyLandVisitor(getContentManager()));
         visitors.put(PayTax.class, new PayTaxVisitor(getContentManager()));
         visitors.put(PrisonAction.class, new PlayerPrisonVisitor(getContentManager()));
+        visitors.put(TradeStateAction.class, new PlayerTradeStateVisitor(getContentManager()));
         addBehaviour(new PlayerListeningBehaviour());
-        System.out.println("Player agent started");
     }
 
     class PlayerListeningBehaviour extends CyclicBehaviour {

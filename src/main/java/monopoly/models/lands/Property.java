@@ -54,4 +54,28 @@ public class Property extends Land {
     public String getColor() {
         return color;
     }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public List<Integer> getRents() {
+        return rents;
+    }
+
+    public void setRents(List<Integer> rents) {
+        this.rents = rents;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

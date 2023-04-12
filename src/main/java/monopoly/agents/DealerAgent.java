@@ -13,10 +13,10 @@ import jade.lang.acl.ACLMessage;
 import monopoly.actions.*;
 import monopoly.agents.visitors.DealerMessageVisitor;
 import monopoly.agents.visitors.dealer.*;
-import monopoly.agents.visitors.player.StartTurnVisitor;
 import monopoly.controllers.MonopolyController;
 import monopoly.exceptions.InvalidMessage;
 import monopoly.models.Player;
+import monopoly.states.TradeState;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +34,9 @@ public class DealerAgent extends Agent {
         visitors.put(RollDice.class ,new RollDiceVisitor(monopolyController, getContentManager()));
         visitors.put(EndTurn.class ,new EndTurnVisitor(monopolyController, getContentManager()));
         visitors.put(PerformPayTax.class, new PerformPayTaxVisitor(monopolyController, getContentManager()));
-        visitors.put(AttemptJailBreak.class, new DealerPrisonVisitor(monopolyController, getContentManager()));
+        visitors.put(AttemptJailBreak.class, new DealerReadyVisitor(monopolyController, getContentManager()));
         visitors.put(PerformBuyLand.class, new PerformBuyLandVisitor(monopolyController, getContentManager()));
-
+        visitors.put(ReadyAction.class, new DealerReadyVisitor(monopolyController, getContentManager()));
     }
     @Override
     protected void setup() {
@@ -61,7 +61,10 @@ public class DealerAgent extends Agent {
                 startMessage.addReceiver(aid);
 
                 Predicate predicate;
-                if(currentPlayer.isJailed()) {
+                if(monopolyController.getState() instanceof TradeState){
+                    predicate = new TradeStateAction(monopolyController.getBoard());
+                }
+                else if(currentPlayer.isJailed()) {
                     predicate = new PrisonAction();
                 } else {
                     predicate = new StartTurn();

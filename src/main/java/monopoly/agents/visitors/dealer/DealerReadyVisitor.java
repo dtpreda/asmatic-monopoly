@@ -6,18 +6,15 @@ import jade.content.lang.Codec;
 import jade.content.onto.OntologyException;
 import jade.lang.acl.ACLMessage;
 import monopoly.actions.AttemptJailBreak;
-import monopoly.actions.PerformPayTax;
 import monopoly.agents.visitors.DealerMessageVisitor;
 import monopoly.controllers.MonopolyController;
 import monopoly.exceptions.InvalidMessage;
 import monopoly.models.PlayResult;
 import monopoly.models.Player;
-import monopoly.models.lands.Land;
 import monopoly.states.JailState;
-import monopoly.states.PayRentState;
 
-public class DealerPrisonVisitor extends DealerMessageVisitor {
-    public DealerPrisonVisitor(MonopolyController controller, ContentManager contentManager) {
+public class DealerReadyVisitor extends DealerMessageVisitor {
+    public DealerReadyVisitor(MonopolyController controller, ContentManager contentManager) {
         super(controller, contentManager);
     }
 
