@@ -1,11 +1,12 @@
 package monopoly.models;
 
+import jade.content.Concept;
 import monopoly.models.lands.Land;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonopolyBoard {
+public class MonopolyBoard implements Concept {
     private List<Land> lands;
     private List<Player> players;
     private int currentPlayerIndex;

@@ -3,6 +3,8 @@ package monopoly.agents;
 import jade.content.onto.BeanOntology;
 import jade.content.onto.BeanOntologyException;
 import monopoly.actions.*;
+import monopoly.models.MonopolyBoard;
+import monopoly.models.lands.Land;
 
 public class MonopolyOntology extends BeanOntology {
     public static final String ONTOLOGY_NAME = "Monopoly Ontology";
@@ -24,7 +26,8 @@ public class MonopolyOntology extends BeanOntology {
         super(ONTOLOGY_NAME);
 
         //TODO: Add concepts
-
+        add(MonopolyBoard.class);
+        add(Land.class);
         //TODO: Add actions
         add(StartTurn.class);
         add(BuyLand.class);

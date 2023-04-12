@@ -22,6 +22,9 @@ public class BuyLandVisitor extends PlayerMessageVisitor {
         BuyLand startTurn = (BuyLand) content;
         ACLMessage reply = message.createReply();
         contentManager.fillContent(reply, new EndTurn());
+
+        //To buy or not to buy
+
         return reply;
     }
 

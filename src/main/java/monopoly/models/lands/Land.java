@@ -2,12 +2,14 @@ package monopoly.models.lands;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jade.content.Concept;
 import monopoly.models.Player;
 import monopoly.models.lands.buyStrategy.Purchasable;
 import monopoly.models.lands.buyStrategy.PurchasableStrategy;
 import monopoly.models.lands.rentStrategy.RentStrategy;
 
-public abstract class Land{
+public abstract class Land implements Concept {
     private List<Player> players;
     protected int building;
     private PurchasableStrategy buyStrategy;
@@ -43,5 +45,9 @@ public abstract class Land{
 
     public List<Player> getPlayers(){
         return players;
+    }
+
+    public int getBuilding() {
+        return building;
     }
 }

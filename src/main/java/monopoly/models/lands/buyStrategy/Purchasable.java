@@ -13,6 +13,10 @@ public class Purchasable implements PurchasableStrategy {
             return player.getName().equals(landOwner);
         }
 
+        public String getOwner() {
+            return landOwner;
+        }
+
         public void setOwner(Player player) {
             landOwner = player.getName();
         }

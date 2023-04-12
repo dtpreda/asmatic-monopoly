@@ -45,7 +45,7 @@ public class RollDiceVisitor extends DealerMessageVisitor {
 
             //PLAY_AGAIN,END_TURN,PAY_RENT, BUY_LAND, JAIL
             System.out.println("Dealer: playResult: " + result.getPlayResultToken());
-            return DealerVisitorUtils.playResult(contentManager, result, reply);
+            return DealerVisitorUtils.playResult(contentManager, result, reply, monopolyController.getBoard());
         }
 
         throw new InvalidMessage("Invalid state: " + monopolyController.getState() + " for roll dice " + rollDice);

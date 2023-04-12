@@ -38,7 +38,7 @@ public class DealerPrisonVisitor extends DealerMessageVisitor {
             return null;
         }
         ACLMessage reply = message.createReply();
-        return DealerVisitorUtils.playResult(contentManager, result, reply);
+        return DealerVisitorUtils.playResult(contentManager, result, reply, monopolyController.getBoard());
     }
 
 

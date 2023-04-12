@@ -10,6 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import monopoly.models.Player;
 import monopoly.models.lands.*;
+import monopoly.models.lands.buyStrategy.NonPurchasable;
+import monopoly.models.lands.buyStrategy.Purchasable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -77,6 +79,15 @@ public class LandViewer {
                 i++;
 
             }
+
+        //Add ownership when applicable
+        if(land.getBuyStrategy() instanceof Purchasable){
+            Purchasable purchasable = (Purchasable) land.getBuyStrategy();
+            if(purchasable.getOwner() != null){
+                Label label = ViewerUtils.createLabel("Owner = " + purchasable.getOwner() + "\n level " + land.getBuilding());
+                stack.getChildren().add(label);
+            }
+        }
         return stack;
     }
 
