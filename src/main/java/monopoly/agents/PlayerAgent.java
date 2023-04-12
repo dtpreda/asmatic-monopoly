@@ -34,6 +34,7 @@ public class PlayerAgent extends Agent {
         visitors.put(PayTax.class, new PayTaxVisitor(getContentManager()));
         visitors.put(PrisonAction.class, new PlayerPrisonVisitor(getContentManager()));
         visitors.put(TradeStateAction.class, new PlayerTradeStateVisitor(getContentManager()));
+        visitors.put(NeedToSell.class, new NeedToSellVisitor(getContentManager()));
         addBehaviour(new PlayerListeningBehaviour());
     }
 

@@ -68,6 +68,19 @@ public class MonopolyBoard implements Concept {
 
     public void nextPlayer(){
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        if(getCurrentPlayer().isBankrupt()){
+            nextPlayer();
+        }
+    }
+
+    public boolean isGameFinished(){
+        int count = 0;
+        for(Player player : players){
+            if(!player.isBankrupt()){
+                count++;
+            }
+        }
+        return count == 1;
     }
 
 

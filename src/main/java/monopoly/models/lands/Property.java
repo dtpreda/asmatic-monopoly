@@ -43,6 +43,15 @@ public class Property extends Land {
         return true;
     }
 
+    public boolean decreaseBuilding(){
+        if(building > 1){
+            building--;
+            updateRent();
+            return true;
+        }
+        return false;
+    }
+
     public void updateRent(){
         PayOwnerStrategy strat = (PayOwnerStrategy) getRentStrategy();
         System.out.println(rents);

@@ -30,4 +30,29 @@ public class PayRentState extends MonopolyState{
         }
         return success;
     }
+
+
+    public Land getLand() {
+        return land;
+    }
+
+    public void setLand(Land land) {
+        this.land = land;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Dice getDice() {
+        return dice;
+    }
+
+    public void setDice(Dice dice) {
+        this.dice = dice;
+    }
 }
