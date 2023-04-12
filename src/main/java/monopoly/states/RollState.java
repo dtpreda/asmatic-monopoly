@@ -18,8 +18,14 @@ public class RollState extends MonopolyState{
             System.out.println("NOT YOUR TURN " + player.getName());
             return new PlayResult(false);
         }
+        return play(player, new Dice());
+    }
 
-        final Dice dice = new Dice();
+    public PlayResult play(Player player, Dice dice){
+        if(!player.equals(board.getCurrentPlayer())){
+            System.out.println("NOT YOUR TURN " + player.getName());
+            return new PlayResult(false);
+        }
         System.out.println("Dice value = " + dice.getValue() + (dice.isDouble() ? " (double)" : ""));
         board.setLastDice(dice);
         Land land = boardController.movePlayer(player, dice.getValue());
@@ -55,16 +61,6 @@ public class RollState extends MonopolyState{
         return playResult;
     }
 
-    /*
-        Advance to the next turn. Return false if isn't the player's turn, or requires player action
-     */
-    public boolean finishTurn(Player player){
-        if(!board.getCurrentPlayer().equals(player)){
-            return false;
-        }
-
-        return true;
-    }
 
     public void jailVisit(Player player, Jail jail, PlayResult playResult){
         playResult.setPlayResultToken(PlayResultToken.END_TURN);

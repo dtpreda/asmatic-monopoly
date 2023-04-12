@@ -10,6 +10,9 @@ public class Player{
 
     private String color;
 
+    public static int MAX_JAIL_TRIES = 3;
+    private int isJailed = 0;
+
 
     public Player(int id, String name, int money, int position, String color){
         this.id = id;
@@ -59,5 +62,21 @@ public class Player{
 
     public String getColor(){
         return color;
+    }
+
+    public boolean isJailed() {
+        return isJailed > 0;
+    }
+
+    public void setJailed(boolean isJailed) {
+        if(isJailed){
+            this.isJailed = MAX_JAIL_TRIES;
+        }else{
+            this.isJailed = 0;
+        }
+    }
+
+    public void decreaseJailTries(){
+        isJailed--;
     }
 }

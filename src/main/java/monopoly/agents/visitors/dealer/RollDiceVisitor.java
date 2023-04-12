@@ -43,29 +43,9 @@ public class RollDiceVisitor extends DealerMessageVisitor {
             final Dice dice = result.getDice();
             final ACLMessage reply = message.createReply();
 
-            Land land = result.getLandedLand();
             //PLAY_AGAIN,END_TURN,PAY_RENT, BUY_LAND, JAIL
             System.out.println("Dealer: playResult: " + result.getPlayResultToken());
-            switch (result.getPlayResultToken()){
-                case BUY_LAND:
-                    contentManager.fillContent(reply, new BuyLand());
-                    return reply;
-                case PLAY_AGAIN:
-                    contentManager.fillContent(reply, new StartTurn());
-                    return reply;
-                case PAY_RENT:
-                    PayTax tax = new PayTax(land.getRentStrategy().getRent(dice.getValue()));
-                    System.out.println("Tax value = " + land.getRentStrategy().getRent(dice.getValue()));
-                    contentManager.fillContent(reply, tax);
-                    System.out.println("REPLY!!!!!!!!!!!!! ");
-                    System.out.println(reply);
-                    return reply;
-                case END_TURN:
-                    state.finishTurn(player);
-                    return null;
-                case JAIL:
-                    return null;
-            }
+            return DealerVisitorUtils.playResult(contentManager, result, reply);
         }
 
         throw new InvalidMessage("Invalid state: " + monopolyController.getState() + " for roll dice " + rollDice);

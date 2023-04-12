@@ -1,6 +1,7 @@
 package monopoly.agents;
 
 import jade.content.ContentElement;
+import jade.content.Predicate;
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
 import jade.content.onto.OntologyException;
@@ -9,11 +10,9 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
-import monopoly.actions.EndTurn;
-import monopoly.actions.PerformPayTax;
-import monopoly.actions.RollDice;
-import monopoly.actions.StartTurn;
+import monopoly.actions.*;
 import monopoly.agents.visitors.DealerMessageVisitor;
+import monopoly.agents.visitors.dealer.DealerPrisonVisitor;
 import monopoly.agents.visitors.dealer.EndTurnVisitor;
 import monopoly.agents.visitors.dealer.PerformPayTaxVisitor;
 import monopoly.agents.visitors.dealer.RollDiceVisitor;
@@ -38,6 +37,7 @@ public class DealerAgent extends Agent {
         visitors.put(RollDice.class ,new RollDiceVisitor(monopolyController, getContentManager()));
         visitors.put(EndTurn.class ,new EndTurnVisitor(monopolyController, getContentManager()));
         visitors.put(PerformPayTax.class, new PerformPayTaxVisitor(monopolyController, getContentManager()));
+        visitors.put(AttemptJailBreak.class, new DealerPrisonVisitor(monopolyController, getContentManager()));
 
     }
     @Override
@@ -54,16 +54,22 @@ public class DealerAgent extends Agent {
             Player currentPlayer = monopolyController.getBoard().getCurrentPlayer();
 
             if(startNewTurn) {
-                //Send message to player
+                //Send message to player)
                 AID aid = new AID(currentPlayer.getName(), AID.ISLOCALNAME);
 
                 ACLMessage startMessage = new ACLMessage(ACLMessage.PROPOSE);
                 startMessage.setOntology(MonopolyOntology.ONTOLOGY_NAME);
                 startMessage.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
                 startMessage.addReceiver(aid);
-                StartTurn startTurn = new StartTurn();
+
+                Predicate predicate;
+                if(currentPlayer.isJailed()) {
+                    predicate = new PrisonAction();
+                } else {
+                    predicate = new StartTurn();
+                }
                 try {
-                    getContentManager().fillContent(startMessage, startTurn);
+                    getContentManager().fillContent(startMessage, predicate);
                 } catch (Codec.CodecException | OntologyException e) {
                     e.printStackTrace();
                 }

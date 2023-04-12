@@ -31,6 +31,7 @@ public class BoardController {
             final Land land = board.getLand(i);
             if(land instanceof Jail){
                 player.setPosition(i);
+                player.setJailed(true);
                 land.addPlayer(player);
                 return;
             }

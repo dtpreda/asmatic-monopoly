@@ -33,5 +33,7 @@ public class MonopolyOntology extends BeanOntology {
         add(EndTurn.class);
         add(PayTax.class);
         add(PerformPayTax.class);
+        add(AttemptJailBreak.class);
+        add(PrisonAction.class);
     }
 }
