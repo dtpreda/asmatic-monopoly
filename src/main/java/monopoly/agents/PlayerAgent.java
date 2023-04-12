@@ -4,7 +4,6 @@ import jade.content.ContentElement;
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
 import jade.content.onto.OntologyException;
-import jade.content.onto.UngroundedException;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.FIPANames;
@@ -13,17 +12,15 @@ import jade.lang.acl.MessageTemplate;
 import jade.proto.ContractNetInitiator;
 import jade.proto.ContractNetResponder;
 import monopoly.actions.*;
-import monopoly.agents.tradeStrategy.Strategy;
+import monopoly.agents.tradeStrategy.TradeStrategy;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 import monopoly.agents.visitors.player.*;
 import monopoly.models.MonopolyBoard;
-import monopoly.models.Player;
 import monopoly.models.Trade;
 import monopoly.models.lands.Property;
 import monopoly.models.lands.buyStrategy.Purchasable;
 import jade.core.AID;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,12 +35,12 @@ public class PlayerAgent extends Agent {
 
     private MonopolyBoard board;
 
-    private Strategy agentType;
+    private TradeStrategy agentType;
 
 
     public PlayerAgent() {}
 
-    public PlayerAgent(Strategy agentType) {
+    public PlayerAgent(TradeStrategy agentType) {
         this.agentType = agentType;
     }
 
