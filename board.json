@@ -2,6 +2,7 @@
   "lands": [
     {
       "type": "start",
+      "id": 0,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -9,6 +10,7 @@
     },
     {
       "type": "property",
+      "id": 1,
       "building": 0,
       "price": 60,
       "housePrice": 50,
@@ -30,6 +32,7 @@
     },
     {
       "type": "communitychest",
+      "id": 2,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -37,6 +40,7 @@
     },
     {
       "type": "property",
+      "id": 3,
       "building": 0,
       "price": 60,
       "housePrice": 50,
@@ -58,6 +62,7 @@
     },
     {
       "type": "tax",
+      "id": 4,
       "building": 0,
       "name": "Income Tax",
       "taxCost": 100,
@@ -67,6 +72,7 @@
     },
     {
       "type": "railroad",
+      "id": 5,
       "building": 0,
       "name": "Reading railroad",
       "price": 200,
@@ -78,6 +84,7 @@
     },
     {
       "type": "property",
+      "id": 6,
       "building": 0,
       "price": 100,
       "housePrice": 50,
@@ -99,6 +106,7 @@
     },
     {
       "type": "chance",
+      "id": 7,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -106,6 +114,7 @@
     },
     {
       "type": "property",
+      "id": 8,
       "building": 0,
       "price": 100,
       "housePrice": 50,
@@ -127,6 +136,7 @@
     },
     {
       "type": "property",
+      "id": 9,
       "building": 0,
       "price": 120,
       "housePrice": 50,
@@ -148,6 +158,7 @@
     },
     {
       "type": "jail",
+      "id": 10,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -155,6 +166,7 @@
     },
     {
       "type": "property",
+      "id": 11,
       "building": 0,
       "price": 140,
       "housePrice": 100,
@@ -176,6 +188,7 @@
     },
     {
       "type": "company",
+      "id": 12,
       "building": 9,
       "name": "Electric company",
       "price": 150,
@@ -189,6 +202,7 @@
     },
     {
       "type": "property",
+      "id": 13,
       "building": 0,
       "price": 140,
       "housePrice": 100,
@@ -210,6 +224,7 @@
     },
     {
       "type": "property",
+      "id": 14,
       "building": 0,
       "price": 160,
       "housePrice": 100,
@@ -231,6 +246,7 @@
     },
     {
       "type": "railroad",
+      "id": 15,
       "building": 0,
       "name": "Pensylvania railroad",
       "price": 200,
@@ -242,6 +258,7 @@
     },
     {
       "type": "property",
+      "id": 16,
       "building": 0,
       "price": 180,
       "housePrice": 100,
@@ -263,6 +280,7 @@
     },
     {
       "type": "communitychest",
+      "id": 17,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -270,6 +288,7 @@
     },
     {
       "type": "property",
+      "id": 18,
       "building": 0,
       "price": 180,
       "housePrice": 100,
@@ -291,6 +310,7 @@
     },
     {
       "type": "property",
+      "id": 19,
       "building": 0,
       "price": 200,
       "housePrice": 100,
@@ -312,6 +332,7 @@
     },
     {
       "type": "parking",
+      "id": 20,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -319,6 +340,7 @@
     },
     {
       "type": "property",
+      "id": 21,
       "building": 0,
       "price": 220,
       "housePrice": 150,
@@ -340,6 +362,7 @@
     },
     {
       "type": "chance",
+      "id": 22,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -347,6 +370,7 @@
     },
     {
       "type": "property",
+      "id": 23,
       "building": 0,
       "price": 220,
       "housePrice": 150,
@@ -368,6 +392,7 @@
     },
     {
       "type": "property",
+      "id": 24,
       "building": 0,
       "price": 240,
       "housePrice": 150,
@@ -389,6 +414,7 @@
     },
     {
       "type": "railroad",
+      "id": 25,
       "building": 0,
       "name": "B& Orailroad",
       "price": 200,
@@ -400,6 +426,7 @@
     },
     {
       "type": "property",
+      "id": 26,
       "building": 0,
       "price": 260,
       "housePrice": 150,
@@ -421,6 +448,7 @@
     },
     {
       "type": "property",
+      "id": 27,
       "building": 0,
       "price": 260,
       "housePrice": 150,
@@ -442,6 +470,7 @@
     },
     {
       "type": "company",
+      "id": 28,
       "buyStrategy": {
         "type": "nonpurchasable"
       },
@@ -455,6 +484,7 @@
     },
     {
       "type": "property",
+      "id": 29,
       "building": 0,
       "price": 280,
       "housePrice": 150,
@@ -476,6 +506,7 @@
     },
     {
       "type": "gotojail",
+      "id": 30,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -483,6 +514,7 @@
     },
     {
       "type": "property",
+      "id": 31,
       "building": 0,
       "price": 300,
       "housePrice": 200,
@@ -504,6 +536,7 @@
     },
     {
       "type": "property",
+      "id": 32,
       "building": 0,
       "price": 300,
       "housePrice": 200,
@@ -525,6 +558,7 @@
     },
     {
       "type": "communitychest",
+      "id": 33,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -532,6 +566,7 @@
     },
     {
       "type": "property",
+      "id": 34,
       "building": 0,
       "price": 320,
       "housePrice": 200,
@@ -553,6 +588,7 @@
     },
     {
       "type": "railroad",
+      "id": 35,
       "building": 0,
       "name": "Shortline",
       "price": 200,
@@ -570,6 +606,7 @@
     },
     {
       "type": "chance",
+      "id": 36,
       "building": 0,
       "buyStrategy": {
         "type": "nonpurchasable"
@@ -577,6 +614,7 @@
     },
     {
       "type": "property",
+      "id": 37,
       "building": 0,
       "price": 350,
       "housePrice": 200,
@@ -598,6 +636,7 @@
     },
     {
       "type": "tax",
+      "id": 38,
       "building": 0,
       "name": "Luxury Tax",
       "taxCost": 200,
@@ -607,6 +646,7 @@
     },
     {
       "type": "property",
+      "id": 39,
       "building": 0,
       "price": 400,
       "housePrice": 200,
