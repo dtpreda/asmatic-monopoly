@@ -26,12 +26,7 @@ public class PayRentState extends MonopolyState{
         boolean success = land.getRentStrategy().payRent(player);
         if(success){
             System.out.println("Player paid rent for " + land);
-            monopolyController.setState(new RollState(board, monopolyController));
-            //Send money to owner if applicate
-            if(land.getRentStrategy() instanceof  PayOwnerStrategy && false){
-                PayOwnerStrategy payOwnerStrategy = (PayOwnerStrategy) land.getRentStrategy();
-                payOwnerStrategy.getOwner().addMoney(land.getRentStrategy().getRent(1));
-            }
+            monopolyController.setState(new TradeState(board, monopolyController));
         }
         return success;
     }

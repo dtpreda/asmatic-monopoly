@@ -41,7 +41,7 @@ public class BuyLandState extends MonopolyState{
     }
 
     public void endState(Player player){
-        changeState(new RollState(board, monopolyController));
+        changeState(new TradeState(board, monopolyController));
         if(!board.getLastDice().isDouble()){
             nextPlayer();
         }

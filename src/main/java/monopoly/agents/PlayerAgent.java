@@ -39,10 +39,10 @@ public class PlayerAgent extends Agent {
         public void action() {
             ACLMessage msg = receive();
             if (msg != null) {
-                //System.out.println(msg);
+
                 try {
                     ContentElement content = getContentManager().extractContent(msg);
-                    System.out.println("Received message: " + content.getClass().getSimpleName());
+                    System.out.println("Player received message: " + content.getClass());
                     ACLMessage reply = visitors.get(content.getClass()).visit(content, msg);
                     if(reply != null){
                         send(reply);

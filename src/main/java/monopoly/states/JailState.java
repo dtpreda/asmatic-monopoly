@@ -1,10 +1,7 @@
 package monopoly.states;
 
 import monopoly.controllers.MonopolyController;
-import monopoly.models.Dice;
-import monopoly.models.MonopolyBoard;
-import monopoly.models.PlayResult;
-import monopoly.models.Player;
+import monopoly.models.*;
 
 public class JailState extends MonopolyState{
 
@@ -27,17 +24,8 @@ public class JailState extends MonopolyState{
             System.out.println("Couldn't jailbreak " + player.getName() + " rolled " + dice.getValue());
             player.decreaseJailTries();
             boardController.nextPlayer();
-            changeState(new RollState(board, monopolyController));
+            changeState(new TradeState(board, monopolyController));
         }
         return null;
-    }
-
-    public boolean payFine(Player player){
-        if(player.getMoney() >= 50){
-            player.addMoney(-50);
-            changeState(new RollState(board, monopolyController));
-            return true;
-        }
-        return false;
     }
 }

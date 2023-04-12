@@ -123,6 +123,7 @@ public class RollState extends MonopolyState{
             playResult.setPlayResultToken(PlayResultToken.PLAY_AGAIN);
         } else {
             playResult.setPlayResultToken(PlayResultToken.END_TURN);
+            changeState(new TradeState(board, monopolyController));
         }
     }
     private boolean changePlayerTurn(Dice dice){

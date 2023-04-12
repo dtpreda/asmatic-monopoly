@@ -5,6 +5,7 @@ import monopoly.controllers.MonopolyController;
 import monopoly.models.Dice;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
+import monopoly.models.Trade;
 
 import java.util.List;
 
