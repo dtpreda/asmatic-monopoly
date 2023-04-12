@@ -142,8 +142,16 @@ public class PlayerAgent extends Agent {
                     ContentElement content = getContentManager().extractContent(propose);
                     ProposeTrade trade = (ProposeTrade) content;
 
-                    if (trade.getTrade().getPrice() < trade.getTrade().getBuyer().getMoney()) {
-
+                    if (trade.getTrade().getPrice() <= trade.getTrade().getBuyer().getMoney()) {
+                        // Create an acceptance message and add it to acceptances
+                        ACLMessage accept = propose.createReply();
+                        accept.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+                        acceptances.addElement(accept);
+                    } else {
+                        // Create a refusal message and add it to acceptances
+                        ACLMessage refuse = propose.createReply();
+                        refuse.setPerformative(ACLMessage.REFUSE);
+                        acceptances.addElement(refuse);
                     }
                 } catch (Codec.CodecException | OntologyException e) {
                     e.printStackTrace();
@@ -152,17 +160,12 @@ public class PlayerAgent extends Agent {
 
             @Override
             protected void handleRefuse(ACLMessage refuse) {
-                super.handleRefuse(refuse);
+                // Ignore refusals
             }
 
             @Override
             protected void handleFailure(ACLMessage failure) {
-                super.handleFailure(failure);
-            }
-
-            @Override
-            protected void handleAllResponses(Vector responses, Vector acceptances) {
-                super.handleAllResponses(responses, acceptances);
+                // Ignore failures
             }
         };
     }
@@ -213,6 +216,9 @@ public class PlayerAgent extends Agent {
         } catch (Codec.CodecException | OntologyException e) {
             e.printStackTrace();
         }
+
+        initiator.reset(msg);
+        initiator.restart();
     }
 }
 
