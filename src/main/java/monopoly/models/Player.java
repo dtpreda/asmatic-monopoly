@@ -1,8 +1,10 @@
 package monopoly.models;
 
+import jade.content.Concept;
+
 import java.util.Objects;
 
-public class Player{
+public class Player implements Concept {
     private int id;
     private String name;
     private int money;
@@ -20,6 +22,10 @@ public class Player{
         this.money = money;
         this.position = position;
         this.color = color;
+    }
+
+    public Player() {
+
     }
 
     public int getId(){
@@ -75,6 +81,13 @@ public class Player{
             this.isJailed = 0;
         }
     }
+
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+
 
     public void decreaseJailTries(){
         isJailed--;

@@ -16,7 +16,10 @@ public class DealerVisitorUtils {
         Land land = result.getLandedLand();
         switch (result.getPlayResultToken()){
             case BUY_LAND:
-                contentManager.fillContent(reply, new BuyLand(result.getLandedLand(), board));
+                BuyLand buyLand = new BuyLand(result.getLandedLand(), result.getPlayer(), board);
+                System.out.println("BUY LAND player = " + buyLand.getPlayer());
+                contentManager.fillContent(reply, buyLand);
+                System.out.println(reply.getContent());
                 return reply;
             case PLAY_AGAIN:
                 contentManager.fillContent(reply, new StartTurn());

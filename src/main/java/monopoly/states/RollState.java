@@ -34,7 +34,7 @@ public class RollState extends MonopolyState{
     }
 
     private PlayResult moveResult(Player player, Land land, Dice dice){
-        PlayResult playResult = new PlayResult(dice, land);
+        PlayResult playResult = new PlayResult(dice, land, player);
         //doNothingVisit(playResult);
 
         if(land instanceof Jail){
@@ -69,7 +69,7 @@ public class RollState extends MonopolyState{
     public void propertyVisit(Player player, Property property, PlayResult playResult){
         Dice dice = playResult.getDice();
         if(property.canPurchase()){
-            changeState(new BuyLandState(player, board, monopolyController));
+            changeState(new BuyLandState(player, board, property, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.BUY_LAND);
         } else if(property.getRentStrategy().hasToPayRent(player)){
             changeState(new PayRentState(player, property, dice, board, monopolyController));
@@ -99,7 +99,7 @@ public class RollState extends MonopolyState{
     public void companyVisit(Player player, Company company, PlayResult playResult){
         Dice dice = playResult.getDice();
         if(company.canPurchase()){
-            changeState(new BuyLandState(player, board, monopolyController));
+            changeState(new BuyLandState(player, board, company, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.BUY_LAND);
         } else if(company.getRentStrategy().hasToPayRent(player)){
             changeState(new PayRentState(player, company, dice, board, monopolyController));

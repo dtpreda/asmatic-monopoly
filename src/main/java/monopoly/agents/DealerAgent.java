@@ -12,10 +12,7 @@ import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import monopoly.actions.*;
 import monopoly.agents.visitors.DealerMessageVisitor;
-import monopoly.agents.visitors.dealer.DealerPrisonVisitor;
-import monopoly.agents.visitors.dealer.EndTurnVisitor;
-import monopoly.agents.visitors.dealer.PerformPayTaxVisitor;
-import monopoly.agents.visitors.dealer.RollDiceVisitor;
+import monopoly.agents.visitors.dealer.*;
 import monopoly.agents.visitors.player.StartTurnVisitor;
 import monopoly.controllers.MonopolyController;
 import monopoly.exceptions.InvalidMessage;
@@ -38,6 +35,7 @@ public class DealerAgent extends Agent {
         visitors.put(EndTurn.class ,new EndTurnVisitor(monopolyController, getContentManager()));
         visitors.put(PerformPayTax.class, new PerformPayTaxVisitor(monopolyController, getContentManager()));
         visitors.put(AttemptJailBreak.class, new DealerPrisonVisitor(monopolyController, getContentManager()));
+        visitors.put(PerformBuyLand.class, new PerformBuyLandVisitor(monopolyController, getContentManager()));
 
     }
     @Override

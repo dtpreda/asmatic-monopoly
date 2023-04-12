@@ -1,13 +1,19 @@
 package monopoly.models.lands.rentStrategy;
 
+import jade.content.Concept;
 import monopoly.models.Player;
 
-public class PayOwnerStrategy implements RentStrategy{
+public class PayOwnerStrategy extends RentStrategy{
 
     private int rent;
     private Player owner;
     public PayOwnerStrategy(int rent) {
+        super();
         this.rent = rent;
+    }
+
+    public PayOwnerStrategy() {
+        super();
     }
 
     @Override

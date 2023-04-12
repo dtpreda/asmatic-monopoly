@@ -9,11 +9,16 @@ public class PlayResult {
 
     private PlayResultToken playResultToken;
 
-    public PlayResult(Dice dice, Land land){
+    private Player player;
+
+    public PlayResult(Dice dice, Land land, Player player){
         this.isPlayValid = true;
         this.dice = dice;
         this.landedLand = land;
+        this.player = player;
     }
+
+
 
     public PlayResult(boolean isPlayValid){
         this.isPlayValid = isPlayValid;
@@ -37,6 +42,14 @@ public class PlayResult {
 
     public void setPlayResultToken(PlayResultToken playResultToken) {
         this.playResultToken = playResultToken;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
 

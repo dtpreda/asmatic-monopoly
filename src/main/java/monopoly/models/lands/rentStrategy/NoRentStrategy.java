@@ -1,8 +1,13 @@
 package monopoly.models.lands.rentStrategy;
 
+import jade.content.Concept;
 import monopoly.models.Player;
 
-public class NoRentStrategy implements RentStrategy {
+public class NoRentStrategy extends RentStrategy{
+
+    public NoRentStrategy() {
+        super();
+    }
     @Override
     public void setRent(Player owner, int rent) {
         return;
