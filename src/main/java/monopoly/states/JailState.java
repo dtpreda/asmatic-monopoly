@@ -18,6 +18,7 @@ public class JailState extends MonopolyState{
             player.setJailed(false);
             boardController.movePlayer(player, dice.getValue());
             RollState newState = new RollState(board, monopolyController);
+            changeState(newState);
             PlayResult result = newState.play(player, dice);
             return result;
         } else {

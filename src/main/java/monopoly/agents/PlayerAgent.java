@@ -41,12 +41,13 @@ public class PlayerAgent extends Agent {
         private boolean isTradeState = false;
         private ACLMessage lastTradeMsg = null;
         public void action() {
-
+            System.out.println(getLocalName() + " is behaving");
             ACLMessage msg = receive();
+            System.out.println("Player received message: " + getLocalName());
             if (msg != null) {
                 try {
                     ContentElement content = getContentManager().extractContent(msg);
-                    System.out.println("Player received message: " + content.getClass());
+                    System.out.println("Player received message: " + content.getClass() + " - " + getLocalName());
                     if(content instanceof TradeStateAction){
                         lastTradeMsg = msg;
                         isTradeState = true;
@@ -60,14 +61,18 @@ public class PlayerAgent extends Agent {
                     e.printStackTrace();
                 }
             } else {
+                System.out.println(getLocalName() + " is waiting");
                 block();
+                System.out.println(getLocalName() + " stopped waiting");
             }
+
         }
 
         private void sendMsgToDealer(ACLMessage msg){
             ContentElement content = null;
             try {
                 content = getContentManager().extractContent(msg);
+                System.out.println("Player sending message: " + content.getClass());
                 if(content instanceof ReadyAction){
                     isTradeState = false;
                     lastTradeMsg = null;

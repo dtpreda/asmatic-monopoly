@@ -12,6 +12,7 @@ import monopoly.agents.visitors.DealerMessageVisitor;
 import monopoly.controllers.MonopolyController;
 import monopoly.exceptions.InvalidMessage;
 import monopoly.models.Player;
+import monopoly.models.lands.Property;
 import monopoly.states.TradeState;
 
 public class DealerBuyHouseVisitor extends DealerMessageVisitor {
@@ -28,9 +29,9 @@ public class DealerBuyHouseVisitor extends DealerMessageVisitor {
         TradeState state = (TradeState) monopolyController.getState();
         final Player player = getPlayer(message);
 
-        //TODO:: get property from the monopolyController.
-        // Maybe we need to add id to the .json file, so that we can get the property by id
-        state.buyHouse(buyHouse.getProperty(), player);
+        // Get property from board with id
+        Property property = (Property) monopolyController.getBoard().getLand(buyHouse.getProperty().getId());
+        state.buyHouse(property, player);
 
         if(state.canStart()){
             boolean success = state.start();
@@ -42,8 +43,8 @@ public class DealerBuyHouseVisitor extends DealerMessageVisitor {
 
         System.out.println("Dealer bought house, sending TradeStateAction again");
         ACLMessage reply = message.createReply();
-        reply.setPerformative(ACLMessage.INFORM);
         contentManager.fillContent(reply, new TradeStateAction(monopolyController.getBoard(), player));
+        System.out.println("Dealer sent TradeStateAction again " + reply);
         return reply;
     }
 }

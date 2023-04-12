@@ -38,14 +38,15 @@ public class PlayerTradeStateVisitor extends PlayerMessageVisitor {
             return reply;
         }
         System.out.println("Player " + tradeState.getPlayer().getName() + " is ready");
-
         contentManager.fillContent(reply, new ReadyAction());
         return reply;
     }
 
     private Property chooseHouseToBuy(MonopolyBoard board, Player player){
         List<Property> playerProperties = board.getProperties(player);
-
+        if(player.getMoney() < 500){
+            return null;
+        }
 
         for(Property property : playerProperties){
             List<Property> propertiesSameColor = board.getProperties(property.getColor());

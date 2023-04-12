@@ -12,6 +12,7 @@ import monopoly.models.lands.rentStrategy.PayOwnerStrategy;
 import monopoly.models.lands.rentStrategy.RentStrategy;
 
 public abstract class Land implements Concept {
+    private int id;
     private List<Player> players;
     protected int building;
     private PurchasableStrategy buyStrategy;
@@ -62,5 +63,13 @@ public abstract class Land implements Concept {
 
     public void setBuilding(int building) {
         this.building = building;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

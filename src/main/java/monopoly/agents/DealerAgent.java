@@ -153,8 +153,13 @@ public class DealerAgent extends Agent {
                             postMessage(message);
                             continue;
                         }
-                        visitors.get(content.getClass()).visit(content, message);
-                    } catch (Codec.CodecException | OntologyException e) {
+                        ACLMessage reply =
+                            visitors.get(content.getClass()).visit(content, message);
+                        if(reply != null) {
+                            send(reply);
+                        }
+                    }
+                    catch (Codec.CodecException | OntologyException e) {
                         e.printStackTrace();
                     } catch (InvalidMessage e) {
                         System.out.println("Received invalid message: " + e.getMessage());
