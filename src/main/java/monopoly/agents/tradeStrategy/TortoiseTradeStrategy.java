@@ -6,9 +6,9 @@ import jade.content.lang.Codec;
 import jade.content.onto.OntologyException;
 import jade.lang.acl.ACLMessage;
 import monopoly.actions.ProposeTrade;
-import monopoly.models.Trade;
 
-public class AFKTradeStrategy implements TradeStrategy {
+public class TortoiseTradeStrategy implements TradeStrategy {
+    private final static int TORTOISE_THRESHOLD = 150;
     @Override
     public ACLMessage processTrade(ContentManager contentManager, ACLMessage message) {
         try {
@@ -17,23 +17,12 @@ public class AFKTradeStrategy implements TradeStrategy {
 
             ACLMessage reply = message.createReply();
 
-            double randomValue = Math.random();
-
-            if (randomValue < 0.33) {
+            if (trade.getTrade().getProperty().getPrice() <= TORTOISE_THRESHOLD) {
                 reply.setPerformative(ACLMessage.REFUSE);
-            } else if (randomValue < 0.66) {
+            } else {
                 reply.setPerformative(ACLMessage.PROPOSE);
                 try {
                     contentManager.fillContent(reply, content);
-                } catch (Codec.CodecException | OntologyException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                reply.setPerformative(ACLMessage.PROPOSE);
-                Trade newTrade = new Trade(trade.getTrade().getProperty(), trade.getTrade().getPrice() + 100, trade.getTrade().getBuyer(), trade.getTrade().getSeller());
-                ProposeTrade newContent = new ProposeTrade(newTrade);
-                try {
-                    contentManager.fillContent(reply, newContent);
                 } catch (Codec.CodecException | OntologyException e) {
                     throw new RuntimeException(e);
                 }
