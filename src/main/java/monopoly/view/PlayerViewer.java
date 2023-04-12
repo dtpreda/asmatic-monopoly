@@ -16,6 +16,7 @@ public class PlayerViewer {
     }
 
     public Node getPlayerInfo(Player player, int size) {
+
         StackPane stackPane = new StackPane();
         stackPane.setMinWidth(size);
         stackPane.setMinHeight(size);
@@ -27,10 +28,15 @@ public class PlayerViewer {
         label.setTranslateX(16);
         label.setWrapText(true);
         label.setMaxWidth(size);
-        label.textProperty().bind(Bindings.format("Player Info:\nName: %s\nMoney: $%d\nColor: %s",
+        String playerInfo = "Player Info: Name: %s Money: $%d Color: %s ";
+        if (player.isBankrupt()) {
+            playerInfo += "\n BANKRUPTED!!!!";
+        }
+        label.textProperty().bind(Bindings.format(playerInfo,
                 player.getName(),
                 player.getMoney(),
                 player.getColor()));
+
         Circle playerPiece = getPlayerPiece(player, size/2, -size/2);
         stackPane.getChildren().addAll(rectangle, label, playerPiece);
 

@@ -26,7 +26,7 @@ public class LobbyState extends MonopolyState{
             }
         }
         String color = colors[players.size()];
-        Player player = new Player(players.size(), name, 1500, 0, color);
+        Player player = new Player(players.size(), name, 100, 0, color);
         board.addPlayer(player);
         return player;
     }

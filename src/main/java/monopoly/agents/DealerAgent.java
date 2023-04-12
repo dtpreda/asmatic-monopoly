@@ -18,6 +18,7 @@ import monopoly.agents.visitors.dealer.*;
 import monopoly.controllers.MonopolyController;
 import monopoly.exceptions.InvalidMessage;
 import monopoly.models.Player;
+import monopoly.states.GameOverState;
 import monopoly.states.TradeState;
 
 import java.util.HashMap;
@@ -40,6 +41,8 @@ public class DealerAgent extends Agent {
         visitors.put(PerformBuyLand.class, new PerformBuyLandVisitor(monopolyController, getContentManager()));
         visitors.put(ReadyAction.class, new DealerReadyVisitor(monopolyController, getContentManager()));
         visitors.put(BuyHouse.class, new DealerBuyHouseVisitor(monopolyController, getContentManager()));
+        visitors.put(SellHouse.class, new SellHouseVisitor(monopolyController, getContentManager()));
+        visitors.put(AbandonGame.class, new AbandonGameVisitor(monopolyController, getContentManager()));
 
     }
     @Override
@@ -52,6 +55,11 @@ public class DealerAgent extends Agent {
     }
     class DealerBehaviour extends CyclicBehaviour {
         public void action() {
+            if(monopolyController.getState() instanceof GameOverState){
+                System.out.println("Game finished");
+                myAgent.removeBehaviour(this);
+                return;
+            }
             if(monopolyController.getState() instanceof TradeState){
                 System.out.println("Trade state behaviour");
                 tradeStateBehaviour();

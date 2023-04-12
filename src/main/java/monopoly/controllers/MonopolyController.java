@@ -5,6 +5,8 @@ import monopoly.models.MonopolyBoard;
 import monopoly.models.PlayResult;
 import monopoly.models.Player;
 import monopoly.models.lands.Land;
+import monopoly.models.lands.Property;
+import monopoly.models.lands.buyStrategy.Purchasable;
 import monopoly.parser.BoardLoader;
 import monopoly.states.LobbyState;
 import monopoly.states.MonopolyState;
@@ -26,9 +28,20 @@ public class MonopolyController{
         board = boardLoader.loadBoard("board.json");
         boardController = new BoardController(board);
         state = new LobbyState(board, this);
+
     }
 
-
+    public void bankRuptPlayer(Player player){
+        player.setBankrupt(true);
+        //Remove ownership of all lands
+        List<Property> properties = board.getProperties(player);
+        for(Property prop : properties){
+            Purchasable purchasable = (Purchasable) prop.getBuyStrategy();
+            purchasable.setOwner(null);
+            prop.setBuilding(0);
+            prop.updateRent();
+        }
+    }
     public MonopolyBoard getBoard(){
         return board;
     }

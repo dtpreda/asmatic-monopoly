@@ -41,6 +41,7 @@ public class PayOwnerStrategy extends RentStrategy{
     @Override
     public boolean payRent(Player player) {
         if (player.getMoney() >= rent) {
+            System.out.println("Transaction:: " + player.getName() + " -> " + owner.getName() + " : " + rent );
             player.addMoney(-rent);
             owner.addMoney(rent);
             return true;

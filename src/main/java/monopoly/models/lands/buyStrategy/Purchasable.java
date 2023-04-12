@@ -21,6 +21,10 @@ public class Purchasable extends PurchasableStrategy implements Concept {
     }
 
     public void setOwner(Player player) {
+        if(player == null){
+            landOwner = null;
+            return;
+        }
         landOwner = player.getName();
     }
 

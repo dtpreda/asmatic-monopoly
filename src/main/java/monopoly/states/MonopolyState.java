@@ -46,10 +46,6 @@ public abstract class MonopolyState {
         return false;
     }
 
-    public boolean sellHouse(Land land, Player player){
-        //TODO
-        return false;
-    }
 
     public void changeState(MonopolyState state){
         monopolyController.setState(state);

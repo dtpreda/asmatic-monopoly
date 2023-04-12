@@ -64,6 +64,9 @@ public class MonopolyOntology extends BeanOntology {
         add(PerformBuyLand.class);
         add(ReadyAction.class);
         add(TradeStateAction.class);
+        add(AbandonGame.class);
+        add(NeedToSell.class);
+        add(SellHouse.class);
 
     }
 }

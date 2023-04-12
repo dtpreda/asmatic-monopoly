@@ -10,6 +10,8 @@ public class Player implements Concept {
     private int money;
     private int position;
 
+    private boolean isBankrupt = false;
+
     private String color;
 
     public static int MAX_JAIL_TRIES = 3;
@@ -94,4 +96,14 @@ public class Player implements Concept {
     public void decreaseJailTries(){
         isJailed--;
     }
+
+
+    public boolean isBankrupt() {
+        return isBankrupt;
+    }
+
+    public void setBankrupt(boolean bankrupt) {
+        isBankrupt = bankrupt;
+    }
+
 }
