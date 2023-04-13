@@ -29,6 +29,8 @@ public class PickerTradeStrategy implements TradeStrategy {
             boolean priceAcceptable = trade.getTrade().getPrice() >= trade.getTrade().getProperty().getPrice();
             boolean wontSell = !priceAcceptable || trade.getBoard().ownsAllPropertiesColor(current, trade.getTrade().getProperty().getColor());
             if (wontSell || trade.getTrade().getProperty().getPrice() >= PICKER_THRESHOLD) {
+                System.out.println("Picker refused the trade:");
+                System.out.println("Refused trade: " + trade.getTrade().getProperty().getName() + " " + trade.getTrade().getProperty().getPrice() + " " + trade.getTrade().getPrice());
                 reply.setPerformative(ACLMessage.REFUSE);
             } else {
                 reply.setPerformative(ACLMessage.PROPOSE);

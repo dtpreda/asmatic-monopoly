@@ -30,6 +30,7 @@ public class NeedToSellVisitor extends PlayerMessageVisitor {
         int amountRequired = needToSell.getAmountRequired();
         if(amountRequired < player.getMoney()){
             //I have money to pay, don't need to sell
+            System.out.println("I have money to pay, don't need to sell required=" + amountRequired + ", I have " + player.getMoney());
             contentManager.fillContent(reply, new PerformPayTax());
             return reply;
         }

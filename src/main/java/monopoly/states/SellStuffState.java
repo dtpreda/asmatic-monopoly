@@ -26,10 +26,14 @@ public class SellStuffState extends MonopolyState{
 
     public boolean goBack() {
         if(previousState.getPlayer().getMoney() > previousState.getLand().getRentStrategy().getRent(1)){
-            monopolyController.setState(new TradeState(board, monopolyController));
+            monopolyController.setState(previousState);
             return true;
         }
-        monopolyController.setState(previousState);
+        //monopolyController.setState(previousState);
         return false;
+    }
+
+    public PayRentState getPreviousState() {
+        return previousState;
     }
 }

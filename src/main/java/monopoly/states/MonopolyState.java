@@ -57,7 +57,8 @@ public abstract class MonopolyState {
         if(monopolyController.getBoard().getCurrentPlayerIndex() < previous){
             monopolyController.addTurn();
         }
-        if(monopolyController.getTurns() == 15){
+        Player currentPlayer = monopolyController.getBoard().getCurrentPlayer();
+        if(monopolyController.getStats().getPlayerStats().get(currentPlayer.getName()).getMoney().size() > 100){
             monopolyController.getState().changeState(new GameOverState(monopolyController.getBoard(), monopolyController));
         }
     }

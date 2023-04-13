@@ -1,5 +1,6 @@
 package monopoly.controllers;
 
+import monopoly.actions.NeedToSell;
 import monopoly.agents.brains.AgentBrain;
 import monopoly.models.Dice;
 import monopoly.models.MonopolyBoard;
@@ -13,6 +14,7 @@ import monopoly.models.stats.Statistics;
 import monopoly.parser.BoardLoader;
 import monopoly.states.LobbyState;
 import monopoly.states.MonopolyState;
+import monopoly.states.SellStuffState;
 
 import java.util.List;
 
@@ -52,6 +54,18 @@ public class MonopolyController{
             prop.setRentStrategy(new NoRentStrategy());
             prop.setBuilding(0);
             prop.updateRent();
+        }
+
+        //Transfer money to last player
+        if(getState() instanceof SellStuffState){
+            SellStuffState sellStuffState = (SellStuffState) getState();
+            Land land  = sellStuffState.getPreviousState().getLand();
+            if(land instanceof Property){
+                Property property = (Property) land;
+                Purchasable purchasable = (Purchasable) property.getBuyStrategy();
+                Player lastPlayer = board.getPlayer(purchasable.getOwner());
+                lastPlayer.addMoney(player.getMoney());
+            }
         }
     }
     public MonopolyBoard getBoard(){

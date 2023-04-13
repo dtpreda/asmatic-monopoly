@@ -24,6 +24,8 @@ public class HoarderTradeStrategy implements TradeStrategy {
             boolean needMoney = trade.getSeller().getMoney() < 100 && Math.random() < 0.5;
             boolean cantSell = board.ownsAllPropertiesColor(current, trade.getProperty().getColor());
             if(cantSell || (!needMoney && !trade.getBuyer().equals(current))){
+                System.out.println("Hoarder refused the trade:");
+                System.out.println("Refused trade: " + trade.getProperty().getName() + " " + trade.getProperty().getPrice() + " " + trade.getPrice());
                 reply.setPerformative(ACLMessage.REFUSE);
                 return reply;
             } else {
