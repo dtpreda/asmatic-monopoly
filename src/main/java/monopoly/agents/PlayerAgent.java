@@ -147,6 +147,8 @@ public class PlayerAgent extends Agent {
                         ACLMessage accept = propose.createReply();
                         accept.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                         acceptances.addElement(accept);
+
+                        // TODO: Enviar mensagem ao Dealer a dizer que a trade foi efetuada
                     } else {
                         // Create a refusal message and add it to acceptances
                         ACLMessage refuse = propose.createReply();
@@ -160,12 +162,12 @@ public class PlayerAgent extends Agent {
 
             @Override
             protected void handleRefuse(ACLMessage refuse) {
-                // Ignore refusals
+                // TODO: SKIP AND ROLL DICE
             }
 
             @Override
             protected void handleFailure(ACLMessage failure) {
-                // Ignore failures
+                // TODO: SKIP AND ROLL DICE
             }
         };
     }
@@ -188,16 +190,6 @@ public class PlayerAgent extends Agent {
             }
 
             protected ACLMessage handleAcceptProposal(ACLMessage cfp, ACLMessage propose, ACLMessage accept) {
-                // TODO: Enviar mensagem ao Dealer a dizer que a trade foi efetuada
-
-                // Create a new message to inform the dealer
-                ACLMessage informDealer = new ACLMessage(ACLMessage.INFORM);
-                informDealer.addReceiver(new AID("dealer", AID.ISLOCALNAME));
-                informDealer.setContent("A trade has been made.");
-
-                // Send the message to the dealer
-                myAgent.send(informDealer);
-
                 return null;
             }
 
