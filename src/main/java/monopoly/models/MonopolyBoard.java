@@ -28,7 +28,6 @@ public class MonopolyBoard implements Concept {
     public Player getPlayer(String name){
         for(Player player : players){
             if(player.getName().equals(name)){
-                System.out.println("returning player " + player);
                 return player;
             }
         }

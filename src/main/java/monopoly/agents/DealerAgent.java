@@ -155,6 +155,7 @@ public class DealerAgent extends Agent {
             //Receive messages
             while (true) {
                 ACLMessage message = receive();
+                TradeState state = (TradeState) monopolyController.getState();
 
                 if(message != null) {
                     System.out.println("TRADEBEHAVIOUR:::: Dealer got message " + message.getContent());
@@ -166,6 +167,7 @@ public class DealerAgent extends Agent {
                         }
                         ACLMessage reply =
                             visitors.get(content.getClass()).visit(content, message);
+                        System.out.println("TRADEBEHAVIOUR:::: " + state.playersReady() + " players ready");
                         if(reply != null) {
                             send(reply);
                         }

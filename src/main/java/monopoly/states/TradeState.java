@@ -56,5 +56,14 @@ public class TradeState extends MonopolyState{
         return true;
     }
 
+    public String playersReady(){
+        //Join player names
+        String players = "";
+        for(Player player : playersReady){
+            players += player.getName() + ", ";
+        }
+        return players;
+    }
+
 
 }

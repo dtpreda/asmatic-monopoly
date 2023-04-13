@@ -6,6 +6,8 @@ import monopoly.models.Trade;
 public class TradePerformed implements Predicate {
     private Trade trade;
 
+    public TradePerformed() {
+    }
     public TradePerformed(Trade trade) {
         this.trade = trade;
     }

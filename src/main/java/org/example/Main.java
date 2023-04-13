@@ -49,7 +49,7 @@ public class Main {
 
     private static void initPlayerAgents(ContainerController container, List<Player> players) throws StaleProxyException {
         for (Player player: players) {
-            AgentController playerController = container.acceptNewAgent(player.getName(), new PlayerAgent(new HoarderBrain()));
+            AgentController playerController = container.acceptNewAgent(player.getName(), new PlayerAgent(new RandomBrain()));
             playerController.start();
         }
     }
