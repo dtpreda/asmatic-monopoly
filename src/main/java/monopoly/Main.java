@@ -1,4 +1,4 @@
-package org.example;
+package monopoly;
 
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
