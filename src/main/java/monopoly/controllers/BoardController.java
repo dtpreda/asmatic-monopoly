@@ -38,7 +38,4 @@ public class BoardController {
         }
     }
 
-    public void nextPlayer(){
-        board.nextPlayer();
-    }
 }

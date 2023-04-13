@@ -12,7 +12,7 @@ import monopoly.models.Trade;
 
 public class AFKTradeStrategy implements TradeStrategy {
     @Override
-    public ACLMessage processTrade(ContentManager contentManager, ACLMessage message) {
+    public ACLMessage processTrade(ContentManager contentManager, ACLMessage message, String current) {
         ACLMessage reply = message.createReply();
         reply.setPerformative(ACLMessage.REFUSE);
         return reply;

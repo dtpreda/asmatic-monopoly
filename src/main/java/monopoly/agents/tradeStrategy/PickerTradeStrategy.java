@@ -19,7 +19,7 @@ import java.util.List;
 public class PickerTradeStrategy implements TradeStrategy {
     public final static int PICKER_THRESHOLD = 250;
     @Override
-    public ACLMessage processTrade(ContentManager contentManager, ACLMessage message) {
+    public ACLMessage processTrade(ContentManager contentManager, ACLMessage message, String current) {
         try {
             ContentElement content = contentManager.extractContent(message);
             ProposeTrade trade = (ProposeTrade) content;

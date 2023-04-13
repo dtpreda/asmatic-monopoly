@@ -77,7 +77,7 @@
       "name": "Reading railroad",
       "price": 200,
       "buyStrategy": {
-        "type": "purchasable",
+        "type": "nonpurchasable",
         "landOwner": null,
         "price": 200
       }
@@ -251,7 +251,7 @@
       "name": "Pensylvania railroad",
       "price": 200,
       "buyStrategy": {
-        "type": "purchasable",
+        "type": "nonpurchasable",
         "landOwner": null,
         "price": 200
       }
@@ -419,7 +419,7 @@
       "name": "B& Orailroad",
       "price": 200,
       "buyStrategy": {
-        "type": "purchasable",
+        "type": "nonpurchasable",
         "landOwner": null,
         "price": 200
       }
@@ -593,7 +593,7 @@
       "name": "Shortline",
       "price": 200,
       "buyStrategy": {
-        "type": "purchasable",
+        "type": "nonpurchasable",
         "landOwner": null,
         "price": 200
       },

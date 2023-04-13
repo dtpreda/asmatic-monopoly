@@ -8,6 +8,7 @@ import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
 import monopoly.models.Trade;
 import monopoly.models.lands.Property;
+import monopoly.models.stats.Statistics;
 
 import java.util.List;
 
@@ -55,6 +56,8 @@ public class LobbyState extends MonopolyState{
         tradeState.buyHouse((Property) board.getLands().get(1), player);
         */
         monopolyController.setState(new RollState(board, monopolyController));
+
+        monopolyController.setStats(new Statistics(board.getPlayers()));
 
 
 

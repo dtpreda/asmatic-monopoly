@@ -26,7 +26,6 @@ public class RollState extends MonopolyState{
             System.out.println("NOT YOUR TURN " + player.getName());
             return new PlayResult(false);
         }
-        System.out.println("Dice value = " + dice.getValue() + (dice.isDouble() ? " (double)" : ""));
         board.setLastDice(dice);
         Land land = boardController.movePlayer(player, dice.getValue());
         final PlayResult result = moveResult(player, land, dice);
@@ -64,7 +63,7 @@ public class RollState extends MonopolyState{
 
     public void jailVisit(Player player, Jail jail, PlayResult playResult){
         playResult.setPlayResultToken(PlayResultToken.END_TURN);
-        boardController.nextPlayer();
+        nextPlayer();
     }
     public void propertyVisit(Player player, Property property, PlayResult playResult){
         Dice dice = playResult.getDice();
@@ -72,7 +71,6 @@ public class RollState extends MonopolyState{
             changeState(new BuyLandState(player, board, property, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.BUY_LAND);
         } else if(property.getRentStrategy().hasToPayRent(player)){
-            System.out.println("YESSS");
             changeState(new PayRentState(player, property, dice, board, monopolyController));
             playResult.setPlayResultToken(PlayResultToken.PAY_RENT);
         } else {
@@ -94,7 +92,7 @@ public class RollState extends MonopolyState{
     public void goToJailVisit(Player player, PlayResult playResult){
         boardController.sendToJail(player);
         playResult.setPlayResultToken(PlayResultToken.END_TURN);
-        boardController.nextPlayer();
+        nextPlayer();
     }
 
     public void companyVisit(Player player, Company company, PlayResult playResult){
@@ -128,7 +126,7 @@ public class RollState extends MonopolyState{
     }
     private boolean changePlayerTurn(Dice dice){
         if(!dice.isDouble()){
-            boardController.nextPlayer();
+            nextPlayer();
             return true;
         }
         return false;

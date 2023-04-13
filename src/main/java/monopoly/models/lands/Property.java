@@ -54,9 +54,6 @@ public class Property extends Land {
 
     public void updateRent(){
         PayOwnerStrategy strat = (PayOwnerStrategy) getRentStrategy();
-        System.out.println(rents);
-        System.out.println("building: " + building);
-        System.out.println("Class = " + rents.get(building));
         List<Integer> rents = getRents();
         strat.setRent(rents.get(building));
     }

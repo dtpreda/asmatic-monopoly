@@ -7,7 +7,7 @@ import monopoly.models.Player;
 import monopoly.models.Trade;
 
 public interface TradeStrategy {
-    ACLMessage processTrade(ContentManager contentManager, ACLMessage message);
+    ACLMessage processTrade(ContentManager contentManager, ACLMessage message, String current);
 
     Trade startTrade(MonopolyBoard board, Player player);
 }

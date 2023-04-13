@@ -12,7 +12,6 @@ public class Tax extends Land {
     public Tax() {
         super(new NonPurchasable());
         setRentStrategy(new PayBankStrategy(taxCost));
-        System.out.println("Create with tax " + taxCost);
     }
 
     public void setTaxCost(int taxCost) {

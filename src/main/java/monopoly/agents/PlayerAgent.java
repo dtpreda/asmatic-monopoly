@@ -78,14 +78,10 @@ public class PlayerAgent extends Agent {
         public void action() {
             MessageTemplate template = MessageTemplate.not(MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET));
             ACLMessage msg = receive(template);
-            System.out.println("Player  " + getLocalName());
             if (msg != null) {
                 try {
-                    System.out.println("Player received message: " + msg.getContent());
                     ContentElement content = getContentManager().extractContent(msg);
-                    System.out.println("Player received message: " + content + " - " + getLocalName());
                     if(content instanceof ProposeTrade){
-                        System.out.println("PROPOSE TRADE IGNORED");
                         return;
                     }
                     if(content instanceof TradeStateAction){
@@ -112,11 +108,14 @@ public class PlayerAgent extends Agent {
             ContentElement content = null;
             try {
                 content = getContentManager().extractContent(msg);
-                System.out.println("Player sending message: " + content.getClass());
                 if(content instanceof ReadyAction){
                     isTradeState = false;
                     lastTradeMsg = null;
                     canTrade = true;
+                }
+                if(content instanceof AbandonGame){
+                    send(msg);
+                    takeDown();
                 }
             } catch (Codec.CodecException e) {
                 throw new RuntimeException(e);
@@ -148,15 +147,6 @@ public class PlayerAgent extends Agent {
             @Override
             protected void handlePropose(ACLMessage propose, Vector acceptances) {
                 PlayerAgent thisAgent = (PlayerAgent) myAgent;
-                if(!thisAgent.isTradeState && false){
-                    System.out.println("Entrou aqui__________");
-                    ACLMessage refuse = propose.createReply();
-                    refuse.setPerformative(ACLMessage.REFUSE);
-                    acceptances.addElement(refuse);
-
-                    return;
-                }
-                System.out.println("Handle propose");
                 try {
                     ContentElement content = getContentManager().extractContent(propose);
                     ProposeTrade trade = (ProposeTrade) content;
@@ -209,7 +199,6 @@ public class PlayerAgent extends Agent {
 
             @Override
             protected void handleAllResponses(Vector responses, Vector acceptances) {
-                System.out.println("Handle all responses");
 
                 try {
                     sendReadyMessage();
@@ -221,7 +210,6 @@ public class PlayerAgent extends Agent {
             }
 
             private void sendReadyMessage() throws OntologyException, Codec.CodecException {
-                System.out.println("Sending ready message " + getLocalName());
                 ACLMessage message = new ACLMessage(ACLMessage.INFORM);
                 message.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
                 message.setOntology(MonopolyOntology.getInstance().getName());
@@ -239,11 +227,9 @@ public class PlayerAgent extends Agent {
 
         return new ContractNetResponder(this, template) {
             protected ACLMessage handleCfp(ACLMessage cfp) {
-                System.out.println("handleCFP " + getLocalName() + " from " + cfp.getSender().getLocalName());
                 if (cfp.getPerformative() == ACLMessage.CFP) {
                     PlayerAgent thisAgent = (PlayerAgent) myAgent;
-                    ACLMessage message = thisAgent.brain.getTradeStrategy().processTrade(getContentManager(), cfp);
-                    System.out.println("returned " + message);
+                    ACLMessage message = thisAgent.brain.getTradeStrategy().processTrade(getContentManager(), cfp, thisAgent.getLocalName());
                     send(message);
                     return message;
                 } else {
@@ -286,7 +272,6 @@ public class PlayerAgent extends Agent {
             e.printStackTrace();
         }
         System.out.println("Sending trade proposal to " + trade.getSeller().getName());
-        System.out.println("msg = " + msg);
         //send(msg);
         initiator = generateInitiator(msg);
         addBehaviour(initiator);

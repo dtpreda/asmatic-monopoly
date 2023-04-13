@@ -1,7 +1,10 @@
 package monopoly.agents.tradeStrategy;
 
 import jade.content.ContentManager;
+import jade.content.lang.Codec;
+import jade.content.onto.OntologyException;
 import jade.lang.acl.ACLMessage;
+import monopoly.actions.ProposeTrade;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
 import monopoly.models.Trade;
@@ -12,10 +15,24 @@ import java.util.List;
 
 public class HoarderTradeStrategy implements TradeStrategy {
     @Override
-    public ACLMessage processTrade(ContentManager contentManager, ACLMessage message) {
+    public ACLMessage processTrade(ContentManager contentManager, ACLMessage message, String current) {
         ACLMessage reply = message.createReply();
-        reply.setPerformative(ACLMessage.REFUSE);
-        return reply;
+        try {
+            ProposeTrade proposeTrade = (ProposeTrade) contentManager.extractContent(message);
+            Trade trade = proposeTrade.getTrade();
+            if(!trade.getBuyer().equals(current)){
+                reply.setPerformative(ACLMessage.REFUSE);
+                return reply;
+            } else {
+                reply.setPerformative(ACLMessage.PROPOSE);
+                contentManager.fillContent(reply, proposeTrade);
+                return reply;
+            }
+        } catch (Codec.CodecException e) {
+            throw new RuntimeException(e);
+        } catch (OntologyException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -24,7 +41,6 @@ public class HoarderTradeStrategy implements TradeStrategy {
         if(properties.size() == 0){
             return null;
         }
-        System.out.println("Number of properties " + properties.size());
         //Choose random property
         int randomProperty = (int) (Math.random() * properties.size());
         Property property = properties.get(randomProperty);

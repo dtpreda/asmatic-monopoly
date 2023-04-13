@@ -14,7 +14,6 @@ public class JailState extends MonopolyState{
         board.setLastDice(dice);
 
         if(dice.isDouble()){
-            System.out.println("JAILBREAK SUCCESSFUL " + player.getName() + " rolled " + dice.getValue());
             player.setJailed(false);
             boardController.movePlayer(player, dice.getValue());
             RollState newState = new RollState(board, monopolyController);
@@ -22,9 +21,8 @@ public class JailState extends MonopolyState{
             PlayResult result = newState.play(player, dice);
             return result;
         } else {
-            System.out.println("Couldn't jailbreak " + player.getName() + " rolled " + dice.getValue());
             player.decreaseJailTries();
-            boardController.nextPlayer();
+            nextPlayer();
             changeState(new TradeState(board, monopolyController));
         }
         return null;

@@ -28,10 +28,6 @@ public class RollDiceVisitor extends DealerMessageVisitor {
     public ACLMessage visit(ContentElement element, ACLMessage message) throws OntologyException, Codec.CodecException, InvalidMessage {
         final RollDice rollDice = (RollDice) element;
         final String playerName = message.getSender().getLocalName();
-        System.out.println("------------------------------------");
-        System.out.println("Dealer: " + playerName + " rolled dice");
-        System.out.println("Current state: " + monopolyController.getState());
-        System.out.println("Current player: " + monopolyController.getBoard().getCurrentPlayer().getName());
         if(!isCurrentPlayer(playerName)) {
             throw new InvalidMessage("Not current player: " + playerName);
         }
@@ -45,6 +41,7 @@ public class RollDiceVisitor extends DealerMessageVisitor {
 
             //PLAY_AGAIN,END_TURN,PAY_RENT, BUY_LAND, JAIL
             System.out.println("Dealer: playResult: " + result.getPlayResultToken());
+            monopolyController.getStats().addStats(player.getName(), player.getMoney(), monopolyController.getBoard().getProperties(player).size());
             return DealerVisitorUtils.playResult(contentManager, result, reply, monopolyController.getBoard());
         }
 

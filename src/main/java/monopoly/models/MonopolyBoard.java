@@ -15,6 +15,8 @@ public class MonopolyBoard implements Concept {
     private int currentPlayerIndex;
     private Dice lastDice;
 
+    private Long turnsPlayed;
+
     public MonopolyBoard(){
         lands = new ArrayList<Land>();
         players = new ArrayList<Player>();
@@ -166,5 +168,9 @@ public class MonopolyBoard implements Concept {
 
     public void setCurrentPlayerIndex(int currentPlayerIndex) {
         this.currentPlayerIndex = currentPlayerIndex;
+    }
+
+    public void addTurn() {
+        this.turnsPlayed++;
     }
 }

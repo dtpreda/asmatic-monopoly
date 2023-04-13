@@ -33,8 +33,6 @@ public class PayOwnerStrategy extends RentStrategy{
 
     @Override
     public boolean hasToPayRent(Player player) {
-        System.out.println("HAS TO PAY RENT: " + owner);
-        System.out.println("From player: " + player);
         return !player.equals(owner);
     }
 

@@ -52,7 +52,14 @@ public abstract class MonopolyState {
     }
 
     public void nextPlayer(){
+        int previous = monopolyController.getBoard().getCurrentPlayerIndex();
         monopolyController.getBoard().nextPlayer();
+        if(monopolyController.getBoard().getCurrentPlayerIndex() < previous){
+            monopolyController.addTurn();
+        }
+        if(monopolyController.getTurns() == 15){
+            monopolyController.getState().changeState(new GameOverState(monopolyController.getBoard(), monopolyController));
+        }
     }
 
 }

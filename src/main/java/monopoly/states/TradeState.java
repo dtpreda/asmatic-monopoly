@@ -25,7 +25,7 @@ public class TradeState extends MonopolyState{
     }
 
     public boolean canStart(){
-        return playersReady.size() == board.getPlayers().size();
+        return playersReady.size() == board.getPlayers().stream().filter(player -> !player.isBankrupt()).count();
     }
 
     public boolean start(){

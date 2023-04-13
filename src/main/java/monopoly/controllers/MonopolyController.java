@@ -8,6 +8,7 @@ import monopoly.models.Player;
 import monopoly.models.lands.Land;
 import monopoly.models.lands.Property;
 import monopoly.models.lands.buyStrategy.Purchasable;
+import monopoly.models.stats.Statistics;
 import monopoly.parser.BoardLoader;
 import monopoly.states.LobbyState;
 import monopoly.states.MonopolyState;
@@ -24,11 +25,19 @@ public class MonopolyController{
     private MonopolyBoard board;
     private MonopolyState state;
 
+    private Statistics stats;
+
+    private Long turns;
+
+    public void addTurn(){
+        turns ++;
+    }
     public void startGame(){
         BoardLoader boardLoader = new BoardLoader();
         board = boardLoader.loadBoard("board.json");
         boardController = new BoardController(board);
         state = new LobbyState(board, this);
+        turns = 0L;
 
     }
 
@@ -66,4 +75,19 @@ public class MonopolyController{
     }
 
 
+    public Statistics getStats() {
+        return stats;
+    }
+
+    public void setStats(Statistics stats) {
+        this.stats = stats;
+    }
+
+    public Long getTurns() {
+        return turns;
+    }
+
+    public void setTurns(Long turns) {
+        this.turns = turns;
+    }
 }

@@ -47,7 +47,6 @@ public class PlayerTradeStateVisitor extends PlayerMessageVisitor {
             return null;
         }
 
-        System.out.println("Player " + tradeState.getPlayer().getName() + " is ready");
         contentManager.fillContent(reply, new ReadyAction());
         return reply;
     }

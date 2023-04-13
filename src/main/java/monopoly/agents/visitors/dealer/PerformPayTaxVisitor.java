@@ -50,7 +50,6 @@ public class PerformPayTaxVisitor extends DealerMessageVisitor {
             monopolyController.getState().changeState(sellStuffState);
             ACLMessage reply = message.createReply();
             contentManager.fillContent(reply, new NeedToSell(state.getLand().getRentStrategy().getRent(1), player, monopolyController.getBoard()));
-            System.out.println("Player " + player.getName() + " can't pay tax, need to sell stuff");
             return reply;
         }
         return null;

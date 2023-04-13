@@ -62,7 +62,7 @@ public class DealerAgent extends Agent {
                 return;
             }
             if(monopolyController.getState() instanceof TradeState){
-                System.out.println("Trade state behaviour");
+                //System.out.println("Trade state behaviour");
                 tradeStateBehaviour();
                 return;
             }
@@ -99,13 +99,10 @@ public class DealerAgent extends Agent {
 
                     try {
                         ContentElement content = myAgent.getContentManager().extractContent(msg);
-                        System.out.println("Dealer Received message " + content.getClass());
                         DealerMessageVisitor visitor = visitors.get(content.getClass());
                         if (visitor != null) {
                             ACLMessage reply = visitor.visit(content, msg);
                             if (reply != null) {
-                                System.out.println("Replied");
-                                System.out.println("Replied with state " + monopolyController.getState());
                                 send(reply);
                                 startNewTurn = false;
                             } else {
@@ -128,7 +125,7 @@ public class DealerAgent extends Agent {
 
             //state.finishTurn(currentPlayer);
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -138,7 +135,9 @@ public class DealerAgent extends Agent {
             List<Player> players = monopolyController.getBoard().getPlayers();
             for(Player player : players) {
                 AID aid = new AID(player.getName(), AID.ISLOCALNAME);
-
+                if(player.isBankrupt()){
+                    continue;
+                }
                 ACLMessage startMessage = new ACLMessage(ACLMessage.PROPOSE);
                 startMessage.setOntology(MonopolyOntology.ONTOLOGY_NAME);
                 startMessage.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
@@ -158,7 +157,6 @@ public class DealerAgent extends Agent {
                 TradeState state = (TradeState) monopolyController.getState();
 
                 if(message != null) {
-                    System.out.println("TRADEBEHAVIOUR:::: Dealer got message " + message.getContent());
                     try {
                         ContentElement content = getContentManager().extractContent(message);
                         if(!acceptedClasses.contains(content.getClass())){
@@ -167,7 +165,6 @@ public class DealerAgent extends Agent {
                         }
                         ACLMessage reply =
                             visitors.get(content.getClass()).visit(content, message);
-                        System.out.println("TRADEBEHAVIOUR:::: " + state.playersReady() + " players ready");
                         if(reply != null) {
                             send(reply);
                         }

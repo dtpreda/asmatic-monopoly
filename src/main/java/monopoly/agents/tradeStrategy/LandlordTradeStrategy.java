@@ -16,7 +16,7 @@ import java.util.List;
 
 public class LandlordTradeStrategy implements TradeStrategy {
     @Override
-    public ACLMessage processTrade(ContentManager contentManager, ACLMessage message) {
+    public ACLMessage processTrade(ContentManager contentManager, ACLMessage message, String current) {
         try {
             ContentElement content = contentManager.extractContent(message);
             ProposeTrade trade = (ProposeTrade) content;

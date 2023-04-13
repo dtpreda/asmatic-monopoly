@@ -41,10 +41,8 @@ public class DealerBuyHouseVisitor extends DealerMessageVisitor {
             }
         }
 
-        System.out.println("Dealer bought house, sending TradeStateAction again");
         ACLMessage reply = message.createReply();
         contentManager.fillContent(reply, new TradeStateAction(monopolyController.getBoard(), player));
-        System.out.println("Dealer sent TradeStateAction again " + reply);
         return reply;
     }
 }
