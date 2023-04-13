@@ -181,7 +181,6 @@ public class PlayerAgent extends Agent {
                     PlayerAgent thisAgent = (PlayerAgent) myAgent;
                     return thisAgent.agentType.processTrade(getContentManager(), cfp);
                 } else {
-                    // If the received message is not valid, return a not understood message
                     ACLMessage notUnderstood = cfp.createReply();
                     notUnderstood.setPerformative(ACLMessage.NOT_UNDERSTOOD);
                     return notUnderstood;
@@ -189,7 +188,16 @@ public class PlayerAgent extends Agent {
             }
 
             protected ACLMessage handleAcceptProposal(ACLMessage cfp, ACLMessage propose, ACLMessage accept) {
-                // Handle accepted proposal
+                // TODO: Enviar mensagem ao Dealer a dizer que a trade foi efetuada
+
+                // Create a new message to inform the dealer
+                ACLMessage informDealer = new ACLMessage(ACLMessage.INFORM);
+                informDealer.addReceiver(new AID("dealer", AID.ISLOCALNAME));
+                informDealer.setContent("A trade has been made.");
+
+                // Send the message to the dealer
+                myAgent.send(informDealer);
+
                 return null;
             }
 
