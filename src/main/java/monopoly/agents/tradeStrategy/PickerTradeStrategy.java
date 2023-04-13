@@ -9,9 +9,15 @@ import monopoly.actions.ProposeTrade;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
 import monopoly.models.Trade;
+import monopoly.models.lands.Property;
+import monopoly.models.lands.buyStrategy.Purchasable;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class PickerTradeStrategy implements TradeStrategy {
-    private final static int PICKER_THRESHOLD = 250;
+    public final static int PICKER_THRESHOLD = 250;
     @Override
     public ACLMessage processTrade(ContentManager contentManager, ACLMessage message) {
         try {
@@ -39,6 +45,19 @@ public class PickerTradeStrategy implements TradeStrategy {
 
     @Override
     public Trade startTrade(MonopolyBoard board, Player player) {
+        List<Property> properties = board.getOwnedPropertiesNotPlayer(player.getName());
+        Collections.reverse(properties);
+        for (Property property : properties) {
+            if (property.getPrice() >= PICKER_THRESHOLD) {
+                int price = (int) ((Math.random()/4.0 + 1.0) * property.getPrice());
+                Purchasable otherPurchasable = (Purchasable) property.getBuyStrategy();
+                if(player.getMoney() < price) {
+                    continue;
+                }
+
+                return new Trade(property, property.getPrice(), player,  board.getPlayer(otherPurchasable.getOwner()));
+            }
+        }
         return null;
     }
 }

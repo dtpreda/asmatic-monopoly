@@ -9,9 +9,14 @@ import monopoly.actions.ProposeTrade;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
 import monopoly.models.Trade;
+import monopoly.models.lands.Property;
+import monopoly.models.lands.buyStrategy.Purchasable;
+
+import java.util.Collections;
+import java.util.List;
 
 public class TortoiseTradeStrategy implements TradeStrategy {
-    private final static int TORTOISE_THRESHOLD = 150;
+    public final static int TORTOISE_THRESHOLD = 160;
     @Override
     public ACLMessage processTrade(ContentManager contentManager, ACLMessage message) {
         try {
@@ -37,7 +42,19 @@ public class TortoiseTradeStrategy implements TradeStrategy {
         }
     }
 
+    @Override
     public Trade startTrade(MonopolyBoard board, Player player) {
+        List<Property> properties = board.getOwnedPropertiesNotPlayer(player.getName());
+        for (Property property : properties) {
+            if (property.getPrice() <= TORTOISE_THRESHOLD) {
+                int price = (int) ((Math.random()/2.0 + 1.0) * property.getPrice());
+                Purchasable otherPurchasable = (Purchasable) property.getBuyStrategy();
+                if(player.getMoney() < price) {
+                    continue;
+                }
+                return new Trade(property, property.getPrice(), player,  board.getPlayer(otherPurchasable.getOwner()));
+            }
+        }
         return null;
     }
 }

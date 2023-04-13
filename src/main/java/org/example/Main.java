@@ -5,8 +5,7 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 import monopoly.agents.PlayerAgent;
-import monopoly.agents.brains.HoarderBrain;
-import monopoly.agents.brains.RandomBrain;
+import monopoly.agents.brains.*;
 import monopoly.controllers.MonopolyController;
 import jade.core.Runtime;
 import jade.core.Profile;
@@ -27,10 +26,12 @@ public class Main {
 
         MonopolyController monopolyController = new MonopolyController();
         monopolyController.startGame();
-        Player player = monopolyController.addPlayer("John");
-        Player player2 = monopolyController.addPlayer("Mike");
-        Player player3 = monopolyController.addPlayer("Torcato");
-        Player player4 = monopolyController.addPlayer("Bdcanss");
+        Player player = monopolyController.addPlayer("Hoarder", new HoarderBrain());
+        Player player2 = monopolyController.addPlayer("Random", new RandomBrain());
+        Player player3 = monopolyController.addPlayer("AFK", new AFKBrain());
+        Player player4 = monopolyController.addPlayer("LandLord", new LandLordBrain());
+        Player player5 = monopolyController.addPlayer("Picker", new PickerBrain());
+        Player player6 = monopolyController.addPlayer("Tortoise", new TortoiseBrain());
         LobbyState state =  (LobbyState) monopolyController.getState();
         state.startGame();
         Runtime rt = Runtime.instance();
@@ -49,7 +50,7 @@ public class Main {
 
     private static void initPlayerAgents(ContainerController container, List<Player> players) throws StaleProxyException {
         for (Player player: players) {
-            AgentController playerController = container.acceptNewAgent(player.getName(), new PlayerAgent(new RandomBrain()));
+            AgentController playerController = container.acceptNewAgent(player.getName(), new PlayerAgent(player.getBrain()));
             playerController.start();
         }
     }

@@ -9,6 +9,10 @@ import monopoly.actions.ProposeTrade;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
 import monopoly.models.Trade;
+import monopoly.models.lands.Property;
+import monopoly.models.lands.buyStrategy.Purchasable;
+
+import java.util.List;
 
 public class LandlordTradeStrategy implements TradeStrategy {
     @Override
@@ -38,6 +42,19 @@ public class LandlordTradeStrategy implements TradeStrategy {
 
     @Override
     public Trade startTrade(MonopolyBoard board, Player player) {
+        final List<Property> properties = board.getProperties(player);
+        final List<Property> ownedByOthers = board.getOwnedPropertiesNotPlayer(player.getName());
+
+        for (Property property : properties) {
+            for (Property other : ownedByOthers) {
+                if (other.getColor().equals(property.getColor())) {
+                    int price = (int) ((Math.random()/2.0 + 1.0) * property.getPrice());
+                    Purchasable otherPurchasable = (Purchasable) other.getBuyStrategy();
+                    Player owner = board.getPlayer(otherPurchasable.getOwner());
+                    return new Trade(property, price, player, owner);
+                }
+            }
+        }
         return null;
     }
 }

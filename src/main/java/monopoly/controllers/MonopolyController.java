@@ -1,5 +1,6 @@
 package monopoly.controllers;
 
+import monopoly.agents.brains.AgentBrain;
 import monopoly.models.Dice;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.PlayResult;
@@ -57,9 +58,9 @@ public class MonopolyController{
         return boardController;
     }
 
-    public Player addPlayer(String name){
+    public Player addPlayer(String name, AgentBrain brain){
         if(state instanceof LobbyState){
-            return ((LobbyState) state).addPlayer(name);
+            return ((LobbyState) state).addPlayer(name, brain);
         }
         return null;
     }

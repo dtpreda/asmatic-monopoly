@@ -1,5 +1,6 @@
 package monopoly.states;
 
+import monopoly.agents.brains.AgentBrain;
 import monopoly.controllers.BoardController;
 import monopoly.controllers.MonopolyController;
 import monopoly.models.Dice;
@@ -18,7 +19,7 @@ public class LobbyState extends MonopolyState{
         super(board, monopolyController);
     }
 
-    public Player addPlayer(String name){
+    public Player addPlayer(String name, AgentBrain brain){
         List<Player> players = board.getPlayers();
         for(Player player : players){
             if(player.getName().equals(name)){
@@ -26,7 +27,7 @@ public class LobbyState extends MonopolyState{
             }
         }
         String color = colors[players.size()];
-        Player player = new Player(players.size(), name, 1500, 0, color);
+        Player player = new Player(players.size(), name, 1500, 0, color, brain);
         board.addPlayer(player);
         return player;
     }

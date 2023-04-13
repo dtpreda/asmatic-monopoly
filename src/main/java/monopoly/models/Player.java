@@ -1,6 +1,7 @@
 package monopoly.models;
 
 import jade.content.Concept;
+import monopoly.agents.brains.AgentBrain;
 
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ public class Player implements Concept {
     private int money;
     private int position;
 
+    private AgentBrain brain;
     private boolean isBankrupt = false;
 
     private String color;
@@ -18,12 +20,13 @@ public class Player implements Concept {
     private int isJailed = 0;
 
 
-    public Player(int id, String name, int money, int position, String color){
+    public Player(int id, String name, int money, int position, String color, AgentBrain brain){
         this.id = id;
         this.name = name;
         this.money = money;
         this.position = position;
         this.color = color;
+        this.brain = brain;
     }
 
     public Player() {
@@ -104,6 +107,10 @@ public class Player implements Concept {
 
     public void setBankrupt(boolean bankrupt) {
         isBankrupt = bankrupt;
+    }
+
+    public AgentBrain getBrain() {
+        return brain;
     }
 
 }

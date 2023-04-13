@@ -143,6 +143,13 @@ public class MonopolyBoard implements Concept {
         ).collect(Collectors.toList());
     }
 
+    public List<Property> getOwnedPropertiesColorPlayer(String player, String color){
+        return getOwnedProperties().stream().filter(
+                property -> player.equals(((Purchasable)property.getBuyStrategy()).getOwner()) &&
+                            property.getColor().equals(color)
+        ).collect(Collectors.toList());
+    }
+
     public List<Property> getOwnedPropertiesNotPlayer(String player){
         return getOwnedProperties().stream().filter(
                 property -> !player.equals(((Purchasable)property.getBuyStrategy()).getOwner())
