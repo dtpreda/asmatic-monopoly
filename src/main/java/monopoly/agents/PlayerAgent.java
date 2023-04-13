@@ -12,6 +12,7 @@ import jade.lang.acl.MessageTemplate;
 import jade.proto.ContractNetInitiator;
 import jade.proto.ContractNetResponder;
 import monopoly.actions.*;
+import monopoly.agents.brains.AgentBrain;
 import monopoly.agents.tradeStrategy.TradeStrategy;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 import monopoly.agents.visitors.player.*;
@@ -36,9 +37,11 @@ public class PlayerAgent extends Agent {
     private MonopolyBoard board;
 
     private TradeStrategy agentType;
+    private AgentBrain brain;
 
-
-    public PlayerAgent() {}
+    public PlayerAgent(AgentBrain brain) {
+        this.brain = brain;
+    }
 
     public PlayerAgent(TradeStrategy agentType) {
         this.agentType = agentType;
@@ -50,12 +53,12 @@ public class PlayerAgent extends Agent {
         getContentManager().registerOntology(MonopolyOntology.getInstance());
 
         visitors = new HashMap<>();
-        visitors.put(StartTurn.class ,new StartTurnVisitor(getContentManager()));
-        visitors.put(BuyLand.class, new BuyLandVisitor(getContentManager()));
-        visitors.put(PayTax.class, new PayTaxVisitor(getContentManager()));
-        visitors.put(PrisonAction.class, new PlayerPrisonVisitor(getContentManager()));
-        visitors.put(TradeStateAction.class, new PlayerTradeStateVisitor(getContentManager()));
-        visitors.put(NeedToSell.class, new NeedToSellVisitor(getContentManager()));
+        visitors.put(StartTurn.class ,new StartTurnVisitor(getContentManager(), brain));
+        visitors.put(BuyLand.class, new BuyLandVisitor(getContentManager(), brain));
+        visitors.put(PayTax.class, new PayTaxVisitor(getContentManager(), brain));
+        visitors.put(PrisonAction.class, new PlayerPrisonVisitor(getContentManager(), brain));
+        visitors.put(TradeStateAction.class, new PlayerTradeStateVisitor(getContentManager(), brain, this));
+        visitors.put(NeedToSell.class, new NeedToSellVisitor(getContentManager(), brain));
         addBehaviour(new PlayerListeningBehaviour());
 
         initiator = this.generateInitiator();
@@ -196,16 +199,16 @@ public class PlayerAgent extends Agent {
         };
     }
 
-    private void initiateTrade(Property property, int price) {
-        Purchasable strategy = (Purchasable) property.getBuyStrategy();
-        String receiver = strategy.getOwner();
+    public void initiateTrade(Trade trade) {
+        //Purchasable strategy = (Purchasable) property.getBuyStrategy();
+        //String receiver = strategy.getOwner();
 
         ACLMessage msg = new ACLMessage(ACLMessage.CFP);
-        msg.addReceiver(new AID(receiver, AID.ISLOCALNAME));
+        msg.addReceiver(new AID(trade.getSeller().getName(), AID.ISLOCALNAME));
         msg.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
         msg.setReplyByDate(new Date(System.currentTimeMillis() + 10000));
 
-        Trade trade = new Trade(property, price, this.board.getPlayerByName(this.getLocalName()), this.board.getPlayerByName(receiver));
+        //Trade trade = new Trade(property, price, this.board.getPlayerByName(this.getLocalName()), this.board.getPlayerByName(receiver));
         ProposeTrade content = new ProposeTrade(trade);
 
         try {

@@ -6,6 +6,9 @@ import jade.content.lang.Codec;
 import jade.content.onto.OntologyException;
 import jade.lang.acl.ACLMessage;
 import monopoly.actions.ProposeTrade;
+import monopoly.models.MonopolyBoard;
+import monopoly.models.Player;
+import monopoly.models.Trade;
 
 public class PickerTradeStrategy implements TradeStrategy {
     private final static int PICKER_THRESHOLD = 250;
@@ -32,5 +35,10 @@ public class PickerTradeStrategy implements TradeStrategy {
         } catch (Codec.CodecException | OntologyException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Trade startTrade(MonopolyBoard board, Player player) {
+        return null;
     }
 }

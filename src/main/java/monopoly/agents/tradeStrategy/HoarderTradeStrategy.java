@@ -2,6 +2,9 @@ package monopoly.agents.tradeStrategy;
 
 import jade.content.ContentManager;
 import jade.lang.acl.ACLMessage;
+import monopoly.models.MonopolyBoard;
+import monopoly.models.Player;
+import monopoly.models.Trade;
 
 public class HoarderTradeStrategy implements TradeStrategy {
     @Override
@@ -9,5 +12,10 @@ public class HoarderTradeStrategy implements TradeStrategy {
         ACLMessage reply = message.createReply();
         reply.setPerformative(ACLMessage.REFUSE);
         return reply;
+    }
+
+    @Override
+    public Trade startTrade(MonopolyBoard board, Player player) {
+        return null;
     }
 }

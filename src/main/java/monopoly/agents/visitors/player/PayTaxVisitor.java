@@ -9,12 +9,13 @@ import monopoly.actions.PayTax;
 import monopoly.actions.PerformPayTax;
 import monopoly.actions.RollDice;
 import monopoly.actions.StartTurn;
+import monopoly.agents.brains.AgentBrain;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 
 public class PayTaxVisitor extends PlayerMessageVisitor {
 
-    public PayTaxVisitor(ContentManager contentManager){
-        super(contentManager);
+    public PayTaxVisitor(ContentManager contentManager, AgentBrain brain){
+        super(contentManager, brain);
     }
 
     @Override

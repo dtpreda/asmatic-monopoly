@@ -6,12 +6,13 @@ import jade.content.lang.Codec;
 import jade.content.onto.OntologyException;
 import jade.lang.acl.ACLMessage;
 import monopoly.actions.*;
+import monopoly.agents.brains.AgentBrain;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 
 public class PlayerPrisonVisitor extends PlayerMessageVisitor {
 
-    public PlayerPrisonVisitor(ContentManager contentManager){
-        super(contentManager);
+    public PlayerPrisonVisitor(ContentManager contentManager, AgentBrain brain){
+        super(contentManager, brain);
     }
 
     @Override

@@ -8,17 +8,22 @@ import jade.lang.acl.ACLMessage;
 import monopoly.actions.BuyHouse;
 import monopoly.actions.ReadyAction;
 import monopoly.actions.TradeStateAction;
+import monopoly.agents.PlayerAgent;
+import monopoly.agents.brains.AgentBrain;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
+import monopoly.models.Trade;
 import monopoly.models.lands.Property;
 import monopoly.models.lands.buyStrategy.Purchasable;
 
 import java.util.List;
 
 public class PlayerTradeStateVisitor extends PlayerMessageVisitor {
-    public PlayerTradeStateVisitor(ContentManager contentManager) {
-        super(contentManager);
+    private PlayerAgent agent;
+    public PlayerTradeStateVisitor(ContentManager contentManager, AgentBrain brain, PlayerAgent agent) {
+        super(contentManager, brain);
+        this.agent = agent;
     }
     @Override
     public ACLMessage visit(ContentElement content, ACLMessage message) throws OntologyException, Codec.CodecException {
@@ -28,8 +33,6 @@ public class PlayerTradeStateVisitor extends PlayerMessageVisitor {
 
         ACLMessage reply = message.createReply();
 
-        //TODO - implement trades
-
         //Buy houses if possible
         Property property = chooseHouseToBuy(board, tradeState.getPlayer());
         if(property != null){
@@ -37,6 +40,13 @@ public class PlayerTradeStateVisitor extends PlayerMessageVisitor {
             contentManager.fillContent(reply, new BuyHouse(property));
             return reply;
         }
+
+        final Trade trade = brain.getTradeStrategy().startTrade(board, tradeState.getPlayer());
+        if(trade != null){
+            this.agent.initiateTrade(trade);
+            return null;
+        }
+
         System.out.println("Player " + tradeState.getPlayer().getName() + " is ready");
         contentManager.fillContent(reply, new ReadyAction());
         return reply;

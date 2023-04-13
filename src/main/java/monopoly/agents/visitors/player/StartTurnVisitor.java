@@ -8,13 +8,14 @@ import jade.lang.acl.ACLMessage;
 import monopoly.actions.BuyLand;
 import monopoly.actions.RollDice;
 import monopoly.actions.StartTurn;
+import monopoly.agents.brains.AgentBrain;
 import monopoly.agents.visitors.DealerMessageVisitor;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 
 public class StartTurnVisitor extends PlayerMessageVisitor {
 
-    public StartTurnVisitor(ContentManager contentManager){
-        super(contentManager);
+    public StartTurnVisitor(ContentManager contentManager, AgentBrain brain){
+        super(contentManager, brain);
     }
 
     @Override

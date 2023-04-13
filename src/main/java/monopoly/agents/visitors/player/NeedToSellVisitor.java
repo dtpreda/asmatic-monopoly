@@ -8,6 +8,7 @@ import jade.lang.acl.ACLMessage;
 import monopoly.actions.AbandonGame;
 import monopoly.actions.NeedToSell;
 import monopoly.actions.SellHouse;
+import monopoly.agents.brains.AgentBrain;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
@@ -18,8 +19,8 @@ import java.util.List;
 public class NeedToSellVisitor extends PlayerMessageVisitor {
 
 
-    public NeedToSellVisitor(ContentManager contentManager) {
-        super(contentManager);
+    public NeedToSellVisitor(ContentManager contentManager, AgentBrain brain) {
+        super(contentManager, brain);
     }
     @Override
     public ACLMessage visit(ContentElement content, ACLMessage message) throws OntologyException, Codec.CodecException {
