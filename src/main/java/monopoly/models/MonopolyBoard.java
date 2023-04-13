@@ -7,6 +7,7 @@ import monopoly.models.lands.buyStrategy.Purchasable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MonopolyBoard implements Concept {
     private List<Land> lands;
@@ -116,5 +117,29 @@ public class MonopolyBoard implements Concept {
         }
 
         return null;
+    }
+
+    public List<Property> getOwnedProperties(){
+        List<Property> ownedProperties = new ArrayList<>();
+        for (Land land: this.lands) {
+            if (land instanceof Property) {
+                Property property = (Property) land;
+                if (((Purchasable)property.getBuyStrategy()).getOwner() != null) {
+                    ownedProperties.add(property);
+                }
+            }
+        }
+        return ownedProperties;
+    }
+
+    public List<Property> getOwnedPropertiesColor(String color){
+        return getOwnedProperties().stream().filter(property -> property.getColor().equals(color)).collect(Collectors.toList());
+    }
+
+    public List<Property> getOwnedPropertiesColorNotPlayer(String color, Player player){
+        return getOwnedProperties().stream().filter(
+                property -> property.getColor().equals(color) &&
+                            !player.getName().equals(((Purchasable)property.getBuyStrategy()).getOwner())
+        ).collect(Collectors.toList());
     }
 }
