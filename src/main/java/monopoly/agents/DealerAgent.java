@@ -43,6 +43,7 @@ public class DealerAgent extends Agent {
         visitors.put(BuyHouse.class, new DealerBuyHouseVisitor(monopolyController, getContentManager()));
         visitors.put(SellHouse.class, new SellHouseVisitor(monopolyController, getContentManager()));
         visitors.put(AbandonGame.class, new AbandonGameVisitor(monopolyController, getContentManager()));
+        visitors.put(TradePerformed.class, new TradePerformedVisitor(monopolyController, getContentManager()));
 
     }
     @Override
@@ -150,11 +151,13 @@ public class DealerAgent extends Agent {
                 }
                 send(startMessage);
             }
-            List<Class> acceptedClasses = List.of(ReadyAction.class, BuyHouse.class);
+            List<Class> acceptedClasses = List.of(ReadyAction.class, BuyHouse.class, TradePerformed.class);
             //Receive messages
             while (true) {
                 ACLMessage message = receive();
+
                 if(message != null) {
+                    System.out.println("TRADEBEHAVIOUR:::: Dealer got message " + message.getContent());
                     try {
                         ContentElement content = getContentManager().extractContent(message);
                         if(!acceptedClasses.contains(content.getClass())){

@@ -3,12 +3,10 @@ package monopoly.actions;
 import jade.content.Predicate;
 import monopoly.models.Trade;
 
-public class ProposeTrade implements Predicate {
+public class TradePerformed implements Predicate {
     private Trade trade;
 
-    public ProposeTrade() {
-    }
-    public ProposeTrade(Trade trade) {
+    public TradePerformed(Trade trade) {
         this.trade = trade;
     }
 

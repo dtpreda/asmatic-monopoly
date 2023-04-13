@@ -28,6 +28,7 @@ public class MonopolyBoard implements Concept {
     public Player getPlayer(String name){
         for(Player player : players){
             if(player.getName().equals(name)){
+                System.out.println("returning player " + player);
                 return player;
             }
         }
@@ -141,5 +142,23 @@ public class MonopolyBoard implements Concept {
                 property -> property.getColor().equals(color) &&
                             !player.getName().equals(((Purchasable)property.getBuyStrategy()).getOwner())
         ).collect(Collectors.toList());
+    }
+
+    public List<Property> getOwnedPropertiesNotPlayer(String player){
+        return getOwnedProperties().stream().filter(
+                property -> !player.equals(((Purchasable)property.getBuyStrategy()).getOwner())
+        ).collect(Collectors.toList());
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
+    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+        this.currentPlayerIndex = currentPlayerIndex;
     }
 }

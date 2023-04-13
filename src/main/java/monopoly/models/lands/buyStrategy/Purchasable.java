@@ -20,6 +20,8 @@ public class Purchasable extends PurchasableStrategy implements Concept {
         return landOwner;
     }
 
+
+
     public void setOwner(Player player) {
         if(player == null){
             landOwner = null;
@@ -62,6 +64,8 @@ public class Purchasable extends PurchasableStrategy implements Concept {
         }
         return false;
     }
+
+
 
 
 }

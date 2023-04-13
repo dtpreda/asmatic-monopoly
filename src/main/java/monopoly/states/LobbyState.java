@@ -26,15 +26,18 @@ public class LobbyState extends MonopolyState{
             }
         }
         String color = colors[players.size()];
-        Player player = new Player(players.size(), name, 100, 0, color);
+        Player player = new Player(players.size(), name, 1500, 0, color);
         board.addPlayer(player);
         return player;
     }
 
     public void startGame(){
+        /*
         changeState(new TradeState(board, monopolyController));
 
         final Player player = board.getCurrentPlayer();
+
+
         monopolyController.setState(new BuyLandState(player, board, board.getLands().get(1), monopolyController));
         BuyLandState state = (BuyLandState) monopolyController.getState();
         state.buyLand(player);
@@ -49,6 +52,7 @@ public class LobbyState extends MonopolyState{
         tradeState.buyHouse((Property) board.getLands().get(1), player);
         tradeState.buyHouse((Property) board.getLands().get(3), player);
         tradeState.buyHouse((Property) board.getLands().get(1), player);
+        */
         monopolyController.setState(new RollState(board, monopolyController));
 
 

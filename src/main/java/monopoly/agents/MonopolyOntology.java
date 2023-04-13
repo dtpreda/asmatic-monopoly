@@ -5,6 +5,7 @@ import jade.content.onto.BeanOntologyException;
 import monopoly.actions.*;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
+import monopoly.models.Trade;
 import monopoly.models.lands.*;
 import monopoly.models.lands.buyStrategy.NonPurchasable;
 import monopoly.models.lands.buyStrategy.Purchasable;
@@ -50,6 +51,7 @@ public class MonopolyOntology extends BeanOntology {
         add(Start.class);
         add(Tax.class);
         add(Player.class);
+        add(Trade.class);
 
         //TODO: Add actions
         add(StartTurn.class);
@@ -67,6 +69,8 @@ public class MonopolyOntology extends BeanOntology {
         add(AbandonGame.class);
         add(NeedToSell.class);
         add(SellHouse.class);
+        add(TradePerformed.class);
+        add(ProposeTrade.class);
 
     }
 }

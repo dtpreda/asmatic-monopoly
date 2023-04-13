@@ -9,6 +9,8 @@ public class Trade implements Concept {
     private Player buyer;
     private Player seller;
 
+    public Trade() {
+    }
     public Trade(Property property, int price, Player buyer, Player seller) {
         this.property = property;
         this.price = price;
@@ -47,4 +49,8 @@ public class Trade implements Concept {
     public void setSeller(Player seller) {
         this.seller = seller;
     }
+
+
+
+
 }

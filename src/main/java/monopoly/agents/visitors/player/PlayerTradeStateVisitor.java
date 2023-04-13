@@ -41,10 +41,12 @@ public class PlayerTradeStateVisitor extends PlayerMessageVisitor {
             return reply;
         }
 
-        final Trade trade = brain.getTradeStrategy().startTrade(board, tradeState.getPlayer());
-        if(trade != null){
-            this.agent.initiateTrade(trade);
-            return null;
+        if(agent.getCanTrade()) {
+            final Trade trade = brain.getTradeStrategy().startTrade(board, tradeState.getPlayer());
+            if (trade != null) {
+                this.agent.initiateTrade(trade);
+                return null;
+            }
         }
 
         System.out.println("Player " + tradeState.getPlayer().getName() + " is ready");

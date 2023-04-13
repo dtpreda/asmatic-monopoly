@@ -39,6 +39,10 @@ public class PlayerAgent extends Agent {
     private TradeStrategy agentType;
     private AgentBrain brain;
 
+    private boolean canTrade = true;
+    private boolean isTradeState;
+    private boolean lastTradeMsg;
+
     public PlayerAgent(AgentBrain brain) {
         this.brain = brain;
     }
@@ -61,10 +65,10 @@ public class PlayerAgent extends Agent {
         visitors.put(NeedToSell.class, new NeedToSellVisitor(getContentManager(), brain));
         addBehaviour(new PlayerListeningBehaviour());
 
-        initiator = this.generateInitiator();
+        //initiator = this.generateInitiator();
         responder = this.generateResponder();
 
-        addBehaviour(initiator);
+        //addBehaviour(initiator);
         addBehaviour(responder);
     }
 
@@ -73,12 +77,18 @@ public class PlayerAgent extends Agent {
         private ACLMessage lastTradeMsg = null;
         public void action() {
             System.out.println(getLocalName() + " is behaving");
-            ACLMessage msg = receive();
-            System.out.println("Player received message: " + getLocalName());
+            MessageTemplate template = MessageTemplate.not(MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET));
+            ACLMessage msg = receive(template);
+            System.out.println("Player  " + getLocalName());
             if (msg != null) {
                 try {
+                    System.out.println("Player received message: " + msg.getContent());
                     ContentElement content = getContentManager().extractContent(msg);
-                    System.out.println("Player received message: " + content.getClass() + " - " + getLocalName());
+                    System.out.println("Player received message: " + content + " - " + getLocalName());
+                    if(content instanceof ProposeTrade){
+                        System.out.println("PROPOSE TRADE IGNORED");
+                        return;
+                    }
                     if(content instanceof TradeStateAction){
                         lastTradeMsg = msg;
                         isTradeState = true;
@@ -109,6 +119,7 @@ public class PlayerAgent extends Agent {
                 if(content instanceof ReadyAction){
                     isTradeState = false;
                     lastTradeMsg = null;
+                    canTrade = true;
                 }
             } catch (Codec.CodecException e) {
                 throw new RuntimeException(e);
@@ -135,12 +146,18 @@ public class PlayerAgent extends Agent {
         }
     }
 
-    private ContractNetInitiator generateInitiator() {
-        ACLMessage dummyMsg = new ACLMessage(ACLMessage.CFP);
-        dummyMsg.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
-        return new ContractNetInitiator(this, dummyMsg) {
+    private ContractNetInitiator generateInitiator(ACLMessage msg) {
+        return new ContractNetInitiator(this, msg) {
             @Override
             protected void handlePropose(ACLMessage propose, Vector acceptances) {
+                PlayerAgent thisAgent = (PlayerAgent) myAgent;
+                if(!thisAgent.isTradeState){
+                    System.out.println("Entrou aqui__________");
+                    ACLMessage refuse = propose.createReply();
+                    refuse.setPerformative(ACLMessage.REFUSE);
+                    acceptances.addElement(refuse);
+                }
+                System.out.println("Handle propose");
                 try {
                     ContentElement content = getContentManager().extractContent(propose);
                     ProposeTrade trade = (ProposeTrade) content;
@@ -150,27 +167,70 @@ public class PlayerAgent extends Agent {
                         ACLMessage accept = propose.createReply();
                         accept.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                         acceptances.addElement(accept);
-
                         // TODO: Enviar mensagem ao Dealer a dizer que a trade foi efetuada
+                        thisAgent.canTrade = false;
+
+                        ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+                        message.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
+                        message.setOntology(MonopolyOntology.getInstance().getName());
+                        message.addReceiver(new AID("Dealer", AID.ISLOCALNAME));
+                        getContentManager().fillContent(message, new TradePerformed(trade.getTrade()));
+                        thisAgent.send(message);
+
+                        sendReadyMessage();
+                        isTradeState = false;
+                        canTrade = true;
+
+
                     } else {
                         // Create a refusal message and add it to acceptances
                         ACLMessage refuse = propose.createReply();
                         refuse.setPerformative(ACLMessage.REFUSE);
                         acceptances.addElement(refuse);
+                        sendReadyMessage();
                     }
                 } catch (Codec.CodecException | OntologyException e) {
                     e.printStackTrace();
                 }
+
             }
 
             @Override
             protected void handleRefuse(ACLMessage refuse) {
-                // TODO: SKIP AND ROLL DICE
+                System.out.println("Handle refuse");
+
+
+                try {
+                    sendReadyMessage();
+                } catch (OntologyException e) {
+                    throw new RuntimeException(e);
+                } catch (Codec.CodecException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             @Override
             protected void handleFailure(ACLMessage failure) {
-                // TODO: SKIP AND ROLL DICE
+                System.out.println("Handle failure");
+
+                try {
+                    sendReadyMessage();
+                } catch (OntologyException e) {
+                    throw new RuntimeException(e);
+                } catch (Codec.CodecException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+            private void sendReadyMessage() throws OntologyException, Codec.CodecException {
+                System.out.println("Sending ready message");
+                ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+                message.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
+                message.setOntology(MonopolyOntology.getInstance().getName());
+                message.addReceiver(new AID("Dealer", AID.ISLOCALNAME));
+                getContentManager().fillContent(message, new ReadyAction());
+                send(message);
             }
         };
     }
@@ -182,21 +242,28 @@ public class PlayerAgent extends Agent {
 
         return new ContractNetResponder(this, template) {
             protected ACLMessage handleCfp(ACLMessage cfp) {
+                System.out.println("handleCFP ");
                 if (cfp.getPerformative() == ACLMessage.CFP) {
                     PlayerAgent thisAgent = (PlayerAgent) myAgent;
-                    return thisAgent.agentType.processTrade(getContentManager(), cfp);
+                    ACLMessage message = thisAgent.brain.getTradeStrategy().processTrade(getContentManager(), cfp);
+                    System.out.println("returned " + message);
+                    send(message);
+                    return message;
                 } else {
                     ACLMessage notUnderstood = cfp.createReply();
                     notUnderstood.setPerformative(ACLMessage.NOT_UNDERSTOOD);
+                    System.out.println("Not understood");
                     return notUnderstood;
                 }
             }
 
             protected ACLMessage handleAcceptProposal(ACLMessage cfp, ACLMessage propose, ACLMessage accept) {
+                System.out.println("handleAcceptProposal ");
                 return null;
             }
 
             protected void handleRejectProposal(ACLMessage cfp, ACLMessage propose, ACLMessage reject) {
+                System.out.println("handleRejectProposal ");
                 // Handle rejected proposal
             }
         };
@@ -207,9 +274,11 @@ public class PlayerAgent extends Agent {
         //String receiver = strategy.getOwner();
 
         ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+        msg.setOntology(MonopolyOntology.ONTOLOGY_NAME);
+        msg.setLanguage(FIPANames.ContentLanguage.FIPA_SL);
         msg.addReceiver(new AID(trade.getSeller().getName(), AID.ISLOCALNAME));
         msg.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
-        msg.setReplyByDate(new Date(System.currentTimeMillis() + 10000));
+        msg.setReplyByDate(new Date(System.currentTimeMillis() + 500));
 
         //Trade trade = new Trade(property, price, this.board.getPlayerByName(this.getLocalName()), this.board.getPlayerByName(receiver));
         ProposeTrade content = new ProposeTrade(trade);
@@ -219,9 +288,22 @@ public class PlayerAgent extends Agent {
         } catch (Codec.CodecException | OntologyException e) {
             e.printStackTrace();
         }
+        System.out.println("Sending trade proposal to " + trade.getSeller().getName());
+        System.out.println("msg = " + msg);
+        //send(msg);
+        initiator = generateInitiator(msg);
+        addBehaviour(initiator);
+        //initiator.reset(msg);
+        //initiator.restart();
+        canTrade = false;
+    }
 
-        initiator.reset(msg);
-        initiator.restart();
+    public boolean getCanTrade() {
+        return canTrade;
+    }
+
+    public void setCanTrade(boolean canTrade) {
+        this.canTrade = canTrade;
     }
 }
 
