@@ -22,8 +22,12 @@ public class LandlordTradeStrategy implements TradeStrategy {
             ProposeTrade trade = (ProposeTrade) content;
 
             ACLMessage reply = message.createReply();
+            MonopolyBoard board = trade.getBoard();
+            Property property = trade.getTrade().getProperty();
+            List<Property> sameColor = board.getOwnedPropertiesColorPlayer(current, property.getColor());
+            List<Property> ownedProperties = board.getOwnedPropertiesPlayer(current);
 
-            if (trade.getTrade().getProperty().getBuilding() > 0) {
+            if (sameColor.size() > 1 || ownedProperties.size() <= 3) {
                 reply.setPerformative(ACLMessage.REFUSE);
             } else {
                 reply.setPerformative(ACLMessage.PROPOSE);
@@ -51,7 +55,7 @@ public class LandlordTradeStrategy implements TradeStrategy {
                     int price = (int) ((Math.random()/2.0 + 1.0) * property.getPrice());
                     Purchasable otherPurchasable = (Purchasable) other.getBuyStrategy();
                     Player owner = board.getPlayer(otherPurchasable.getOwner());
-                    return new Trade(property, price, player, owner);
+                    return new Trade(other, price, player, owner);
                 }
             }
         }

@@ -27,6 +27,12 @@ public class BuyLandState extends MonopolyState{
             land.setRentStrategy(new PayOwnerStrategy(player));
             if(land instanceof Property){
                 Property property = (Property) land;
+                if(board.ownsAllPropertiesColor(player.getName(), property.getColor())){
+                    for(Property prop: board.getOwnedPropertiesColorPlayer(player.getName(), property.getColor())){
+                        prop.increaseBuilding();
+                        prop.updateRent();
+                    }
+                }
                 property.updateRent();
             } else if(land instanceof Company){
                 Company company = (Company) land;

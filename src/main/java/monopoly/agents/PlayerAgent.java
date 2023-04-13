@@ -252,7 +252,7 @@ public class PlayerAgent extends Agent {
         };
     }
 
-    public void initiateTrade(Trade trade) {
+    public void initiateTrade(Trade trade, MonopolyBoard board) {
         //Purchasable strategy = (Purchasable) property.getBuyStrategy();
         //String receiver = strategy.getOwner();
 
@@ -264,7 +264,7 @@ public class PlayerAgent extends Agent {
         msg.setReplyByDate(new Date(new Date().getTime() + 1000));
 
         //Trade trade = new Trade(property, price, this.board.getPlayerByName(this.getLocalName()), this.board.getPlayerByName(receiver));
-        ProposeTrade content = new ProposeTrade(trade);
+        ProposeTrade content = new ProposeTrade(trade, board);
 
         try {
             this.getContentManager().fillContent(msg, content);

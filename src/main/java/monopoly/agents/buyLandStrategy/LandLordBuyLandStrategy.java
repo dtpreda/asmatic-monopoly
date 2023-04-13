@@ -16,7 +16,7 @@ public class LandLordBuyLandStrategy implements BuyLandStrategy{
         }
 
         List<Property> ownedProperties = board.getProperties(player);
-        if(ownedProperties.size() < 3){
+        if(ownedProperties.size() <= 3){
             return true;
         }
         Dice dice = new Dice();

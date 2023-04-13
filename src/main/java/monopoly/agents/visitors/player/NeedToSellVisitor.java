@@ -5,9 +5,7 @@ import jade.content.ContentManager;
 import jade.content.lang.Codec;
 import jade.content.onto.OntologyException;
 import jade.lang.acl.ACLMessage;
-import monopoly.actions.AbandonGame;
-import monopoly.actions.NeedToSell;
-import monopoly.actions.SellHouse;
+import monopoly.actions.*;
 import monopoly.agents.brains.AgentBrain;
 import monopoly.agents.visitors.PlayerMessageVisitor;
 import monopoly.models.MonopolyBoard;
@@ -28,7 +26,13 @@ public class NeedToSellVisitor extends PlayerMessageVisitor {
         ACLMessage reply = message.createReply();
         MonopolyBoard board = needToSell.getBoard();
         Player player = needToSell.getPlayer();
+
         int amountRequired = needToSell.getAmountRequired();
+        if(amountRequired < player.getMoney()){
+            //I have money to pay, don't need to sell
+            contentManager.fillContent(reply, new PerformPayTax());
+            return reply;
+        }
 
         // Will prioritize selling houses with lower number of houses and then lower house cost
 

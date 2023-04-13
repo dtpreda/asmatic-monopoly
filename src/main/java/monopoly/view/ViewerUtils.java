@@ -16,7 +16,7 @@ import java.io.InputStream;
 
 public class ViewerUtils {
     public static int WIDTH = 70;
-    public static int PLAYER_SIZE = 5;
+    public static int PLAYER_SIZE = 10;
 
     public static Node addBorder(Node node){
         Rectangle rectangle = new Rectangle(WIDTH,WIDTH);
@@ -63,6 +63,8 @@ public class ViewerUtils {
         label.setMaxWidth(WIDTH - 5);
         label.setAlignment(Pos.CENTER);
         label.setFont(label.getFont().font(9));
+        label.getStyleClass().add("outline");
+
         return label;
     }
 

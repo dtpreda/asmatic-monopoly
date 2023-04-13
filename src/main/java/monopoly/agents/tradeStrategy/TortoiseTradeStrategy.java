@@ -6,6 +6,7 @@ import jade.content.lang.Codec;
 import jade.content.onto.OntologyException;
 import jade.lang.acl.ACLMessage;
 import monopoly.actions.ProposeTrade;
+import monopoly.models.Dice;
 import monopoly.models.MonopolyBoard;
 import monopoly.models.Player;
 import monopoly.models.Trade;
@@ -24,8 +25,12 @@ public class TortoiseTradeStrategy implements TradeStrategy {
             ProposeTrade trade = (ProposeTrade) content;
 
             ACLMessage reply = message.createReply();
-
-            if (trade.getTrade().getProperty().getPrice() <= TORTOISE_THRESHOLD) {
+            Property property = trade.getTrade().getProperty();
+            boolean priceAcceptable = trade.getTrade().getPrice() >= property.getPrice();
+            boolean wontSell = !priceAcceptable || trade.getBoard().ownsAllPropertiesColor(current, property.getColor());
+            if (wontSell || property.getPrice() <= TORTOISE_THRESHOLD) {
+                System.out.println("Tortoise refused the trade:");
+                System.out.println("Refused trade: " + property.getName() + " " + property.getPrice() + " " + trade.getTrade().getPrice());
                 reply.setPerformative(ACLMessage.REFUSE);
             } else {
                 reply.setPerformative(ACLMessage.PROPOSE);
@@ -50,6 +55,9 @@ public class TortoiseTradeStrategy implements TradeStrategy {
                 int price = (int) ((Math.random()/2.0 + 1.0) * property.getPrice());
                 Purchasable otherPurchasable = (Purchasable) property.getBuyStrategy();
                 if(player.getMoney() < price) {
+                    continue;
+                }
+                if(new Dice().isDouble()){
                     continue;
                 }
                 return new Trade(property, property.getPrice(), player,  board.getPlayer(otherPurchasable.getOwner()));

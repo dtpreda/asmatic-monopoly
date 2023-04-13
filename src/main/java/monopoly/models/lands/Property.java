@@ -53,9 +53,11 @@ public class Property extends Land {
     }
 
     public void updateRent(){
-        PayOwnerStrategy strat = (PayOwnerStrategy) getRentStrategy();
-        List<Integer> rents = getRents();
-        strat.setRent(rents.get(building));
+        if(getRentStrategy() instanceof PayOwnerStrategy) {
+            PayOwnerStrategy strat = (PayOwnerStrategy) getRentStrategy();
+            List<Integer> rents = getRents();
+            strat.setRent(rents.get(building));
+        }
     }
 
     public String getName() {

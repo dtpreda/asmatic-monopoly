@@ -1,0 +1,5 @@
+
+.outline.label .text {
+    -fx-stroke: white;
+    -fx-stroke-width: 0.2px;
+}

@@ -19,8 +19,8 @@ public class Statistics {
         }
     }
 
-    public void addStats(String name, int money, int properties){
-        playerStats.get(name).addStats(money, properties);
+    public void addStats(String name, int money, int properties, int assets){
+        playerStats.get(name).addStats(money, properties, assets);
     }
 
     public Map<String, PlayerStats> getPlayerStats() {

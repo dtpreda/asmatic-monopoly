@@ -20,7 +20,10 @@ public class HoarderTradeStrategy implements TradeStrategy {
         try {
             ProposeTrade proposeTrade = (ProposeTrade) contentManager.extractContent(message);
             Trade trade = proposeTrade.getTrade();
-            if(!trade.getBuyer().equals(current)){
+            MonopolyBoard board = proposeTrade.getBoard();
+            boolean needMoney = trade.getSeller().getMoney() < 100 && Math.random() < 0.5;
+            boolean cantSell = board.ownsAllPropertiesColor(current, trade.getProperty().getColor());
+            if(cantSell || (!needMoney && !trade.getBuyer().equals(current))){
                 reply.setPerformative(ACLMessage.REFUSE);
                 return reply;
             } else {

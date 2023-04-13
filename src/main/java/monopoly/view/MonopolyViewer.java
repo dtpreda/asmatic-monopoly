@@ -55,6 +55,7 @@ public class MonopolyViewer extends Application {
 
         root.getChildren().addAll(board, playersSpace);
         Scene scene = new Scene(root, 850, 800);
+        //scene.getStylesheets().addAll(getClass().getResource("/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
 

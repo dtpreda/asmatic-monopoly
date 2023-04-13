@@ -30,8 +30,9 @@ public class GameOverState extends MonopolyState{
                 bankrupts++;
                 continue;
             }
+            int pMaxMoney = stats.getMoney().get(stats.getMoney().size() - 1) + stats.getAssets().get(stats.getAssets().size() - 1);
             if (stats.getMaxMoney() > maxMoney && !player.isBankrupt()) {
-                maxMoney = stats.getMaxMoney();
+                maxMoney = pMaxMoney;
                 winner = playerName;
             }
         }
@@ -63,6 +64,13 @@ public class GameOverState extends MonopolyState{
                     writer.write(stats.getProperties().get(i) + (i < propertiesSize - 1 ? ", " : ""));
                 }
                 writer.newLine();
+
+                writer.write("Assets " + playerName + " - " );
+                for(int i = 0; i < stats.getAssets().size(); i++){
+                    writer.write(stats.getAssets().get(i) + (i < stats.getAssets().size() - 1 ? ", " : ""));
+                }
+                writer.newLine();
+
             }
 
             writer.newLine();

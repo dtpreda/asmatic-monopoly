@@ -40,7 +40,7 @@ public class RandomTradeStrategy implements TradeStrategy {
             } else {
                 reply.setPerformative(ACLMessage.PROPOSE);
                 Trade newTrade = new Trade(trade.getTrade().getProperty(), trade.getTrade().getPrice() + 100, trade.getTrade().getBuyer(), trade.getTrade().getSeller());
-                ProposeTrade newContent = new ProposeTrade(newTrade);
+                ProposeTrade newContent = new ProposeTrade(newTrade, trade.getBoard());
                 try {
                     contentManager.fillContent(reply, newContent);
                 } catch (Codec.CodecException | OntologyException e) {

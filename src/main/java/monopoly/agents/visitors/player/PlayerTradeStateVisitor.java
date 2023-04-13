@@ -43,7 +43,7 @@ public class PlayerTradeStateVisitor extends PlayerMessageVisitor {
 
         final Trade trade = brain.getTradeStrategy().startTrade(board, tradeState.getPlayer());
         if (trade != null) {
-            this.agent.initiateTrade(trade);
+            this.agent.initiateTrade(trade, board);
             return null;
         }
 

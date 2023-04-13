@@ -12,6 +12,8 @@ import monopoly.models.Player;
 import monopoly.models.lands.*;
 import monopoly.models.lands.buyStrategy.NonPurchasable;
 import monopoly.models.lands.buyStrategy.Purchasable;
+import monopoly.models.lands.rentStrategy.PayOwnerStrategy;
+import monopoly.models.lands.rentStrategy.RentStrategy;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -81,13 +83,24 @@ public class LandViewer {
             }
 
         //Add ownership when applicable
+        String labelStr = "";
         if(land.getBuyStrategy() instanceof Purchasable){
             Purchasable purchasable = (Purchasable) land.getBuyStrategy();
             if(purchasable.getOwner() != null){
-                Label label = ViewerUtils.createLabel("Owner = " + purchasable.getOwner() + "\n level " + land.getBuilding());
-                stack.getChildren().add(label);
+                labelStr += "Owner = " + purchasable.getOwner() + "\n level " + land.getBuilding();
             }
         }
+
+        if(land.getRentStrategy() instanceof PayOwnerStrategy){
+            PayOwnerStrategy payOwnerStrategy = (PayOwnerStrategy) land.getRentStrategy();
+
+            //Rent name
+            labelStr += "\nRent = " + payOwnerStrategy.getRent();
+
+        }
+
+        Label label = ViewerUtils.createLabel(labelStr);
+        stack.getChildren().add(label);
         return stack;
     }
 

@@ -6,6 +6,8 @@ import monopoly.models.Player;
 import monopoly.models.Trade;
 import monopoly.models.lands.Property;
 import monopoly.models.lands.buyStrategy.Purchasable;
+import monopoly.models.lands.rentStrategy.PayOwnerStrategy;
+import monopoly.models.lands.rentStrategy.RentStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,14 +47,34 @@ public class TradeState extends MonopolyState{
             return false;
         }
 
+
+
+
+
+        Property property = trade.getProperty();
+        Purchasable purchasable = (Purchasable) property.getBuyStrategy();
+        if(!seller.getName().equals(purchasable.getOwner())){
+            return false;
+        }
+        property.setBuilding(0);
+
+
+        purchasable.setOwner(buyer);
+
+        property.setRentStrategy(new PayOwnerStrategy(buyer));
+        property.updateRent();
+
+        if(board.ownsAllPropertiesColor(buyer.getName(), property.getColor())){
+            for(Property prop: board.getOwnedPropertiesColorPlayer(buyer.getName(), property.getColor())){
+                prop.increaseBuilding();
+                prop.updateRent();
+            }
+        }
+
         seller.addMoney(price);
         buyer.removeMoney(price);
 
-        Property property = trade.getProperty();
-        property.setBuilding(0);
-        property.updateRent();
-        Purchasable purchasable = (Purchasable) property.getBuyStrategy();
-        purchasable.setOwner(buyer);
+        System.out.println("Player " + buyer.getName() + " traded " + property.getName() + " for " + price + " with " + seller.getName());
         return true;
     }
 

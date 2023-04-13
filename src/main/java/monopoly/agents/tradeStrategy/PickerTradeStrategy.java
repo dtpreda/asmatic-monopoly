@@ -26,7 +26,9 @@ public class PickerTradeStrategy implements TradeStrategy {
 
             ACLMessage reply = message.createReply();
 
-            if (trade.getTrade().getProperty().getPrice() >= PICKER_THRESHOLD) {
+            boolean priceAcceptable = trade.getTrade().getPrice() >= trade.getTrade().getProperty().getPrice();
+            boolean wontSell = !priceAcceptable || trade.getBoard().ownsAllPropertiesColor(current, trade.getTrade().getProperty().getColor());
+            if (wontSell || trade.getTrade().getProperty().getPrice() >= PICKER_THRESHOLD) {
                 reply.setPerformative(ACLMessage.REFUSE);
             } else {
                 reply.setPerformative(ACLMessage.PROPOSE);
@@ -55,7 +57,7 @@ public class PickerTradeStrategy implements TradeStrategy {
                     continue;
                 }
 
-                return new Trade(property, property.getPrice(), player,  board.getPlayer(otherPurchasable.getOwner()));
+                return new Trade(property, price, player,  board.getPlayer(otherPurchasable.getOwner()));
             }
         }
         return null;

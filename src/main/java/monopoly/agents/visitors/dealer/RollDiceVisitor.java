@@ -16,6 +16,7 @@ import monopoly.models.Dice;
 import monopoly.models.PlayResult;
 import monopoly.models.Player;
 import monopoly.models.lands.Land;
+import monopoly.models.lands.Property;
 import monopoly.states.RollState;
 
 public class RollDiceVisitor extends DealerMessageVisitor {
@@ -41,7 +42,12 @@ public class RollDiceVisitor extends DealerMessageVisitor {
 
             //PLAY_AGAIN,END_TURN,PAY_RENT, BUY_LAND, JAIL
             System.out.println("Dealer: playResult: " + result.getPlayResultToken());
-            monopolyController.getStats().addStats(player.getName(), player.getMoney(), monopolyController.getBoard().getProperties(player).size());
+            int totalAssets = 0;
+            for(Property property : monopolyController.getBoard().getOwnedPropertiesPlayer(player.getName())){
+                int investment = property.getPrice() + property.getHousePrice() * (property.getBuilding() - 1);
+                totalAssets += investment;
+            }
+            monopolyController.getStats().addStats(player.getName(), player.getMoney(), monopolyController.getBoard().getProperties(player).size(), totalAssets);
             return DealerVisitorUtils.playResult(contentManager, result, reply, monopolyController.getBoard());
         }
 

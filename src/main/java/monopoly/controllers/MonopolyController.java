@@ -8,6 +8,7 @@ import monopoly.models.Player;
 import monopoly.models.lands.Land;
 import monopoly.models.lands.Property;
 import monopoly.models.lands.buyStrategy.Purchasable;
+import monopoly.models.lands.rentStrategy.NoRentStrategy;
 import monopoly.models.stats.Statistics;
 import monopoly.parser.BoardLoader;
 import monopoly.states.LobbyState;
@@ -48,6 +49,7 @@ public class MonopolyController{
         for(Property prop : properties){
             Purchasable purchasable = (Purchasable) prop.getBuyStrategy();
             purchasable.setOwner(null);
+            prop.setRentStrategy(new NoRentStrategy());
             prop.setBuilding(0);
             prop.updateRent();
         }
