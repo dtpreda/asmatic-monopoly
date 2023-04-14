@@ -31,7 +31,7 @@ public class Main {
         Player player2 = monopolyController.addPlayer("Random", new RandomBrain());
         Player player3 = monopolyController.addPlayer("AFK", new AFKBrain());
         Player player4 = monopolyController.addPlayer("LandLord", new LandLordBrain());
-        Player player5 = monopolyController.addPlayer("Picker", new PickerBrain());
+        Player player5 = monopolyController.addPlayer("thePeras", new PickerBrain());
         Player player6 = monopolyController.addPlayer("Tortoise", new TortoiseBrain());
 
 

@@ -25,8 +25,9 @@ public abstract class MonopolyState {
         if (player.getMoney() < cost) {
             return false;
         }
-        player.removeMoney(cost);
-        property.increaseBuilding();
+        if(property.increaseBuilding()) {
+            player.removeMoney(cost);
+        }
         property.updateRent();
         return true;
     }

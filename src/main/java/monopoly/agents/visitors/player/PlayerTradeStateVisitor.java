@@ -82,7 +82,7 @@ public class PlayerTradeStateVisitor extends PlayerMessageVisitor {
             }
             //Choose random property with the least houses
             for(Property propToUpgrade : propertiesSameColor){
-                if(propToUpgrade.getBuilding() == minHouses){
+                if(propToUpgrade.getBuilding() == minHouses && propToUpgrade.getBuilding() < 5){
                     return propToUpgrade;
                 }
             }
