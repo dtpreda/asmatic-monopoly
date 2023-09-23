@@ -1,0 +1,670 @@
+{
+  "lands": [
+    {
+      "type": "start",
+      "id": 0,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 1,
+      "building": 0,
+      "price": 60,
+      "housePrice": 50,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 60
+      },
+      "name": "Mediterranean Avenue",
+      "rents": [
+        2,
+        10,
+        30,
+        90,
+        160,
+        250
+      ],
+      "color": "brown"
+    },
+    {
+      "type": "communitychest",
+      "id": 2,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 3,
+      "building": 0,
+      "price": 60,
+      "housePrice": 50,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 60
+      },
+      "name": "Baltic Avenue",
+      "rents": [
+        4,
+        20,
+        60,
+        180,
+        320,
+        450
+      ],
+      "color": "brown"
+    },
+    {
+      "type": "tax",
+      "id": 4,
+      "building": 0,
+      "name": "Income Tax",
+      "taxCost": 100,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "railroad",
+      "id": 5,
+      "building": 0,
+      "name": "Reading railroad",
+      "price": 200,
+      "buyStrategy": {
+        "type": "nonpurchasable",
+        "landOwner": null,
+        "price": 200
+      }
+    },
+    {
+      "type": "property",
+      "id": 6,
+      "building": 0,
+      "price": 100,
+      "housePrice": 50,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 100
+      },
+      "name": "Oriental Avenue",
+      "rents": [
+        6,
+        30,
+        90,
+        270,
+        400,
+        550
+      ],
+      "color": "lightblue"
+    },
+    {
+      "type": "chance",
+      "id": 7,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 8,
+      "building": 0,
+      "price": 100,
+      "housePrice": 50,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 100
+      },
+      "name": "Vermont Avenue",
+      "rents": [
+        6,
+        30,
+        90,
+        270,
+        400,
+        550
+      ],
+      "color": "lightblue"
+    },
+    {
+      "type": "property",
+      "id": 9,
+      "building": 0,
+      "price": 120,
+      "housePrice": 50,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 120
+      },
+      "name": "Connecticut Avenue",
+      "rents": [
+        8,
+        40,
+        100,
+        300,
+        450,
+        600
+      ],
+      "color": "lightblue"
+    },
+    {
+      "type": "jail",
+      "id": 10,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 11,
+      "building": 0,
+      "price": 140,
+      "housePrice": 100,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 140
+      },
+      "name": "StCharles Place",
+      "rents": [
+        10,
+        50,
+        150,
+        450,
+        625,
+        750
+      ],
+      "color": "pink"
+    },
+    {
+      "type": "company",
+      "id": 12,
+      "building": 9,
+      "name": "Electric company",
+      "price": 150,
+      "rents": [
+        50,
+        100
+      ],
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 13,
+      "building": 0,
+      "price": 140,
+      "housePrice": 100,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 140
+      },
+      "name": "States Avenue",
+      "rents": [
+        10,
+        50,
+        150,
+        450,
+        625,
+        750
+      ],
+      "color": "pink"
+    },
+    {
+      "type": "property",
+      "id": 14,
+      "building": 0,
+      "price": 160,
+      "housePrice": 100,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 160
+      },
+      "name": "Virginia Avenue",
+      "rents": [
+        12,
+        60,
+        180,
+        500,
+        700,
+        900
+      ],
+      "color": "pink"
+    },
+    {
+      "type": "railroad",
+      "id": 15,
+      "building": 0,
+      "name": "Pensylvania railroad",
+      "price": 200,
+      "buyStrategy": {
+        "type": "nonpurchasable",
+        "landOwner": null,
+        "price": 200
+      }
+    },
+    {
+      "type": "property",
+      "id": 16,
+      "building": 0,
+      "price": 180,
+      "housePrice": 100,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 180
+      },
+      "name": "StJames Place",
+      "rents": [
+        14,
+        70,
+        200,
+        550,
+        750,
+        950
+      ],
+      "color": "orange"
+    },
+    {
+      "type": "communitychest",
+      "id": 17,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 18,
+      "building": 0,
+      "price": 180,
+      "housePrice": 100,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 180
+      },
+      "name": "Tennessee Avenue",
+      "rents": [
+        14,
+        70,
+        200,
+        550,
+        750,
+        950
+      ],
+      "color": "orange"
+    },
+    {
+      "type": "property",
+      "id": 19,
+      "building": 0,
+      "price": 200,
+      "housePrice": 100,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 200
+      },
+      "name": "New York Avenue",
+      "rents": [
+        16,
+        80,
+        220,
+        600,
+        800,
+        1000
+      ],
+      "color": "orange"
+    },
+    {
+      "type": "parking",
+      "id": 20,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 21,
+      "building": 0,
+      "price": 220,
+      "housePrice": 150,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 220
+      },
+      "name": "Kentucky Avenue",
+      "rents": [
+        18,
+        90,
+        250,
+        700,
+        875,
+        1050
+      ],
+      "color": "red"
+    },
+    {
+      "type": "chance",
+      "id": 22,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 23,
+      "building": 0,
+      "price": 220,
+      "housePrice": 150,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 220
+      },
+      "name": "Indiana Avenue",
+      "rents": [
+        18,
+        90,
+        250,
+        700,
+        875,
+        1050
+      ],
+      "color": "red"
+    },
+    {
+      "type": "property",
+      "id": 24,
+      "building": 0,
+      "price": 240,
+      "housePrice": 150,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 240
+      },
+      "name": "Illnois Avenue",
+      "rents": [
+        20,
+        100,
+        300,
+        750,
+        925,
+        1100
+      ],
+      "color": "red"
+    },
+    {
+      "type": "railroad",
+      "id": 25,
+      "building": 0,
+      "name": "B& Orailroad",
+      "price": 200,
+      "buyStrategy": {
+        "type": "nonpurchasable",
+        "landOwner": null,
+        "price": 200
+      }
+    },
+    {
+      "type": "property",
+      "id": 26,
+      "building": 0,
+      "price": 260,
+      "housePrice": 150,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 260
+      },
+      "name": "Atlatic Avenue",
+      "rents": [
+        22,
+        110,
+        330,
+        800,
+        975,
+        1150
+      ],
+      "color": "yellow"
+    },
+    {
+      "type": "property",
+      "id": 27,
+      "building": 0,
+      "price": 260,
+      "housePrice": 150,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 260
+      },
+      "name": "Ventura Avenue",
+      "rents": [
+        22,
+        110,
+        330,
+        800,
+        975,
+        1150
+      ],
+      "color": "yellow"
+    },
+    {
+      "type": "company",
+      "id": 28,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      },
+      "building": 0,
+      "name": "Water Works",
+      "price": 150,
+      "rents": [
+        50,
+        100
+      ]
+    },
+    {
+      "type": "property",
+      "id": 29,
+      "building": 0,
+      "price": 280,
+      "housePrice": 150,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 280
+      },
+      "name": "Marvin Gardens",
+      "rents": [
+        24,
+        120,
+        360,
+        850,
+        1025,
+        1200
+      ],
+      "color": "yellow"
+    },
+    {
+      "type": "gotojail",
+      "id": 30,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 31,
+      "building": 0,
+      "price": 300,
+      "housePrice": 200,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 300
+      },
+      "name": "Pacific Avenue",
+      "rents": [
+        26,
+        130,
+        390,
+        900,
+        1100,
+        1275
+      ],
+      "color": "green"
+    },
+    {
+      "type": "property",
+      "id": 32,
+      "building": 0,
+      "price": 300,
+      "housePrice": 200,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 300
+      },
+      "name": "North Carolina Avenue",
+      "rents": [
+        26,
+        130,
+        390,
+        900,
+        1100,
+        1275
+      ],
+      "color": "green"
+    },
+    {
+      "type": "communitychest",
+      "id": 33,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 34,
+      "building": 0,
+      "price": 320,
+      "housePrice": 200,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 320
+      },
+      "name": "Pennsylvania Avenue",
+      "rents": [
+        28,
+        150,
+        450,
+        1000,
+        1200,
+        1400
+      ],
+      "color": "green"
+    },
+    {
+      "type": "railroad",
+      "id": 35,
+      "building": 0,
+      "name": "Shortline",
+      "price": 200,
+      "buyStrategy": {
+        "type": "nonpurchasable",
+        "landOwner": null,
+        "price": 200
+      },
+      "rents": [
+        50,
+        100,
+        150,
+        200
+      ]
+    },
+    {
+      "type": "chance",
+      "id": 36,
+      "building": 0,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 37,
+      "building": 0,
+      "price": 350,
+      "housePrice": 200,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 350
+      },
+      "name": "Park Place",
+      "rents": [
+        35,
+        175,
+        500,
+        1100,
+        1300,
+        1500
+      ],
+      "color": "darkblue"
+    },
+    {
+      "type": "tax",
+      "id": 38,
+      "building": 0,
+      "name": "Luxury Tax",
+      "taxCost": 200,
+      "buyStrategy": {
+        "type": "nonpurchasable"
+      }
+    },
+    {
+      "type": "property",
+      "id": 39,
+      "building": 0,
+      "price": 400,
+      "housePrice": 200,
+      "buyStrategy": {
+        "type": "purchasable",
+        "landOwner": null,
+        "price": 400
+      },
+      "name": "Boardwalk",
+      "rents": [
+        50,
+        200,
+        600,
+        1400,
+        1700,
+        2000
+      ],
+      "color": "darkblue"
+    }
+  ]
+}
